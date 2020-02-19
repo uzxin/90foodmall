@@ -22,7 +22,7 @@ public class User extends BasePO{
 	用户名
 	 */
 	@TableField("user_username")
-	private String userName;
+	private String username;
 	/*
 	密码
 	 */

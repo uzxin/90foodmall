@@ -30,7 +30,7 @@ public class LoginController {
 	@PostMapping("login")
 	public Object login(User user, HttpSession session){
 		LambdaQueryWrapper<User> wrapper = new QueryWrapper<User>().lambda();
-		wrapper.eq(User::getUserName, user.getUserName());
+		wrapper.eq(User::getUsername, user.getUsername());
 		wrapper.eq(User::getPassword, user.getPassword());
 		User u = userService.getOne(wrapper);
 		if (null != u) {
