@@ -27,6 +27,10 @@ public class LoginController {
 	@Autowired
 	private UserService userService;
 
+	/**
+	 * @description: 登录
+	 * @return: java.lang.Object
+	 */
 	@PostMapping("login")
 	public Object login(User user, HttpSession session){
 		LambdaQueryWrapper<User> wrapper = new QueryWrapper<User>().lambda();
@@ -44,6 +48,10 @@ public class LoginController {
 		}
 	}
 
+	/**
+	 * @description: 是否登录
+	 * @return: java.lang.Object
+	 */
 	@GetMapping("isLogin")
 	public Object isLogin(HttpSession session){
 		User user = (User) session.getAttribute("user");
@@ -54,6 +62,10 @@ public class LoginController {
 		}
 	}
 
+	/**
+	 * @description: 登出
+	 * @return: void
+	 */
 	@GetMapping("loginout")
 	public void loginout(HttpSession session){
 		session.removeAttribute("user");

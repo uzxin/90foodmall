@@ -24,6 +24,11 @@ public class RegisterController {
 	@Autowired
 	private UserService userService;
 
+	/**
+	 * @description: 注册用户
+	 * @param: user
+	 * @return: java.lang.Object
+	 */
 	@PostMapping("register")
 	public Object register(User user){
 		LambdaQueryWrapper<User> wrapper = new QueryWrapper<User>().lambda();
