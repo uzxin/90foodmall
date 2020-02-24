@@ -24,10 +24,15 @@ public class User extends BasePO{
 	@TableField("user_username")
 	private String username;
 	/*
-	密码
+	登录密码
 	 */
 	@TableField("user_password")
 	private String password;
+	/*
+	支付密码
+	 */
+	@TableField("user_pay_password")
+	private String payPassword;
 	/*
 	帐号状态，正常(0),封号(1)
 	 */

@@ -12,21 +12,15 @@
 		<script src="../AmazeUI-2.4.2/assets/js/amazeui.js"></script>
 		<script src="../js/init.js"></script>
 		<script type="text/javascript">
-			//判断登陆状态
 			$(function () {
 				$.ajax({
-					url: "/user/isLogin",
-					type:'GET',
-					success:function(data){
-						if (data.code == 0){
-							$("#div1").html("欢迎您，"+"<a href=\"../person/index.html\" target=\"_blank\">"+data.data.username+"</a>");
-						}else {
-							window.location.href = "../home/login.html";
-						}
+					url:"/user/getUser",
+					success:function (data) {
+						$("#username").html(data.data.username);
+						$("#headImgSrc").attr("src",data.data.headImgSrc);
 					}
 				})
-			});
-			$(".header").load("header.html");
+			})
 		</script>
 	</head>
 
@@ -41,17 +35,16 @@
 						<div class="wrap-list">
 							<div class="m-user">
 								<!--个人信息 -->
-
 								<div class="m-userinfo">
 									<a href="news.html">
 										<div class="tipsBox"><i class="am-icon-envelope"></i></div>
 									</a>
 									<div class="m-baseinfo">
 										<a class="m-pic" href="information.html">
-											<img src="../images/getAvatar.do.jpg">
+											<img id="headImgSrc" src="">
 										</a>
 										<div class="m-info">
-											<em class="s-name">小叮当</em>
+											<em id="username" class="s-name">小叮当</em>
 											<div class="vip1"><a href="#"><span></span><em>会员专享</em></a></div>
 											<div class="safeText"><a href="safety.html">账户安全:<em style="margin-left:20px ;">60</em>分</a>
 												<div class="progressBar"><span style="left: -95px;" class="progress"></span></div>

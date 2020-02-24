@@ -39,7 +39,6 @@ public class LoginController {
 		User u = userService.getOne(wrapper);
 		if (null != u) {
 			log.info("登陆成功");
-			u.setPassword("");
 			session.setAttribute("user", u);
 			return Result.ok("登陆成功");
 		}else {

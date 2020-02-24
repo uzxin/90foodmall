@@ -50,6 +50,17 @@
             <artifactId>jackson-annotations</artifactId>
             <version>2.7.3</version>
         </dependency>
+        <dependency>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+            <version>3.1</version>
+        </dependency>
+        <!-- 解析或生成XML -->
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>1.6.1</version>
+        </dependency>
         <!-- 消息队列rabbitMQ -->
         <!--<dependency>
             <groupId>org.springframework.boot</groupId>

@@ -22,7 +22,12 @@ public class UserInformation extends BasePO{
 	用户ID
 	 */
 	@TableField("user_id")
-	private String userId;
+	private Long userId;
+	/*
+	用户名
+	 */
+	@TableField("user_username")
+	private String username;
 	/*
 	真实姓名
 	 */

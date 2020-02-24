@@ -2,11 +2,14 @@ package com.cuit.foodmall.user.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.cuit.foodmall.entity.User;
 import com.cuit.foodmall.entity.UserInformation;
 import com.cuit.foodmall.service.UserInformationService;
 import com.cuit.foodmall.service.UserService;
 import com.cuit.foodmall.util.Result;
+import com.sun.security.auth.UserPrincipal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -36,8 +39,7 @@ public class UserController extends BaseController{
 		Long userId = getUser(session).getId();
 		LambdaQueryWrapper<UserInformation> wrapper = new QueryWrapper<UserInformation>().lambda();
 		wrapper.eq(UserInformation::getUserId, userId);
-		UserInformation u = userInformationService.getOne(wrapper);
-		return Result.ok(u);
+		return Result.ok(userInformationService.getOne(wrapper));
 	}
 
 	/**
@@ -46,8 +48,15 @@ public class UserController extends BaseController{
 	 * @return: java.lang.Object
 	 */
 	@PostMapping("UpdataUserInfo")
-	public Object UpdataUserInfo(UserInformation userInformation){
-		userInformationService.updateById(userInformation);
+	public Object UpdataUserInfo(UserInformation userInformation, HttpSession session){
+		if (null == userInformation.getUserId() || "".equals(userInformation.getUserId())){
+			userInformation.setUserId(getUser(session).getId());
+		}
+		if (null == userInformation.getUsername() || "".equals(userInformation.getUsername())){
+			userInformation.setUsername(getUser(session).getUsername());
+		}
+		userInformationService.saveOrUpdate(userInformation);
 		return Result.ok("修改成功");
 	}
+
 }
