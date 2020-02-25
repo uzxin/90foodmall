@@ -14,11 +14,22 @@ spring:
     password:
     jedis:
       pool:
-        max-active: 8 #Á¬½Ó³Ø×î´óÁ¬½ÓÊı£¨Ê¹ÓÃ¸ºÖµ±íÊ¾Ã»ÓĞÏŞÖÆ£©
-        max-wait: -1 #Á¬½Ó³Ø×î´ó×èÈûµÈ´ıÊ±¼ä£¨Ê¹ÓÃ¸ºÖµ±íÊ¾Ã»ÓĞÏŞÖÆ£©
-        max-idle: 8 #Á¬½Ó³ØÖĞµÄ×î´ó¿ÕÏĞÁ¬½Ó
-        min-idle: 0 #Á¬½Ó³ØÖĞµÄ×îĞ¡¿ÕÏĞÁ¬½Ó
-    timeout: 30000 #Á¬½Ó³¬Ê±Ê±¼ä£¨ºÁÃë£©
+        max-active: 8 #è¿æ¥æ± æœ€å¤§è¿æ¥æ•°ï¼ˆä½¿ç”¨è´Ÿå€¼è¡¨ç¤ºæ²¡æœ‰é™åˆ¶ï¼‰
+        max-wait: -1 #è¿æ¥æ± æœ€å¤§é˜»å¡ç­‰å¾…æ—¶é—´ï¼ˆä½¿ç”¨è´Ÿå€¼è¡¨ç¤ºæ²¡æœ‰é™åˆ¶ï¼‰
+        max-idle: 8 #è¿æ¥æ± ä¸­çš„æœ€å¤§ç©ºé—²è¿æ¥
+        min-idle: 0 #è¿æ¥æ± ä¸­çš„æœ€å°ç©ºé—²è¿æ¥
+    timeout: 30000 #è¿æ¥è¶…æ—¶æ—¶é—´ï¼ˆæ¯«ç§’ï¼‰
+  mail:
+    host: smtp.qq.com
+    username: 862273665@qq.com
+    password: oxevnmxtarqkbfba
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
 mybatis-plus:
   global-config:
     db-config:

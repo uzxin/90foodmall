@@ -63,4 +63,19 @@ public class UserInformation extends BasePO{
 	 */
 	@TableField("user_email")
 	private String email;
+	/*
+	身份证号
+	 */
+	@TableField("user_idCard_number")
+	private String idCardNumber;
+	/*
+	身份证正面图片
+	 */
+	@TableField("user_idCard_positive")
+	private String idCardPositive;
+	/*
+	身份证反面图片
+	 */
+	@TableField("user_idCard_reverse")
+	private String idCardReverse;
 }

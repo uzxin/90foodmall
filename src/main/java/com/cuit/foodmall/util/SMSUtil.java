@@ -8,13 +8,16 @@ import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.slf4j.Logger;
 
+/**
+ * @author: YX
+ * @date: 2020/2/24 14:06
+ * @description: 发送短信
+ */
 public class SMSUtil {
 	private static String Url = "http://106.ihuyi.cn/webservice/sms.php?method=Submit";
 
