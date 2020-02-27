@@ -22,7 +22,9 @@
 						$("#id").val(data.data.id);
 						$("#username").html("用户名："+data.data.username);
 						$("#headImgSrc").val(data.data.headImgSrc);
-						$("#headImg").attr("src",data.data.headImgSrc);
+						if (data.data.headImgSrc != null && data.data.headImgSrc != ''){
+							$("#headImg").attr("src",data.data.headImgSrc);
+						}
 						$("#userId").val(data.data.userId);
 						$("#nickName").val(data.data.nickName);
 						$("#realName").val(data.data.realName);
@@ -50,9 +52,9 @@
 						<input type="hidden" id="id">
 						<!--头像 -->
 						<div class="user-infoPic">
-							<div class="filePic">
+							<div class="filePic" id="upload">
 								<input type="hidden" id="headImgSrc">
-								<img id="headImg" class="am-circle am-img-thumbnail" src="" alt="" />
+								<img id="headImg" class="am-circle am-img-thumbnail" src="../images/headImg.png" alt="" />
 							</div>
 							<div class="info-m">
 								<div id="username"><b></b></div>
@@ -123,7 +125,7 @@
 	layui.use('upload', function(){
 		var $ = layui.jquery,upload = layui.upload;
 		var uploadInst = upload.render({
-			elem: '#headImg'
+			elem: '#upload'
 			, accept: 'images'
 			, url: '/fileUpload'
 			, acceptMime: 'image/*'

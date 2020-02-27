@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
+		<title>银行卡绑定</title>
+		<link href="../AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css">
+		<link href="../AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css">
+		<link href="../css/personal.css" rel="stylesheet" type="text/css">
+		<link href="../css/stepstyle.css" rel="stylesheet" type="text/css">
+		<link href="../layui/css/layui.css" rel="stylesheet" type="text/css">
+		<script src="../AmazeUI-2.4.2/assets/js/jquery.min.js" type="text/javascript"></script>
+		<script src="../AmazeUI-2.4.2/assets/js/amazeui.js"></script>
+		<script src="../layui/layui.all.js"></script>
+		<script src="../js/init.js"></script>
+		<script type="text/javascript">
+			$(function () {
+				$.ajax({
+					url:"/bankcard/listBank",
+					success:function (data) {
+						$.each(data.data, function (i, item) {
+							$("#bank").append("<option value=" + item.id + ">" + item.bankName + "</option>");
+						});
+					}
+				})
+			})
+		</script>
+	</head>
+
+	<body>
+		<!--头 -->
+		<header class="head"></header>
+		<div class="center">
+			<div class="col-main">
+				<div class="main-wrap">
+
+					<div class="am-cf am-padding">
+						<div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">银行卡绑定</strong> / <small>Bind&nbsp;Card</small></div>
+					</div>
+					<hr/>
+					<!--进度条-->
+					<div class="m-progress">
+						<div class="m-progress-list">
+							<span class="step-1 step">
+                                <em class="u-progress-stage-bg"></em>
+                                <i class="u-stage-icon-inner">1<em class="bg"></em></i>
+                                <p class="stage-name">实名认证</p>
+                            </span>
+							<span class="step-2 step">
+                                <em class="u-progress-stage-bg"></em>
+                                <i class="u-stage-icon-inner">2<em class="bg"></em></i>
+                                <p class="stage-name">完成</p>
+                            </span>
+							<span class="u-progress-placeholder"></span>
+						</div>
+						<div class="u-progress-bar total-steps-2">
+							<div class="u-progress-bar-inner"></div>
+						</div>
+					</div>
+					<form class="am-form am-form-horizontal">
+						<div class="am-form-group select">
+							<label for="user-bank" class="am-form-label">所属银行</label>
+							<div class="am-form-content">
+								<select data-am-selected id="bank">
+									<option value="0" selected>请选择银行</option>
+								</select>
+							</div>
+						</div>
+						<div class="am-form-group">
+							<label for="user-BankID" class="am-form-label">银行卡号</label>
+							<div class="am-form-content">
+								<input type="text" id="bankCardNumber" placeholder="请输入要绑定的银行卡卡号">
+							</div>
+						</div>
+						<div class="am-form-group select">
+							<label for="user-bank" class="am-form-label">所属银行</label>
+							<div class="am-form-content">
+								<select data-am-selected id="bankCardType">
+									<option value="储蓄卡" selected>储蓄卡</option>
+									<option value="信用卡">信用卡</option>
+								</select>
+							</div>
+						</div>
+						<div class="am-form-group">
+							<label for="user-phone" class="am-form-label">手机号码</label>
+							<div class="am-form-content">
+								<input type="tel" id="phone" placeholder="请输入此卡的预留手机号">
+							</div>
+						</div>	
+						<div class="am-form-group code">
+							<label for="user-new-code" class="am-form-label">验证码</label>
+							<div class="am-form-content">
+								<input type="tel" id="checkCode" placeholder="短信验证码">
+								<input type="hidden" id="mobileCode">
+							</div>
+							<a class="btn" href="javascript:void(0);"  id="sendMobileCode">
+								<div class="am-btn am-btn-danger">获取验证码</div>
+							</a>
+						</div>						
+						<div class="info-btn">
+							<div id="save" class="am-btn am-btn-danger">开通协议并确定</div>
+						</div>
+
+					</form>
+
+				</div>
+				<!--底部-->
+				<div class="foot">
+				</div>
+			</div>
+
+			<aside class="menu">
+			</aside>
+		</div>
+<script type="text/javascript">
+	$("#sendMobileCode").click(function () {
+		var phone = $("input#phone").val();//手机号
+		var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;//校验手机号的正则表达式
+		if (phone == null || phone==''){
+			layer.msg("手机号不能为空", {icon: 7,time: 1000});
+		}else if(!myreg.test(phone)){
+			layer.msg("手机号格式不正确", {icon: 7,time: 1000});
+		} else {
+			$.ajax({
+				url:"/bankcard/getMobleCode",
+				data:{mobile:phone},
+				success:function (data) {
+					if (data.code == 0){
+						layer.msg(data.msg, {icon: 1,time: 2000});
+						$("#mobileCode").val(data.data);
+					}else {
+						layer.msg(data.msg, {icon: 2,time: 2000});
+					}
+				}
+			})
+		}
+	});
+	$("#save").click(function () {
+		var checkCode = $("input#checkCode").val();//用户输入的验证码
+		var mobileCode = $("input#mobileCode").val();//短信验证码
+		var bankId = $('#bank option:selected').val();//银行ID
+		var bankName = $('#bank option:selected').text();//银行名字
+		var bankCardNumber = $("#bankCardNumber").val();//银行卡号
+		var bankCardType = $('#bankCardType option:selected').val();//银行卡类型
+		if (checkCode==null || checkCode==""){
+			layer.msg("验证码不能为空", {icon: 2,time: 2000});
+		}else if (checkCode != mobileCode){
+			layer.msg("验证码错误", {icon: 2,time: 2000});
+		}else if(bankId==0 || bankId=='0'){
+			layer.msg("请选择所属银行", {icon: 2,time: 2000});
+		}else if(bankCardNumber==null || bankCardNumber==''){
+			layer.msg("请输入银行卡号", {icon: 2,time: 2000});
+		}else {
+			//保存操作
+			$.ajax({
+				url:"/bankcard/save",
+				type:"POST",
+				data:{bankId:bankId,bankName:bankName,bankCardNumber:bankCardNumber,bankCardType:bankCardType},
+				success:function (data) {
+					if (data.code == 0){
+						window.location.href = "./cardlist.html";
+						layer.msg(data.msg, {icon: 1,time: 2000});
+					}
+				}
+			})
+		}
+	});
+</script>
+	</body>
+
+</html>

@@ -54,4 +54,14 @@ public class SMSModel {
 		logger.info("验证码："+mobile_code);
 		return "验证码："+mobile_code+"，请即时输入。您正在进行绑定手机号，绑定后有效提升您的账号安全。";
 	}
+
+	/*
+	绑定银行卡模板
+	 */
+	public static String bindBankCard(){
+		int mobile_code = (int)((Math.random()*9+1)*100000);
+		Logger logger = LoggerFactory.getLogger(SMSModel.class);
+		logger.info("验证码："+mobile_code);
+		return "验证码："+mobile_code+"，请即时输入。您正在进行银行卡绑定，绑定后有效提升您的账号安全。";
+	}
 }

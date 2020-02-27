@@ -11,44 +11,10 @@
 	<meta http-equiv="Cache-Control" content="no-siteapp" />
 	<link rel="stylesheet" href="../AmazeUI-2.4.2/assets/css/amazeui.min.css" />
 	<link href="../css/dlstyle.css" rel="stylesheet" type="text/css">
+	<link href="../layui/css/layui.css" rel="stylesheet" type="text/css">
 	<script src="../AmazeUI-2.4.2/assets/js/jquery.min.js"></script>
 	<script src="../AmazeUI-2.4.2/assets/js/amazeui.min.js"></script>
-	<script type="text/javascript">
-		$(function () {
-			$("input#register").click(function () {
-				var username = $("input#username").val();
-				var password = $("input#password").val();
-				var passwordRepeat = $("input#passwordRepeat").val();
-				if ('' == username || '' == password){
-					$("#msg").html("用户名或密码不能为空");
-					$("#msg").removeAttr("hidden");
-				}else if ('' == passwordRepeat){
-					$("#msg").html("请确认密码");
-					$("#msg").removeAttr("hidden");
-				} else if (password != passwordRepeat){
-					$("#msg").html("两次密码输入不一致");
-					$("#msg").removeAttr("hidden");
-				} else if ($("input#reader-me").is(':checked') == false){
-					$("#msg").html("请勾选同意商城服务协议");
-					$("#msg").removeAttr("hidden");
-				} else {
-					$.ajax({
-						url: "/user/register",
-						type:'POST',
-						data:{username:username, password:password},
-						success:function(data){
-							if (data.code == 1){
-								$("#msg").html(data.msg);
-								$("#msg").removeAttr("hidden");
-							}else {
-								window.location.href = "./index.html";
-							}
-						}
-					})
-				}
-			});
-		})
-	</script>
+	<script src="../layui/layui.all.js"></script>
 </head>
 
 <body>
@@ -64,66 +30,82 @@
 
 			<div class="am-tabs" id="doc-my-tabs">
 				<ul class="am-tabs-nav am-nav am-nav-tabs am-nav-justify">
-					<li class="am-active"><a href="javascript:void(0);">邮箱注册</a></li>
-					<li><a href="javascript:void(0);">手机号注册</a></li>
+					<li class="am-active"><a href="javascript:void(0);">手机号注册</a></li>
+					<li><a href="javascript:void(0);">邮箱注册</a></li>
 				</ul>
 				<div class="clear"><p id="msg" hidden style="color: red"></p></div>
 				<div class="am-tabs-bd">
 					<div class="am-tab-panel am-active">
 						<form method="post">
-							<div class="user-email">
-								<label for="email"><i class="am-icon-envelope-o"></i></label>
-								<input type="email" name="" id="username" placeholder="请输入邮箱账号">
+							<div class="user-phone">
+								<label for="phone"><i class="am-icon-mobile-phone am-icon-md"></i></label>
+								<input type="tel" id="input_phone" placeholder="请输入手机号">
+								<input type="hidden" id="phone">
 							</div>
-							<div class="user-pass">
-								<label for="password"><i class="am-icon-lock"></i></label>
-								<input type="password" name="" id="password" placeholder="设置密码">
+							<div class="verification">
+								<label for="code"><i class="am-icon-code-fork"></i></label>
+								<input type="text" maxlength="6" id="mobile_checkcode" placeholder="请输入验证码">
+								<input type="hidden" id="mobileCode">
+								<a class="btn" href="javascript:void(0);" id="sendMobileCode">
+									<span id="dyMobileButton">获取</span></a>
 							</div>
-							<div class="user-pass">
-								<label for="passwordRepeat"><i class="am-icon-lock"></i></label>
-								<input type="password" name="" id="passwordRepeat" placeholder="确认密码">
-							</div>
+								<div class="user-name">
+									<label for="username"><i class="am-icon-github-alt"></i></label>
+									<input type="text" id="mobile_username" placeholder="设置用户名">
+								</div>
+								<div class="user-pass">
+									<label for="password"><i class="am-icon-lock"></i></label>
+									<input type="password" id="mobile_password" placeholder="设置密码">
+								</div>
+								<div class="user-pass">
+									<label for="passwordRepeat"><i class="am-icon-lock"></i></label>
+									<input type="password" id="mobile_passwordRepeat" placeholder="确认密码">
+								</div>
 						</form>
-
 						<div class="login-links">
 							<label for="reader-me">
-								<input id="reader-me" type="checkbox"> 点击表示您同意商城《服务协议》
+								<input id="mobile_readerMe" type="checkbox"> 点击表示您同意商城《服务协议》
 							</label>
 						</div>
 						<div class="am-cf">
-							<input type="submit" id="register" value="注册" class="am-btn am-btn-primary am-btn-sm am-fl">
+							<input type="submit" id="mobile_register" value="注册" class="am-btn am-btn-primary am-btn-sm am-fl">
 						</div>
-
 					</div>
 
 					<div class="am-tab-panel">
 						<form method="post">
 							<div class="user-phone">
-								<label for="phone"><i class="am-icon-mobile-phone am-icon-md"></i></label>
-								<input type="tel" name="" id="phone" placeholder="请输入手机号">
+								<label for="phone"><i class="am-icon-envelope-o"></i></label>
+								<input type="tel" id="input_email" placeholder="请输入邮箱号">
+								<input type="hidden" id="email">
 							</div>
 							<div class="verification">
 								<label for="code"><i class="am-icon-code-fork"></i></label>
-								<input type="tel" name="" id="code" placeholder="请输入验证码">
-								<a class="btn" href="javascript:void(0);" onclick="sendMobileCode();" id="sendMobileCode">
-									<span id="dyMobileButton">获取</span></a>
+								<input type="text" maxlength="6" id="email_checkcode" placeholder="请输入验证码">
+								<input type="hidden" id="emailCode">
+								<a class="btn" href="javascript:void(0);" id="sendEmailCode">
+									<span id="dyEmailButton">获取</span></a>
+							</div>
+							<div class="user-name">
+								<label for="username"><i class="am-icon-github-alt"></i></label>
+								<input type="text" id="email_username" placeholder="设置用户名">
 							</div>
 							<div class="user-pass">
 								<label for="password"><i class="am-icon-lock"></i></label>
-								<input type="password" name="" id="password" placeholder="设置密码">
+								<input type="password" id="email_password" placeholder="设置密码">
 							</div>
 							<div class="user-pass">
 								<label for="passwordRepeat"><i class="am-icon-lock"></i></label>
-								<input type="password" name="" id="passwordRepeat" placeholder="确认密码">
+								<input type="password" id="email_passwordRepeat" placeholder="确认密码">
 							</div>
 						</form>
 						<div class="login-links">
 							<label for="reader-me">
-								<input id="reader-me" type="checkbox"> 点击表示您同意商城《服务协议》
+								<input id="email_readerMe" type="checkbox"> 点击表示您同意商城《服务协议》
 							</label>
 						</div>
 						<div class="am-cf">
-							<input type="submit" name="" value="注册" class="am-btn am-btn-primary am-btn-sm am-fl">
+							<input type="submit" id="email_register" value="注册" class="am-btn am-btn-primary am-btn-sm am-fl">
 						</div>
 
 						<hr>
@@ -141,7 +123,7 @@
 		</div>
 	</div>
 
-	<div class="footer ">
+	<div class="footer">
 		<div class="footer-hd ">
 			<p>
 				<a href="# ">恒望科技</a>
@@ -163,6 +145,140 @@
 			</p>
 		</div>
 	</div>
+	<script type="text/javascript">
+		//发送手机验证码
+		$("#sendMobileCode").click(function () {
+			var input_phone = $("input#input_phone").val();//手机号
+			var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;//校验手机号的正则表达式
+			if (input_phone == null || input_phone==''){
+				$("p#msg").html("手机号不能为空");
+				$("#msg").removeAttr("hidden");
+			}else if(!myreg.test(input_phone)){
+				$("p#msg").html("手机号格式不正确");
+				$("#msg").removeAttr("hidden");
+			} else {
+				$("p#msg").hide();
+				$.ajax({
+					url:"/user/getMobleCode",
+					data:{mobile:input_phone},
+					success:function (data) {
+						if (data.code == 0){
+							layer.msg(data.msg, {icon: 1,time: 1000,offset: ['185px', '865px']});
+							$("#mobileCode").val(data.data);
+							$("#phone").val(input_phone);
+						}else {
+							layer.msg(data.msg, {icon: 2,time: 2000});
+						}
+					}
+				})
+			}
+		});
+		//发送邮箱验证码
+		$("#sendEmailCode").click(function () {
+			var input_email = $("input#input_email").val();//邮箱号
+			var reg = /^\w+@\w+(\.[a-zA-Z]{2,3}){1,2}$/;//校验邮箱号的正则表达式
+			if (input_email == null || input_email==''){
+				$("p#msg").html("邮箱号不能为空");
+				$("#msg").removeAttr("hidden");
+			}else if(!reg.test(input_email)){
+				$("p#msg").html("邮箱格式不正确");
+				$("#msg").removeAttr("hidden");
+			} else {
+				$("p#msg").hide();
+				$.ajax({
+					url:"/user/getEmailCode",
+					data:{email:input_email},
+					success:function (data) {
+						if (data.code == 0){
+							layer.msg(data.msg, {icon: 1,time: 1000,offset: ['185px', '865px']});
+							$("#emailCode").val(data.data);
+							$("#email").val(input_email);
+						}else {
+							layer.msg(data.msg, {icon: 2,time: 2000});
+						}
+					}
+				})
+			}
+		});
+		//手机号注册
+		$("#mobile_register").click(function () {
+			var phone = $("#phone").val();
+			var mobile_checkcode = $("#mobile_checkcode").val();//用户输入的验证码
+			var mobileCode = $("#mobileCode").val();//短信验证码
+			var mobile_username = $("#mobile_username").val();
+			var mobile_password = $("#mobile_password").val();
+			var mobile_passwordRepeat = $("#mobile_passwordRepeat").val();
+			if (mobile_checkcode==null || mobile_checkcode==''){
+				layer.msg("验证码不能为空", {icon: 7,time: 1000,offset: ['185px', '865px']});
+			}else if (mobileCode != mobile_checkcode){
+				layer.msg("验证码错误", {icon: 2,time: 1000,offset: ['185px', '865px']});
+			}else if (mobile_username==null || mobile_username==''){
+				layer.msg("用户名不能为空", {icon: 7,time: 1000,offset: ['185px', '865px']});
+			}else if (mobile_password==null || mobile_password==''){
+				layer.msg("密码不能为空", {icon: 7,time: 1000,offset: ['185px', '865px']});
+			}else if (mobile_passwordRepeat==null || mobile_passwordRepeat==''){
+				layer.msg("确认密码不能为空", {icon: 7,time: 1000,offset: ['185px', '865px']});
+			}else if (mobile_password != mobile_passwordRepeat){
+				layer.msg("两次密码不一致", {icon: 2,time: 1000,offset: ['185px', '865px']});
+			}else if (!$('#mobile_readerMe').is(':checked')){
+				layer.msg("请勾选同意协议", {icon: 2,time: 1000,offset: ['185px', '865px']});
+			} else{
+				$.ajax({
+					url:"/user/register",
+					type:"POST",
+					data:{username:mobile_username,
+						  password:mobile_password,
+						  phone:phone},
+					success:function (data) {
+						if (data.code == 0){
+							window.location.href = "./index.html";
+						}else {
+							layer.msg(data.msg, {icon: 2,time: 2000,offset: ['185px', '865px']});
+						}
+					}
+				})
+			}
+		})
+		//邮箱注册
+		$("#email_register").click(function () {
+			var email = $("#email").val();
+			var email_checkcode = $("#email_checkcode").val();//用户输入的验证码
+			var emailCode = $("#emailCode").val();//短信验证码
+			var email_username = $("#email_username").val();
+			var email_password = $("#email_password").val();
+			var email_passwordRepeat = $("#email_passwordRepeat").val();
+			if (email_checkcode==null || email_checkcode==''){
+				layer.msg("验证码不能为空", {icon: 7,time: 1000,offset: ['185px', '865px']});
+			}else if (emailCode != email_checkcode){
+				layer.msg("验证码错误", {icon: 2,time: 1000,offset: ['185px', '865px']});
+			}else if (email_username==null || email_username==''){
+				layer.msg("用户名不能为空", {icon: 7,time: 1000,offset: ['185px', '865px']});
+			}else if (email_password==null || email_password==''){
+				layer.msg("密码不能为空", {icon: 7,time: 1000,offset: ['185px', '865px']});
+			}else if (email_passwordRepeat==null || email_passwordRepeat==''){
+				layer.msg("确认密码不能为空", {icon: 7,time: 1000,offset: ['185px', '865px']});
+			}else if (email_password != email_passwordRepeat){
+				layer.msg("两次密码不一致", {icon: 2,time: 1000,offset: ['185px', '865px']});
+			}else if (!$('#email_readerMe').is(':checked')){
+				layer.msg("请勾选同意协议", {icon: 2,time: 1000,offset: ['185px', '865px']});
+			} else{
+				$.ajax({
+					url:"/user/register",
+					type:"POST",
+					data:{username:email_username,
+						password:email_password,
+						email:email},
+					success:function (data) {
+						if (data.code == 0){
+							window.location.href = "./index.html";
+						}else {
+							layer.msg(data.msg, {icon: 2,time: 2000,offset: ['185px', '865px']});
+						}
+					}
+				})
+			}
+		})
+	</script>
 </body>
 
 </html>

@@ -16,7 +16,7 @@
 				$.ajax({
 					url:"/user/getUser",
 					success:function (data) {
-						$("#username").html(data.data.username);
+						$("#nickName").html(data.data.nickName);
 						$("#headImgSrc").attr("src",data.data.headImgSrc);
 					}
 				})
@@ -44,7 +44,7 @@
 											<img id="headImgSrc" src="">
 										</a>
 										<div class="m-info">
-											<em id="username" class="s-name">小叮当</em>
+											<em id="nickName" class="s-name">小叮当</em>
 											<div class="vip1"><a href="#"><span></span><em>会员专享</em></a></div>
 											<div class="safeText"><a href="safety.html">账户安全:<em style="margin-left:20px ;">60</em>分</a>
 												<div class="progressBar"><span style="left: -95px;" class="progress"></span></div>

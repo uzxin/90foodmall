@@ -2,11 +2,15 @@
         //判断登陆状态
         $(function () {
             $.ajax({
-                url: "/user/isLogin",
+                url: "/user/getUser",
                 type:'GET',
                 success:function(data){
                     if (data.code == 0){
-                        $("#div1").html("欢迎您，"+"<a href=\"../person/index.html\" target=\"_blank\">"+data.data.username+"</a>");
+                        if (data.data.nickName != null && data.data.nickName != ''){
+                            $("#div1").html("欢迎您，"+"<a href=\"../person/index.html\" target=\"_blank\">"+data.data.nickName+"</a>");
+                        }else {
+                            $("#div1").html("欢迎您，"+"<a href=\"../person/index.html\" target=\"_blank\">"+data.data.username+"</a>");
+                        }
                     }else {
                         window.location.href = "../home/login.html";
                     }

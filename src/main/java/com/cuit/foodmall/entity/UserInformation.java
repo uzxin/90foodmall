@@ -78,4 +78,10 @@ public class UserInformation extends BasePO{
 	 */
 	@TableField("user_idCard_reverse")
 	private String idCardReverse;
+
+	public UserInformation(Long userId, String phone, String email) {
+		this.userId = userId;
+		this.phone = phone;
+		this.email = email;
+	}
 }

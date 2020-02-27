@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
@@ -147,12 +146,13 @@
 				data:JSON.stringify(obj),
 				success:function (data) {
 					if(data.code == 0){
-						$("#question1").val("0");
+						/*$("#question1").val("0");
 						$("#question2").val("0");
-						$("#question3").val("0");
+						$("#question3").val("0");*/
 						$("#answer1").val("");
 						$("#answer2").val("");
 						$("#answer3").val("");
+						parent.location.reload();//刷新页面
 						layer.msg(data.msg, {icon: 1,time: 1000});
 					}else {
 						layer.msg(data.msg, {icon: 2,time: 1000});

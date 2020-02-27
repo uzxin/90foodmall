@@ -36,6 +36,9 @@ public class UserController extends BaseController{
 	 */
 	@GetMapping("getUser")
 	public Object getUserInfo(HttpSession session){
+		if (null == getUser(session)){
+			return Result.error();
+		}
 		Long userId = getUser(session).getId();
 		LambdaQueryWrapper<UserInformation> wrapper = new QueryWrapper<UserInformation>().lambda();
 		wrapper.eq(UserInformation::getUserId, userId);

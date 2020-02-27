@@ -16,14 +16,16 @@
 			//判断登陆状态
 			$(function () {
 				$.ajax({
-					url: "/user/isLogin",
+					url: "/user/getUser",
 					type:'GET',
 					success:function(data){
-						if (data.code == 0){
-							$("#div1").html("欢迎您，"+"<a href=\"../person/index.html\" target=\"_top\">"+data.data.username+"</a>");
-						}else {
+						if (data.code != 0){
 							$("#div1").html("<a href=\"login.html\" target=\"_top\" class=\"h\">亲，请登录</a>\n" +
 									"\t\t\t\t\t\t\t<a href=\"register.html\" target=\"_top\">免费注册</a>");
+						}else if (data.data.nickName != null && data.data.nickName != ''){
+							$("#div1").html("欢迎您，"+"<a href=\"../person/index.html\" >"+data.data.nickName+"</a>");
+						}else {
+							$("#div1").html("欢迎您，"+"<a href=\"../person/index.html\" >"+data.data.username+"</a>");
 						}
 					}
 				})

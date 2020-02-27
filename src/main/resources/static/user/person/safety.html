@@ -18,6 +18,14 @@
 				success:function (data) {
 					$("#username").html("用户名："+data.data.username);
 					$("#headImgSrc").attr("src",data.data.headImgSrc);
+					if (data.data.phone!=null && data.data.phone!=''){
+						$("#text3").html("您验证的手机："+data.data.phone+" 若已丢失或停用，请立即更换");
+						$("#btn3").html("换绑");
+					}
+					if (data.data.email!=null && data.data.email!=''){
+						$("#text4").html("您验证的邮箱："+data.data.email+" 可用于快速找回登录密码");
+						$("#btn4").html("换绑");
+					}
 				}
 			})
 		})
@@ -75,11 +83,11 @@
 							<i class="i-safety-wallet"></i>
 							<div class="m-left">
 								<div class="fore1">支付密码</div>
-								<div class="fore2"><small>启用支付密码功能，为您资产账户安全加把锁。</small></div>
+								<div class="fore2"><small id="text2">启用支付密码功能，为您资产账户安全加把锁。</small></div>
 							</div>
 							<div class="fore3">
 								<a href="setpay.html">
-									<div class="am-btn am-btn-secondary">立即启用</div>
+									<div id="btn2" class="am-btn am-btn-secondary">立即启用</div>
 								</a>
 							</div>
 						</li>
@@ -87,11 +95,11 @@
 							<i class="i-safety-iphone"></i>
 							<div class="m-left">
 								<div class="fore1">手机验证</div>
-								<div class="fore2"><small>您验证的手机：186XXXXXXXX 若已丢失或停用，请立即更换</small></div>
+								<div class="fore2"><small id="text3">您还没有绑定手机，请立即绑定</small></div>
 							</div>
 							<div class="fore3">
 								<a href="bindphone.html">
-									<div class="am-btn am-btn-secondary">换绑</div>
+									<div id="btn3" class="am-btn am-btn-secondary">绑定</div>
 								</a>
 							</div>
 						</li>
@@ -99,11 +107,11 @@
 							<i class="i-safety-mail"></i>
 							<div class="m-left">
 								<div class="fore1">邮箱验证</div>
-								<div class="fore2"><small>您验证的邮箱：5831XXX@qq.com 可用于快速找回登录密码</small></div>
+								<div class="fore2"><small id="text4">您还没有绑定邮箱，请立即绑定</small></div>
 							</div>
 							<div class="fore3">
 								<a href="email.html">
-									<div class="am-btn am-btn-secondary">换绑</div>
+									<div id="btn4" class="am-btn am-btn-secondary">绑定</div>
 								</a>
 							</div>
 						</li>
@@ -122,12 +130,12 @@
 						<li>
 							<i class="i-safety-security"></i>
 							<div class="m-left">
-								<div class="fore1">安全问题</div>
+								<div class="fore1">密保问题</div>
 								<div class="fore2"><small>保护账户安全，验证您身份的工具之一。</small></div>
 							</div>
 							<div class="fore3">
 								<a href="question.html">
-									<div class="am-btn am-btn-secondary">认证</div>
+									<div class="am-btn am-btn-secondary">设置</div>
 								</a>
 							</div>
 						</li>

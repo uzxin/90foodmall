@@ -3,6 +3,8 @@ package com.cuit.foodmall.user.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.cuit.foodmall.entity.User;
+import com.cuit.foodmall.entity.UserInformation;
+import com.cuit.foodmall.service.UserInformationService;
 import com.cuit.foodmall.service.UserService;
 import com.cuit.foodmall.util.Result;
 import lombok.extern.slf4j.Slf4j;
@@ -26,25 +28,51 @@ public class LoginController {
 
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private UserInformationService userInformationService;
 
 	/**
 	 * @description: 登录
 	 * @return: java.lang.Object
 	 */
 	@PostMapping("login")
-	public Object login(User user, HttpSession session){
-		LambdaQueryWrapper<User> wrapper = new QueryWrapper<User>().lambda();
-		wrapper.eq(User::getUsername, user.getUsername());
-		wrapper.eq(User::getPassword, user.getPassword());
-		User u = userService.getOne(wrapper);
-		if (null != u) {
+	public Object login(String loginName, String password, HttpSession session){
+		// 匹配用户名和密码
+		LambdaQueryWrapper<User> wrapper1 = new QueryWrapper<User>().lambda();
+		wrapper1.eq(User::getUsername, loginName);
+		wrapper1.eq(User::getPassword, password);
+		User u1 = userService.getOne(wrapper1);
+		if (null != u1) {
 			log.info("登陆成功");
-			session.setAttribute("user", u);
+			session.setAttribute("user", u1);
 			return Result.ok("登陆成功");
-		}else {
-			log.info("登陆失败");
-			return Result.error("你输入的密码和账户名不匹配，请重新输入");
 		}
+		//匹配手机号和密码
+		LambdaQueryWrapper<UserInformation> wrapper2 = new QueryWrapper<UserInformation>().lambda();
+		wrapper2.eq(UserInformation::getPhone, loginName);
+		UserInformation us1 = userInformationService.getOne(wrapper2);
+		if (null != us1){
+			User u2 = userService.getById(us1.getUserId());
+			if (u2.getPassword().equals(password)){
+				log.info("登陆成功");
+				session.setAttribute("user", u2);
+				return Result.ok("登陆成功");
+			}
+		}
+		//匹配邮箱和密码
+		LambdaQueryWrapper<UserInformation> wrapper3 = new QueryWrapper<UserInformation>().lambda();
+		wrapper3.eq(UserInformation::getEmail, loginName);
+		UserInformation us2 = userInformationService.getOne(wrapper3);
+		if (null != us2){
+			User u3 = userService.getById(us2.getUserId());
+			if (u3.getPassword().equals(password)){
+				log.info("登陆成功");
+				session.setAttribute("user", u3);
+				return Result.ok("登陆成功");
+			}
+		}
+		log.info("登陆失败");
+		return Result.error("你输入的密码和账户名不匹配，请重新输入");
 	}
 
 	/**
