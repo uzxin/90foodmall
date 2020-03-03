@@ -5,9 +5,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.cuit.foodmall.entity.Category;
 import com.cuit.foodmall.service.CategoryService;
 import com.cuit.foodmall.util.Result;
-import com.mysql.cj.xdevapi.JsonArray;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,6 +29,8 @@ public class CategoryController {
 
 	@Autowired
 	private CategoryService categoryService;
+	@Autowired
+	private RedisTemplate redisTemplate;
 
 	/**
 	 * @description: 查询商品分类
@@ -36,10 +38,15 @@ public class CategoryController {
 	 */
 	@GetMapping("listCategory")
 	public Object listCategory(){
-		//System.out.println("开始："+System.currentTimeMillis());
+		// 从缓存中取
+		Object category = redisTemplate.opsForValue().get("category");
+		if (category != null){
+			return Result.ok(category);
+		}
+		// 从数据库中查
 		// 最终数据list<map>
 		List<Map<Category,List<Map<Category,List<Category>>>>> list = new ArrayList<>();
-		// 封装数据
+
 		List<Category> categories1 = listByLevel(1L);//一级分类
 		for (Category c1 : categories1) {
 			Map<Category,List<Map<Category,List<Category>>>> map1 = new HashMap<>();
@@ -54,9 +61,11 @@ public class CategoryController {
 			map1.put(c1, list2);
 			list.add(map1);
 		}
-		//System.out.println("结束："+System.currentTimeMillis());
+		//存入redis
+		redisTemplate.opsForValue().set("category", list);
 		return Result.ok(list);
 	}
+
 
 	public List<Category> listByPid(Long pid){
 		LambdaQueryWrapper<Category> wrapper = new QueryWrapper<Category>().lambda();

@@ -4,18 +4,76 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
 		<title>搜索页面</title>
-
 		<link href="../AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css" />
 		<link href="../AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css" />
-
 		<link href="../basic/css/demo.css" rel="stylesheet" type="text/css" />
-
 		<link href="../css/seastyle.css" rel="stylesheet" type="text/css" />
-
 		<script type="text/javascript" src="../basic/js/jquery-1.7.min.js"></script>
 		<script type="text/javascript" src="../js/script.js"></script>
+		<script type="text/javascript">
+			$(function () {
+				$.ajax({
+					url: "/user/getUser",
+					type:'GET',
+					success:function(data){
+						if (data.code != 0){
+							$("#div1").html("<a href=\"login.html\" target=\"_top\" class=\"h\">亲，请登录</a>\n" +
+									"\t\t\t\t\t\t\t<a href=\"register.html\" target=\"_top\">免费注册</a>");
+						}else if (data.data.nickName != null && data.data.nickName != ''){
+							$("#div1").html("欢迎您，"+"<a href=\"../person/index.html\" >"+data.data.nickName+"</a>");
+						}else {
+							$("#div1").html("欢迎您，"+"<a href=\"../person/index.html\" >"+data.data.username+"</a>");
+						}
+					}
+				});
+
+				var categoryId= window.location.href.split("?")[1].split("&")[0].split("=")[1];//分类id
+				var page= window.location.href.split("&")[1].split("=")[1];//页数
+				$.ajax({
+					url:"/product/category/"+categoryId+"?page="+page,
+					success:function (data) {
+						//渲染商品列表
+						$.each(data.data.records,function (i,item) {
+							$("ul#list").append("<li>\n" +
+									"\t\t\t\t\t\t\t\t\t\t<div class=\"i-pic limit\">\n" +
+									"\t\t\t\t\t\t\t\t\t\t\t<input type='hidden' id="+item.id+">\t\t\t\t\t\t\t\t\t\t\t\n" +
+									"\t\t\t\t\t\t\t\t\t\t\t<img src="+item.src+" />\t\t\t\t\t\t\t\t\t\t\t\n" +
+									"\t\t\t\t\t\t\t\t\t\t\t<p class=\"title fl\">"+item.name+"</p>\n" +
+									"\t\t\t\t\t\t\t\t\t\t\t<p class=\"price fl\">\n" +
+									"\t\t\t\t\t\t\t\t\t\t\t\t<b>¥</b>\n" +
+									"\t\t\t\t\t\t\t\t\t\t\t\t<strong>"+item.priceSale+"</strong>\n" +
+									"\t\t\t\t\t\t\t\t\t\t\t</p>\n" +
+									"\t\t\t\t\t\t\t\t\t\t\t<p class=\"number fl\">\n" +
+									"\t\t\t\t\t\t\t\t\t\t\t\t销量<span>"+item.sales+"</span>\n" +
+									"\t\t\t\t\t\t\t\t\t\t\t</p>\n" +
+									"\t\t\t\t\t\t\t\t\t\t</div>\n" +
+									"\t\t\t\t\t\t\t\t\t</li>");
+						});
+						$(".limit").click(function () {
+							var productId = $(this).children().attr("id");//商品id
+							window.open("introduction.html?id="+productId);
+						});
+						//上一页
+						if (page != 1){
+							$(".am-pagination-right").append("<li><a href=search.html?category="+categoryId+"&page="+eval(parseInt(page)-1)+">&laquo;</a></li>");
+						}else {
+							$(".am-pagination-right").append("<li class='am-disabled'><a href=\"#\">&laquo;</a></li>");
+						}
+						for (let i = 1; i <= data.data.pages; i++) {
+							$(".am-pagination-right").append("<li id=page"+i+"><a href=search.html?category="+categoryId+"&page="+i+">"+i+"</a></li>");
+						}
+						$("#page"+page).addClass("am-active");//选中页特效
+						//下一页
+						if (page != data.data.pages){
+							$(".am-pagination-right").append("<li><a href=search.html?category="+categoryId+"&page="+eval(parseInt(page)+1)+">&raquo;</a></li>");
+						}else{
+							$(".am-pagination-right").append("<li class='am-disabled'><a href=\"#\">&raquo;</a></li>");
+						}
+					}
+				})
+			})
+		</script>
 	</head>
 
 	<body>
@@ -24,18 +82,16 @@
 		<div class="am-container header">
 			<ul class="message-l">
 				<div class="topMessage">
-					<div class="menu-hd">
-						<a href="#" target="_top" class="h">亲，请登录</a>
-						<a href="#" target="_top">免费注册</a>
+					<div id="div1" class="menu-hd">
 					</div>
 				</div>
 			</ul>
 			<ul class="message-r">
 				<div class="topMessage home">
-					<div class="menu-hd"><a href="#" target="_top" class="h">商城首页</a></div>
+					<div class="menu-hd"><a href="../home/index.html" target="_top" class="h">商城首页</a></div>
 				</div>
 				<div class="topMessage my-shangcheng">
-					<div class="menu-hd MyShangcheng"><a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
+					<div class="menu-hd MyShangcheng"><a href="../person/index.html" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
 				</div>
 				<div class="topMessage mini-cart">
 					<div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
@@ -50,7 +106,7 @@
 			<div class="nav white">
 				<div class="logo"><img src="../images/logo.png" /></div>
 				<div class="logoBig">
-					<li><img src="../images/logobig.png" /></li>
+					<a href="../home/index.html"><li><img src="../images/90foodmall.png" /></li></a>
 				</div>
 
 				<div class="search-bar pr">
@@ -161,174 +217,7 @@
 								</div>
 								<div class="clear"></div>
 
-								<ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes">
-									<li>
-										<div class="i-pic limit">
-											<img src="../images/imgsearch1.jpg" />											
-											<p class="title fl">【良品铺子旗舰店】手剥松子218g 坚果炒货零食新货巴西松子包邮</p>
-											<p class="price fl">
-												<b>¥</b>
-												<strong>56.90</strong>
-											</p>
-											<p class="number fl">
-												销量<span>1110</span>
-											</p>
-										</div>
-									</li>
-									<li>
-										<div class="i-pic limit">
-											
-											<img src="../images/imgsearch1.jpg" />
-											<p class="title fl">手剥松子218g 坚果炒货零食新货巴西松子包邮</p>
-											<p class="price fl">
-												<b>¥</b>
-												<strong>56.90</strong>
-											</p>
-											<p class="number fl">
-												销量<span>1110</span>
-											</p>
-										</div>
-									</li>
-									<li>
-										<div class="i-pic limit">
-											
-											<img src="../images/imgsearch1.jpg" />
-											<p class="title fl">【良品铺子旗舰店】手剥松子218g 坚果炒货零食新货巴西松子包邮</p>
-											<p class="price fl">
-												<b>¥</b>
-												<strong>56.90</strong>
-											</p>
-											<p class="number fl">
-												销量<span>1110</span>
-											</p>
-										</div>
-									</li>
-									<li>
-										<div class="i-pic limit">
-											
-											<img src="../images/imgsearch1.jpg" />
-											<p class="title fl">手剥松子218g 坚果炒货零食新货巴西松子包邮</p>
-											<p class="price fl">
-												<b>¥</b>
-												<strong>56.90</strong>
-											</p>
-											<p class="number fl">
-												销量<span>1110</span>
-											</p>
-										</div>
-									</li>
-									<li>
-										<div class="i-pic limit">
-											
-											<img src="../images/imgsearch1.jpg" />
-											<p class="title fl">【良品铺子旗舰店】手剥松子218g 坚果炒货零食新货巴西松子包邮</p>
-											<p class="price fl">
-												<b>¥</b>
-												<strong>56.90</strong>
-											</p>
-											<p class="number fl">
-												销量<span>1110</span>
-											</p>
-										</div>
-									</li>
-									<li>
-										<div class="i-pic limit">
-											
-											<img src="../images/imgsearch1.jpg" />
-											<p class="title fl">【良品铺子旗舰店】手剥松子218g 坚果炒货零食新货巴西松子包邮</p>
-											<p class="price fl">
-												<b>¥</b>
-												<strong>56.90</strong>
-											</p>
-											<p class="number fl">
-												销量<span>1110</span>
-											</p>
-										</div>
-									</li>
-									<li>
-										<div class="i-pic limit">
-											
-											<img src="../images/imgsearch1.jpg" />
-											<p class="title fl">【良品铺子旗舰店】手剥松子218g 坚果炒货零食新货巴西松子包邮</p>
-											<p class="price fl">
-												<b>¥</b>
-												<strong>56.90</strong>
-											</p>
-											<p class="number fl">
-												销量<span>1110</span>
-											</p>
-										</div>
-									</li>
-									<li>
-										<div class="i-pic limit">
-											
-											<img src="../images/imgsearch1.jpg" />
-											<p class="title fl">【良品铺子旗舰店】手剥松子218g 坚果炒货零食新货巴西松子包邮</p>
-											<p class="price fl">
-												<b>¥</b>
-												<strong>56.90</strong>
-											</p>
-											<p class="number fl">
-												销量<span>1110</span>
-											</p>
-										</div>
-									</li>
-									<li>
-										<div class="i-pic limit">
-											
-											<img src="../images/imgsearch1.jpg" />
-											<p class="title fl">【良品铺子旗舰店】手剥松子218g 坚果炒货零食新货巴西松子包邮</p>
-											<p class="price fl">
-												<b>¥</b>
-												<strong>56.90</strong>
-											</p>
-											<p class="number fl">
-												销量<span>1110</span>
-											</p>
-										</div>
-									</li>
-									<li>
-										<div class="i-pic limit">
-											
-											<img src="../images/imgsearch1.jpg" />
-											<p class="title fl">【良品铺子旗舰店】手剥松子218g 坚果炒货零食新货巴西松子包邮</p>
-											<p class="price fl">
-												<b>¥</b>
-												<strong>56.90</strong>
-											</p>
-											<p class="number fl">
-												销量<span>1110</span>
-											</p>
-										</div>
-									</li>
-									<li>
-										<div class="i-pic limit">
-											
-											<img src="../images/imgsearch1.jpg" />
-											<p class="title fl">【良品铺子旗舰店】手剥松子218g 坚果炒货零食新货巴西松子包邮</p>
-											<p class="price fl">
-												<b>¥</b>
-												<strong>56.90</strong>
-											</p>
-											<p class="number fl">
-												销量<span>1110</span>
-											</p>
-										</div>
-									</li>
-									<li>
-										<div class="i-pic limit">
-											
-											<img src="../images/imgsearch1.jpg" />
-											<p class="title fl">【良品铺子旗舰店】手剥松子218g 坚果炒货零食新货巴西松子包邮</p>
-											<p class="price fl">
-												<b>¥</b>
-												<strong>56.90</strong>
-											</p>
-											<p class="number fl">
-												销量<span>1110</span>
-											</p>
-										</div>
-									</li>
+								<ul id="list" class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes">
 								</ul>
 							</div>
 							<div class="search-side">
@@ -381,13 +270,6 @@
 							<div class="clear"></div>
 							<!--分页 -->
 							<ul class="am-pagination am-pagination-right">
-								<li class="am-disabled"><a href="#">&laquo;</a></li>
-								<li class="am-active"><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
-								<li><a href="#">&raquo;</a></li>
 							</ul>
 
 						</div>

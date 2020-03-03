@@ -1,11 +1,11 @@
 package com.cuit.foodmall.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+
+import java.io.Serializable;
 
 /**
  * @author: YX
@@ -16,7 +16,10 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("category")
-public class Category extends BasePO{
+public class Category implements Serializable {
+
+	@TableId(value = "id", type = IdType.AUTO)
+	private Long id;
 	/*
 	父级分类ID
 	 */
@@ -47,9 +50,14 @@ public class Category extends BasePO{
 	 */
 	@TableField("create_user_name")
 	private String createUserName;
+	/**
+	 * 逻辑删除标志
+	 */
+	@TableLogic
+	private String delFlag;
 
 	@Override
 	public String toString() {
-		return "{pid:\"" + pid + "\",name:\"" + name + "\",level:\"" + level + "\",imageSrc:\"" + imageSrc + "\"}";
+		return "{id:\"" + id + "\",pid:\"" + pid + "\",name:\"" + name + "\",level:\"" + level + "\",imageSrc:\"" + imageSrc + "\"}";
 	}
 }

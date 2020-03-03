@@ -27,7 +27,7 @@
 								$("#js_climit_li").append("<li>\n" +
 										"\t<div class=\"category-info\">\n" +
 										"\t\t<h3 class=\"category-name b-category-name\">\n" +
-										"\t\t\t<i><img src=\"../images/cake.png\"></i>\n" +
+										"\t\t\t<i><img src="+obj.imageSrc+"></i>\n" +
 										"\t\t\t<a class=\"ml-22\" title="+obj.name+">"+obj.name+"</a>\n" +
 										"\t\t</h3>\n" +
 										"\t\t<em>&gt;</em>\n" +
@@ -36,7 +36,7 @@
 										"\t\t<div class=\"area-in\">\n" +
 										"\t\t\t<div class=\"area-bg\">\n" +
 										"\t\t\t\t<div class=\"menu-srot\">\n" +
-										"\t\t\t\t\t<div class=\"sort-side\">\n" +
+										"\t\t\t\t\t<div id="+obj.id+" class=\"sort-side\">\n" +
 										"\t\t\t\t\t</div>\n" +
 										"\t\t\t\t\t<div class=\"brand-side\">\n" +
 										"\t\t\t\t\t</div>\n" +
@@ -57,14 +57,13 @@
 								});
 								$.each(value,function (i,item) {
 									$.each(item,function (key,value) {
-										//console.log(eval('(' +key +')').name);//二级分类
 										var obj = eval('(' +key +')');
-										$(".sort-side").append("<dl class=\"dl-sort\">\n" +
-												"\t\t\t\t\t\t\t<dt><span title="+obj.name+">"+obj.name+"</span></dt>\n" +
-												"\t\t\t\t\t\t</dl>");
+											$("#"+obj.pid).append("<dl id="+obj.id+" class='dl-sort'>\n" +
+													"\t\t\t\t\t\t\t<dt><span title="+obj.name+">"+obj.name+"</span></dt>\n" +
+													"\t\t\t\t\t\t</dl>");
 										$.each(value,function (i,item) {
 											//console.log(item.name);//三级分类
-											//$(".dl-sort").append("<dd><a title="+item.name+" href=\"#\"><span>"+item.name+"</span></a></dd>");
+											$("#"+item.pid).append("<dd><a id="+item.id+" title="+item.name+" href=search.html?category="+item.id+"&page=1><span>"+item.name+"</span></a></dd>");
 										})
 									})
 								})
