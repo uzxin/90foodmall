@@ -10,12 +10,14 @@
 		<link href="../basic/css/demo.css" rel="stylesheet" type="text/css" />
 		<link type="text/css" href="../css/optstyle.css" rel="stylesheet" />
 		<link type="text/css" href="../css/style.css" rel="stylesheet" />
+		<link href="../layui/css/layui.css" rel="stylesheet" type="text/css">
 		<script type="text/javascript" src="../basic/js/jquery-1.7.min.js"></script>
 		<script type="text/javascript" src="../basic/js/quick_links.js"></script>
 		<script type="text/javascript" src="../AmazeUI-2.4.2/assets/js/amazeui.js"></script>
 		<script type="text/javascript" src="../js/jquery.imagezoom.min.js"></script>
 		<script type="text/javascript" src="../js/jquery.flexslider.js"></script>
 		<script type="text/javascript" src="../js/list.js"></script>
+		<script src="../layui/layui.all.js"></script>
 		<script type="text/javascript">
 			$(function () {
 				$.ajax({
@@ -37,6 +39,7 @@
 				$.ajax({
 					url:"/product/details/"+productId,
 					success:function (data) {
+						$("#id").val(data.data.id);//商品ID
 						$("#name").html(data.data.name);//商品名字
 						$("#priceSale").html(data.data.priceSale);//原价
 						$("#priceOriginal").html(data.data.priceOriginal);//卖价
@@ -60,7 +63,7 @@
 							if (item.type == 1){
 								$("#thumblist").append("<li>\n" +
 										"\t\t\t\t\t\t\t\t\t<div class='tb-pic tb-s40'>\n" +
-										"\t\t\t\t\t\t\t\t\t\t<a href='#'><img id="+i+" src="+item.src+"></a>\n" +
+										"\t\t\t\t\t\t\t\t\t\t<a><img id="+i+" src="+item.src+"></a>\n" +
 										"\t\t\t\t\t\t\t\t\t</div>\n" +
 										"\t\t\t\t\t\t\t\t</li>");
 								$(".tb-s310").children().attr("src",item.src);
@@ -73,6 +76,23 @@
 							});
 						});
 					}
+				});
+				//添加购物车
+				$("#LikBasket").click(function () {
+					var id = $("#id").val();
+					var num = $("#text_box").val();
+					$.ajax({
+						url:"/shoppingcart/add",
+						type:"POST",
+						data:{productId:id,num:num},
+						success:function (data) {
+							if (data.code != null && data.code == 0){
+								layer.msg(data.msg,{icon:1,time:1000});
+							}else {
+								layer.msg(data,{icon:2,time:2000});
+							}
+						}
+					})
 				});
 			})
 		</script>
@@ -175,6 +195,7 @@
 						<!--规格属性-->
 						<!--名称-->
 						<div class="tb-detail-hd">
+							<input type="hidden" id="id">
 							<h1 id="name"></h1>
 						</div>
 						<div class="tb-detail-list">
@@ -334,7 +355,7 @@
 							</li>
 							<li>
 								<div class="clearfix tb-btn tb-btn-basket theme-login">
-									<a id="LikBasket" title="加入购物车" href="#"><i></i>加入购物车</a>
+									<a id="LikBasket" title="加入购物车"><i></i>加入购物车</a>
 								</div>
 							</li>
 						</div>

@@ -1,8 +1,12 @@
 package com.cuit.foodmall.entity.vo;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.cuit.foodmall.entity.Product;
+import com.baomidou.mybatisplus.annotation.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * @author: YX
@@ -10,10 +14,76 @@ import lombok.Data;
  * @description: 商品
  */
 @Data
-public class ProductVO extends Product {
+@AllArgsConstructor
+@NoArgsConstructor
+@TableName("product")
+public class ProductVO implements Serializable {
+
+	@TableId(value = "id", type = IdType.AUTO)
+	private Long id;
+	/*
+	商品名字
+	 */
+	@TableField("name")
+	private String name;
+	/*
+	成本价
+	 */
+	@TableField("price_cost")
+	private BigDecimal priceCost;
+	/*
+	原价
+	 */
+	@TableField("price_original")
+	private BigDecimal priceOriginal;
+	/*
+	卖价
+	 */
+	@TableField("price_sale")
+	private BigDecimal priceSale;
+	/*
+	销量
+	 */
+	@TableField("sales")
+	private BigDecimal sales;
+	/*
+	库存
+	 */
+	@TableField("inventory")
+	private BigDecimal inventory;
+	/*
+	分类
+	 */
+	@TableField("category_id")
+	private Long categoryId;
+	/*
+	是否上架
+	 */
+	@TableField("enabled")
+	private String enabled;
+	/*
+	创建人id
+	 */
+	@TableField("create_user_id")
+	private Long createUserId;
+	/*
+	创建人名字
+	 */
+	@TableField("create_user_name")
+	private String createUserName;
 	/*
 	商品图片
 	 */
 	@TableField("src")
 	private String src;
+	/**
+	 * 逻辑删除标志
+	 */
+	@TableLogic
+	private String delFlag;
+
+	@Override
+	public String toString() {
+		return "{id:\"" + id + "\",name:\"" + name + "\",priceCost:\"" + priceCost + "\",priceOriginal:\"" + priceOriginal + "\",priceSale:\"" + priceSale + "\",sales:\"" + sales + "\",inventory:\"" + inventory + "\",categoryId:\"" + categoryId + "\",enabled:\"" + enabled + "\",createUserId:\"" + createUserId + "\",createUserName:\"" + createUserName +"\",src:\"" + src + "\",delFlag:\"" + delFlag + "\"}";
+	}
 }

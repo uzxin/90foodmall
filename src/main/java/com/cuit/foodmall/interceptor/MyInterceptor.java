@@ -20,8 +20,15 @@ public class MyInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		User user = (User) request.getSession().getAttribute("user");
 		if(null == user){
-			//重定向到登陆页面
-			response.sendRedirect(request.getContextPath()+"/user/home/login.html");
+			if(null != request.getHeader("X-Requested-With")){
+				//拦截ajax请求
+				response.setHeader("Content-type", "text/html;charset=UTF-8");
+				response.setCharacterEncoding("UTF-8");
+				response.getWriter().write("请登录");
+			}else {
+				//重定向到登陆页面
+				response.sendRedirect(request.getContextPath()+"/user/home/login.html");
+			}
 			return false;
 		}else {
 			return true;

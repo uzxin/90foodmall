@@ -1,18 +1,15 @@
 package com.cuit.foodmall.user.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.cuit.foodmall.entity.vo.ProductVO;
 import com.cuit.foodmall.service.ProductService;
 import com.cuit.foodmall.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author: YX
@@ -35,28 +32,30 @@ public class ShoppingCartController extends BaseController {
 	@GetMapping("list")
 	public Object list(HttpSession session){
 		String username = getUser(session).getUsername();
-		List<Long> ids = (List<Long>) redisTemplate.opsForValue().get("shoppingcart:" + username);
-		return Result.ok(productService.listByIds(ids));
+		Map<ProductVO, Integer> shoppingCarts = (Map<ProductVO, Integer>) redisTemplate.opsForValue().get("shoppingcart:" + username);
+		return Result.ok(shoppingCarts);
 	}
 
 	/**
 	 * @description: 添加购物车
-	 * @param: productId
+	 * @param: productId 商品ID
+	 * @param: num 数量
 	 * @return: java.lang.Object
 	 */
 	@PostMapping("add")
-	public Object add(Long productId, HttpSession session){
+	public Object add(Long productId, @RequestParam(required = false,defaultValue = "1") int num, HttpSession session){
 		String username = getUser(session).getUsername();
+		ProductVO p = productService.getProductById(productId);
 		if (redisTemplate.hasKey("shoppingcart:" + username)) {
 			// 已经存在购物车数据
-			List<Long> products = (List<Long>) redisTemplate.opsForValue().get("shoppingcart:" + username);
-			products.add(productId);
+			Map<ProductVO, Integer> products = (Map<ProductVO, Integer>) redisTemplate.opsForValue().get("shoppingcart:" + username);
+			products.put(p ,num);
 			redisTemplate.opsForValue().set("shoppingcart:" + username, products);
 		}else {
 			// 新建购物车数据
-			List<Long> list = new ArrayList<>();
-			list.add(productId);
-			redisTemplate.opsForValue().set("shoppingcart:" + username, list);
+			Map<ProductVO, Integer> map = new HashMap<>();
+			map.put(p ,num);
+			redisTemplate.opsForValue().set("shoppingcart:" + username, map);
 		}
 		return Result.ok("添加成功");
 	}
@@ -69,12 +68,13 @@ public class ShoppingCartController extends BaseController {
 	@PostMapping("del")
 	public Object del(Long productId, HttpSession session){
 		String username = getUser(session).getUsername();
-		List<Long> products = (List<Long>) redisTemplate.opsForValue().get("shoppingcart:" + username);
-		assert products != null;
-		Iterator<Long> iterator = products.iterator();
+		Map<ProductVO, Integer> products = (Map<ProductVO, Integer>) redisTemplate.opsForValue().get("shoppingcart:" + username);
+		Iterator<Map.Entry<ProductVO, Integer>> iterator = products.entrySet().iterator();
 		while (iterator.hasNext()){
-			Long pid = iterator.next();
-			if (pid.equals(productId)){
+			Map.Entry<ProductVO, Integer> next = iterator.next();
+			//反序列化
+			ProductVO p = JSONObject.parseObject(String.valueOf(next.getKey()), ProductVO.class);
+			if (p.getId() == productId){
 				iterator.remove();
 			}
 		}
