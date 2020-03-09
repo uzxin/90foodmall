@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@TableName("order")
+@TableName("orders")
 public class Order extends BasePO{
 
 	/*

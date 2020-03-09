@@ -190,7 +190,8 @@
 							obj[k] = v;
 						}
 						var json = JSON.stringify(obj);
-						localStorage.setItem("shopcart", json);//本地存储
+						localStorage.setItem("shopcart", json);//商品信息
+						localStorage.setItem("total", $("#J_Total").html());//总价
 						window.location.href = "pay.html";
 					}
 				});
