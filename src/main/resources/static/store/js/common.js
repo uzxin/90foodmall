@@ -1,1 +1,1 @@
-// JavaScript Document
+/** EasyWeb iframe v3.1.5 date:2019-10-05 License By http://easyweb.vip */

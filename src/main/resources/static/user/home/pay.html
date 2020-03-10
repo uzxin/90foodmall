@@ -201,7 +201,6 @@
 					var shipMethodId = $("#shipMethodId").val();//物流方式
 					var payMethodId = $("#payMethodId").val();//支付方式
 					var payAmount = $("#J_ActualFee").html();//金额
-
                     let order = new Map();
                     order.set("addressId", addressId);
                     order.set("shipMethodId", shipMethodId);
@@ -213,8 +212,7 @@
                     }
                     $.each(map, function (k,v) {
                         obj[k] = v;
-                    })
-                    //console.log(localStorage.getItem("shopcart"));
+                    });
                     var json = JSON.stringify(obj);
 					if (shipMethodId == null || shipMethodId == ''){
 						layer.msg("请选择物流方式",{icon:2,time:1000});
@@ -228,7 +226,17 @@
                             data:json,
                             success:function (data) {
 								if (data.code == 0){
+									let accept = new Map();
+									accept.set("contactPeopleName",$("#contactPeopleName").html());
+									accept.set("contactPeoplePhone",$("#contactPeoplePhone").html());
+									accept.set("address",$("#province").html()+$("#city").html()+$("#country").html()+$("#detailedAddress").html());
+									let obj= Object.create(null);
+									for (let[k,v] of accept) {
+										obj[k] = v;
+									}
+									localStorage.setItem("accept", JSON.stringify(obj));//收货人信息
 									layer.msg(data.msg,{icon:1,time:1000});
+									window.location.href="./success.html?acount="+total;
 								}
 							}
 						})
@@ -255,7 +263,7 @@
 					<div class="menu-hd MyShangcheng"><a href="../person/index.html" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
 				</div>
 				<div class="topMessage mini-cart">
-					<div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
+					<div class="menu-hd"><a id="mc-menu-hd" href="../home/shopcart.html" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
 				</div>
 				<div class="topMessage favorite">
 					<div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>

@@ -66,6 +66,11 @@ public class CategoryController {
 		return Result.ok(list);
 	}
 
+	@GetMapping("list")
+	public Object list(){
+		return Result.ok(categoryService.list());
+	}
+
 
 	public List<Category> listByPid(Long pid){
 		LambdaQueryWrapper<Category> wrapper = new QueryWrapper<Category>().lambda();

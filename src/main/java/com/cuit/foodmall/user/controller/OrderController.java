@@ -36,6 +36,11 @@ public class OrderController extends BaseController{
 	@Autowired
 	private ProductService productService;
 
+	/**
+	 * @description: 生成订单
+	 * @param: map
+	 * @return: java.lang.Object
+	 */
 	@PostMapping("create")
 	public Object create(@RequestBody Map<String,String> map, HttpSession session){
 		String orderNumber = RandomUtil.get32();//订单号

@@ -14,7 +14,7 @@
 <script src="js/Sellerber.js" type="text/javascript"></script>
 <script src="js/shopFrame.js" type="text/javascript"></script>
 <script src="js/jquery.nicescroll.js" type="text/javascript"></script>
-<script type="text/javascript" src="js/jquery.cookie.js"></script> 
+<script type="text/javascript" src="js/jquery.cookie.js"></script>
 <title>店铺管理</title>
 </head>
 <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
  <div class="Sellerber" id="Sellerber">
  <!--顶部-->
   <div class="Sellerber_header apex clearfix" id="Sellerber_header">
-   <div class="l_f logo header"><img src="images/logo_03.png" /></div>
+   <div class="l_f logo header"><img src="images/logo04.png" /></div>
    <div class="r_f Columns_top clearfix header">
    <!--<div class="time_style l_f"><i class="fa  fa-clock-o"></i><span id="time"></span></div>-->
       <div class="search_style l_f">
@@ -106,7 +106,7 @@
   </div>
 <!--底部-->
   <div class="Sellerber_bottom info" id="bottom">
-  <span class="l_f">版权所有：南京版石软件系统有限公司</span>
+  <span class="l_f">本系统仅用作毕业设计，不作其他任何商用</span>
   </div>
   <!--消息提示板块内容-->
 <div class="prompt_style prompt">
@@ -501,7 +501,12 @@ $('#Exit_system').on('click', function(){
 	 icon:2,
     }, 
 	function(){
-	  location.href="login.html";  
+          $.ajax({
+              url:"/store/loginout",
+              success:function () {
+                  location.href="login.html";
+              }
+          })
     });
 });
 </script>

@@ -1,16 +1,45 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
-<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>付款成功页面</title>
-<link rel="stylesheet"  type="text/css" href="../AmazeUI-2.4.2/assets/css/amazeui.css"/>
-<link href="../AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css">
-<link href="../basic/css/demo.css" rel="stylesheet" type="text/css" />
-
-<link href="../css/sustyle.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="../basic/js/jquery-1.7.min.js"></script>
-
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>付款成功</title>
+    <link rel="stylesheet"  type="text/css" href="../AmazeUI-2.4.2/assets/css/amazeui.css"/>
+    <link href="../AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css">
+    <link href="../basic/css/demo.css" rel="stylesheet" type="text/css" />
+    <link href="../css/sustyle.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="../basic/js/jquery-1.7.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $.ajax({
+                url: "/user/getUser",
+                success:function(data){
+                    if (data.code != 0){
+                        $("#div1").html("<a href=\"login.html\" target=\"_top\" class=\"h\">亲，请登录</a>\n" +
+                            "\t\t\t\t\t\t\t<a href=\"register.html\" target=\"_top\">免费注册</a>");
+                    }else if (data.data.nickName != null && data.data.nickName != ''){
+                        $("#div1").html("欢迎您，"+"<a href=\"../person/index.html\" >"+data.data.nickName+"</a>");
+                    }else {
+                        $("#div1").html("欢迎您，"+"<a href=\"../person/index.html\" >"+data.data.username+"</a>");
+                    }
+                }
+            });
+            var acount = window.location.href.split("?")[1].split("=")[1];//支付金额
+            $("#acount").html(acount);
+            var accept = JSON.parse(localStorage.getItem("accept"));//收货人信息
+            $.each(accept,function (key,values) {
+                if (key == "contactPeopleName"){
+                    $("#contactPeopleName").html("收货人："+values);
+                }
+                if (key == "contactPeoplePhone"){
+                    $("#contactPeoplePhone").html("联系电话："+values);
+                }
+                if (key == "address"){
+                    $("#address").html("收货地址："+values);
+                }
+            })
+        });
+    </script>
 </head>
 
 <body>
@@ -18,19 +47,25 @@
 
 <!--顶部导航条 -->
 <div class="am-container header">
-  <ul class="message-l">
-    <div class="topMessage">
-     <div class="menu-hd">
-       <a href="#" target="_top" class="h">亲，请登录</a>
-       <a href="#" target="_top">免费注册</a>
-     </div></div>
-  </ul>
-  <ul class="message-r">
-    <div class="topMessage home"><div class="menu-hd"><a href="#" target="_top" class="h">商城首页</a></div></div>
-    <div class="topMessage my-shangcheng"><div class="menu-hd MyShangcheng"><a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div></div>
-    <div class="topMessage mini-cart"><div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div></div>
-    <div class="topMessage favorite"><div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
-  </ul>
+    <ul class="message-l">
+        <div class="topMessage">
+            <div id="div1" class="menu-hd">
+            </div>
+        </div>
+    </ul>
+    <ul class="message-r">
+        <div class="topMessage home">
+            <div class="menu-hd"><a href="../home/index.html" target="_top" class="h">商城首页</a></div>
+        </div>
+        <div class="topMessage my-shangcheng">
+            <div class="menu-hd MyShangcheng"><a href="../person/index.html" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
+        </div>
+        <div class="topMessage mini-cart">
+            <div class="menu-hd"><a id="mc-menu-hd" href="../home/shopcart.html" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
+        </div>
+        <div class="topMessage favorite">
+            <div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
+    </ul>
 </div>
 
 <!--悬浮搜索框-->
@@ -38,7 +73,7 @@
 <div class="nav white">
 	<div class="logo"><img src="../images/logo.png" /></div>
     <div class="logoBig">
-      <li><img src="../images/logobig.png" /></li>
+        <a href="../home/index.html"><li><img src="../images/90foodmall.png" /></li></a>
     </div>
     
     <div class="search-bar pr">
@@ -58,11 +93,11 @@
    <h2>您已成功付款</h2>
    <div class="successInfo">
      <ul>
-       <li>付款金额<em>¥9.90</em></li>
+       <li>付款金额<em id="acount"></em></li>
        <div class="user-info">
-         <p>收货人：艾迪</p>
-         <p>联系电话：15871145629</p>
-         <p>收货地址：湖北省 武汉市 武昌区 东湖路75号众环大厦</p>
+         <p id="contactPeopleName"></p>
+         <p id="contactPeoplePhone"></p>
+         <p id="address"></p>
        </div>
              请认真核对您的收货信息，如有错误请联系客服
                                
