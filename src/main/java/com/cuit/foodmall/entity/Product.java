@@ -56,6 +56,17 @@ public class Product extends BasePO{
 	@TableField("category_id")
 	private Long categoryId;
 	/*
+	店铺ID
+	 */
+	@TableField("store_id")
+	private Long storeId;
+	/*
+	审核状态
+	 */
+	@TableField("status")
+	private Long status;
+	/*
+	/*
 	是否上架
 	 */
 	@TableField("enabled")

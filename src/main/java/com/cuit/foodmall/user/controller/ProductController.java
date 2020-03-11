@@ -42,7 +42,7 @@ public class ProductController {
 	                          @RequestParam(required = false,defaultValue = "1") int page,
 	                          @RequestParam(required = false,defaultValue = "12") int limit){
 		Page<ProductVO> ipage = new Page<>(page, limit);
-		IPage<ProductVO> p = productService.listProduct(ipage, categoryId);
+		IPage<ProductVO> p = productService.listProductByCid(ipage, categoryId);
 		return Result.ok(p);
 	}
 

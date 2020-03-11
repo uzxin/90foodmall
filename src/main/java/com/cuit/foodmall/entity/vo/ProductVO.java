@@ -1,12 +1,14 @@
 package com.cuit.foodmall.entity.vo;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * @author: YX
@@ -76,6 +78,27 @@ public class ProductVO implements Serializable {
 	 */
 	@TableField("src")
 	private String src;
+	/*
+	分类名字
+	 */
+	@TableField("categoryName")
+	private String categoryName;
+	/*
+	店铺名字
+	 */
+	@TableField("storeName")
+	private String storeName;
+	/*
+	状态名字
+	 */
+	@TableField("statusName")
+	private String statusName;
+	/*
+	创建时间
+	 */
+	@JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+	@TableField("create_time")
+	private Date createTime;
 	/**
 	 * 逻辑删除标志
 	 */

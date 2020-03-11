@@ -1,5 +1,6 @@
 package com.cuit.foodmall.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -23,12 +24,18 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
 	private ProductMapper productMapper;
 
 	@Override
-	public IPage<ProductVO> listProduct(Page<ProductVO> page, Long categoryId) {
-		return productMapper.listProduct(page, categoryId);
+	public IPage<ProductVO> listProductByCid(Page<ProductVO> page, Long categoryId) {
+		return productMapper.listProductByCid(page, categoryId);
 	}
 
 	@Override
 	public ProductVO getProductById(Long productId) {
 		return productMapper.getProductById(productId);
 	}
+
+	@Override
+	public IPage<ProductVO> listProductBySid(Page<ProductVO> page, QueryWrapper<ProductVO> wrapper) {
+		return productMapper.listProductBySid(page, wrapper);
+	}
+
 }

@@ -7,21 +7,50 @@
     <link href="css/Sellerber.css" type="text/css"  rel="stylesheet" />
     <link href="css/bkg_ui.css" type="text/css"  rel="stylesheet" />
     <link href="font/css/font-awesome.min.css"  rel="stylesheet" type="text/css" />
-    <link href="../user/layui/css/layui.css" type="text/css"  rel="stylesheet" />
-    <link rel="stylesheet" href="js/zTree/css/zTreeStyle/zTreeStyle.css" type="text/css">
+    <link href="../user/layui/css/layui.css"  rel="stylesheet" type="text/css" />
+    <link href="zTree/css/zTreeStyle/zTreeStyle.css" type="text/css" rel="stylesheet" />
     <script src="js/jquery-1.9.1.min.js" type="text/javascript" ></script>
     <script src="js/Sellerber.js" type="text/javascript"></script>
     <script src="js/jquery.dataTables.min.js"></script>
     <script src="js/jquery.dataTables.bootstrap.js"></script>
-    <script src="js/hsCheckData.js" type="text/javascript"></script>
-    <script type="text/javascript" src="js/zTree/js/jquery-1.4.4.min.js"></script>
-    <script type="text/javascript" src="js/zTree/js/jquery.ztree.core.js"></script>
+    <script src="zTree/js/jquery.ztree.core.js"  type="text/javascript"></script>
+    <script src="../user/layui/layui.all.js" type="text/javascript"></script>
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js" type="text/javascript"></script>
     <script src="js/respond.min.js"></script>
     <script src="js/css3-mediaqueries.js"  type="text/javascript"></script>
       <![endif]-->
     <title>添加产品</title>
+    <script type="text/javascript">
+        function setCategory(){
+            var categorys = [];
+            $.ajax({
+                url:"/category/list",
+                async: false,
+                success:function (data) {
+                    $.each(data.data,function (i,item) {
+                        categorys[i]={id:item.id, pId:item.pid, name:item.name};
+                    })
+                }
+            });
+            layui.use('layer', function(){
+                var layer = layui.layer;
+                layer.open({
+                    type: 1,
+                    title: '选择分类',
+                    btn: ['保存', '取消'],
+                    area: ["200px","400px"],
+                    content: '<ul id="treeAuth" class="ztree"></ul>',
+                    success: function (layero, index) {
+                        $.fn.zTree.init($('#treeAuth'), setting, categorys);
+                    },
+                    yes: function (index) {
+                        layer.close(index);
+                    }
+                });
+            });
+        };
+    </script>
 </head>
 
 <body>
@@ -29,128 +58,120 @@
 <div class="add_style clearfix relative">
  <ul>
   <li class="clearfix">
+      <input type="hidden" id="id"/>
       <label class="label_name col-xs-1">
-          <i>*</i>商品名称：&nbsp;&nbsp;
+          商品名称：&nbsp;&nbsp;
       </label>
       <div class="Add_content col-xs-11">
           <input id="name" type="text"  class="col-xs-6"/>
       </div>
   </li>
-     <li class="clearfix"><label class="label_name col-xs-1">
-         <i>*</i>选择分类：&nbsp;&nbsp;
-     </label>
-         <div class="zTreeDemoBackground left">
-             <!--<span id="cityDanXuan" class="width200px fl_hsCheckData"></span>-->
-             <div id="treeDemo" class="ztree"></div>
-         </div>
+     <li class="clearfix">
+         <label class="label_name col-xs-1">
+            选择分类：&nbsp;&nbsp;
+         </label>
+         <input id="categoryName" type="text" onclick="setCategory()" readonly placeholder="点击选择"/>
+         <input id="categoryId" type="hidden"/>
      </li>
      <li class="clearfix">
          <div class="col-xs-4">
-             <label class="label_name col-xs-3"><i>*</i>成本：&nbsp;&nbsp;</label>
+             <label class="label_name col-xs-3">成本：&nbsp;&nbsp;</label>
              <div class="Add_content col-xs-9">
-                 <input name="" type="text"  class="col-xs-7"/><em class="Prompt">元</em>
+                 <input id="priceCost" type="number" class="col-xs-7"/><em class="Prompt">元</em>
              </div>
          </div>
          <div class="col-xs-4">
-             <label class="label_name col-xs-3"><i>*</i>库存：&nbsp;&nbsp;</label>
+             <label class="label_name col-xs-3">库存：&nbsp;&nbsp;</label>
              <div class="Add_content col-xs-9">
-                 <input name="" type="text"  class="col-xs-7"/><em class="Prompt">件</em>
+                 <input id="inventory" type="number"  class="col-xs-7"/><em class="Prompt">件</em>
              </div>
          </div>
      </li>
      <li class="clearfix">
         <div class="col-xs-4">
-            <label class="label_name col-xs-3"><i>*</i>原价：&nbsp;&nbsp;</label>
+            <label class="label_name col-xs-3">原价：&nbsp;&nbsp;</label>
             <div class="Add_content col-xs-9">
-                <input name="" type="text"  class="col-xs-7"/><em class="Prompt">元</em>
+                <input id="priceOriginal" type="number"  class="col-xs-7"/><em class="Prompt">元</em>
             </div>
         </div>
         <div class="col-xs-4">
-            <label class="label_name col-xs-3"><i>*</i>现价：&nbsp;&nbsp;</label>
+            <label class="label_name col-xs-3">现价：&nbsp;&nbsp;</label>
             <div class="Add_content col-xs-9">
-                <input name="" type="text"  class="col-xs-7"/><em class="Prompt">元</em>
+                <input id="priceSale" type="number"  class="col-xs-7"/><em class="Prompt">元</em>
             </div>
         </div>
-    </li>
-    <li class="clearfix"><label class="label_name col-xs-1">设置规格：&nbsp;&nbsp;</label>
-    <div class="Add_content col-xs-11">    
-       <input name="" type="text"  class="col-xs-6"/><em class="Prompt">如"颜色,尺寸,型号"中间以英文逗号隔开</em>
-    </div>   
     </li>
      <li class="clearfix">
       <div class="col-xs-4">
      <label class="label_name col-xs-3">是否上架：&nbsp;&nbsp;</label> 
     <div class="Add_content col-xs-9">
-    <label><input type="radio" name="checkbox" class="ace" checked="checked"><span class="lbl">是</span></label>
-    <label><input type="radio" name="checkbox" class="ace"><span class="lbl">否</span></label>
+    <label><input id="enabled" type="radio" name="checkbox" value="0" class="ace" checked="checked"><span class="lbl">是</span></label>
+    <label><input id="enabled" type="radio" name="checkbox" value="1" class="ace"><span class="lbl">否</span></label>
     </div>   
     </div>
     </li>
       <li class="clearfix">
-     <label class="label_name col-xs-1"><i>*</i>产品图片：&nbsp;&nbsp;</label>
+     <label class="label_name col-xs-1">产品图片：&nbsp;&nbsp;</label>
      <div class="Add_content col-xs-11" id="Upload">
-     <div class="images_Upload clearfix margin-bottom" id="images_Upload">
-      <span class="Upload_img"><input name="" type="file" /></span>
-      <a href="javascript:ovid()" class="operating delete_Upload" onclick="delete_Upload(this.id)"><i class="fa fa-remove"></i></a>
-      <a href="javascript:ovid()" class="operating" title="预览" onclick="preview_img(this.id)"><i class="fa  fa-image"></i></a>
-    </div>
-    <button type="button" class="add_Upload bg-deep-blue" id="add_Upload" onclick="add_Upload()"><i class="fa  fa-plus"></i></button>
+         <button type="button" class="layui-btn" id="test2">多图片上传</button>
+         <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
+             预览图：
+             <div class="layui-upload-list" id="demo2"></div>
+         </blockquote>
      </div>
  </ul>
  <div class="Button_operation btn_width">
-    <button class="btn button_btn bg-deep-blue" type="button">保存</button>
-    <button class="btn button_btn bg-gray" type="button">取消</button>
+    <button id="save" class="btn button_btn bg-deep-blue" type="button">保存</button>
+    <button id="cancle" class="btn button_btn bg-gray" type="button">取消</button>
  </div>
 </div>
 </div>
 </body>
 </html>
 <script>
-var cityData=[
-{
-		"2":"食品/保健/酒/饮料",
-		"childCity":[
-            {"201":"面包"},
-			{"202":"饼干"},
-			{"203":"白酒"},
-			{"204":"啤酒"},
-			{"205":"葡萄酒"},
-			{"206":"香肠"},
-			{"207":"火腿肠"},
-			{"208":"牛奶"},
-		]
-},
-	{
-		"3":"数码影像",
-		"childCity":[
-			{"301":"面包"},
-			{"302":"饼干"},
-			{"303":"白酒"},
-			{"304":"啤酒"},
-			{"305":"葡萄酒"},
-			{"306":"香肠"},
-			{"307":"火腿肠"},
-			{"308":"牛奶"},
-		]
-    },
-];
+    layui.use('upload',function () {
+        var upload = layui.upload;
+
+        //多图片上传
+        upload.render({
+            elem: '#test2'
+            , accept: 'images'
+            , url: '/fileUpload'
+            , acceptMime: 'image/*'
+            ,before: function(obj){
+                //预读本地文件示例，不支持ie8
+                obj.preview(function(index, file, result){
+                    $('#demo2').append('<img src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img" width="80px">')
+                });
+            }
+            ,done: function(res){
+                $('#demo2').append("<input class='images' type='hidden' value="+res.data.url+"/>")
+            }
+        });
+    })
 //树的配置
 var setting = {
     //数据格式的设置
+    check: {
+        enable: true,
+        chkboxType: {'Y': 'ps','N': 's'}
+    },
     data:{
         simpleData:{
-            enable:true  //使用简单的json数据
+            enable:true,
+            idKey: 'id',
+            pIdKey: 'pId',
+            rootPId: 0
         }
     },
     //树的显示设置
     view:{
         showLine:true, //设置是否显示连线 默认为true
-        showTitle: false,//设置是否显示鼠标悬浮时显示title的效果
-        dblClickExpand: false,//设置是否支持双击展开树节点
+        showTitle: true,//设置是否显示鼠标悬浮时显示title的效果
+        dblClickExpand: true,//设置是否支持双击展开树节点
         fontCss : {color:"blue"},//设置节点样式
-        expandSpeed: "slow",//设置展开的速度  fast normal  slow
+        expandSpeed: "fast",//设置展开的速度  fast normal  slow
         nameIsHTML: true,//名字是否是HTML
-
     },
     //设置事件回调
     callback:{
@@ -158,70 +179,62 @@ var setting = {
     }
 };
 function zTreeOnClick(event, treeId, treeNode) {
-    alert(treeNode.id + ", " + treeNode.name);
+    $("#categoryId").val(treeNode.id);
+    $("#categoryName").val(treeNode.name);
 };
-var categorys = [];
-$.ajax({
-   url:"/category/list",
-    async: false,
-   success:function (data) {
-       $.each(data.data,function (i,item) {
-           categorys[i]={id:item.id, pId:item.pid, name:item.name};
-       })
-       //初始化zTree
-       $.fn.zTree.init($("#treeDemo"), setting, categorys);
-   }
-});
-	/*$('#cityDanXuan').hsCheckData({
-		isShowCheckBox: false, //默认为false
-		data: cityData
-	});*/
-$(document).ready(function(){
-    var spotMax = 8;
-  if($('div.images_Upload').size() >= spotMax) {$(obj).hide();}
-  $("#add_Upload").on('click',function(){ 
-       var cid =$('.images_Upload').each(function(i){ $(this).attr('id',"Uimages_Upload_"+i)});
-       addSpot(this, spotMax, cid);
-  });
-});
-function addSpot(obj, sm ,sid) {
-	  $("#Upload").append("<div class='images_Upload clearfix margin-bottom' id='"+sid+"'>"+
-	  "<span class='Upload_img'><input name='' type='file' /></span>"+
-	  "<a href='javascript:ovid()' class='operating delete_Upload'><i class='fa fa-remove'></i></a>"+
-	  "<a href='javascript:ovid()' class='operating' onclick='preview_img(this.id)'><i class='fa  fa-image'></i></a>"+
-	  "</div>&nbsp;")  
-	.find(".delete_Upload").click(function(){
-		if($('div.images_Upload').size()==1){
-			layer.msg('请至少保留一张图片!',{icon:0,time:1000});			
-			}
-			else{
-				 $(this).parent().remove();
-                 $('#add_Upload').show();
-				} 				
-				
-  });
-  if($('.delete_Upload').size() >= sm) {$(obj).hide();layer.msg('当前为最大图片添加量!',{icon:0,time:1000});}}
- /*checkbox激发事件*/
-$('#checkbox').on('click',function(){
-	if($('input[name="checkbox"]').prop("checked")){
-		 $('.Date_selection ').css('display','block');
-		}
-	else{
-		
-		 $('.Date_selection').css('display','none');
-		}	
-	});
-function add_category(){
-	 $(".add_category_style").toggle();
-	
-	}
-/*********滚动事件*********/
-$("body").niceScroll({  
-	cursorcolor:"#888888",  
-	cursoropacitymax:1,  
-	touchbehavior:false,  
-	cursorwidth:"5px",  
-	cursorborder:"0",  
-	cursorborderradius:"5px"  
-});
+
+//添加商品
+    $("#save").click(function () {
+        var name = $("#name").val();
+        var categoryId = $("#categoryId").val();
+        var priceCost = $("#priceCost").val();
+        var inventory = $("#inventory").val();
+        var priceOriginal = $("#priceOriginal").val();
+        var priceSale = $("#priceSale").val();
+        var enabled = $("input[type='radio']:checked").val();
+        var images = [];
+        $.each($(".images"),function (i) {
+            images[i] = $(this).val();
+        });
+        if (name==null || name=='' || categoryId==null || categoryId=='' || priceCost==null
+            || priceCost=='' || inventory==null | inventory=='' ||priceOriginal==null
+            ||priceOriginal=='' || priceSale==null | priceSale=='') {
+            layer.msg("商品数据不完整",{icon:7,time:1000});
+        }else if (images.length == 0){
+            layer.msg("请上传商品图片",{icon:7,time:1000});
+        }else{
+            $.ajax({
+                url:"/store/product/add",
+                type:"POST",
+                data:{name:name,categoryId:categoryId,priceCost:priceCost,inventory:inventory,
+                    priceOriginal:priceOriginal,priceSale:priceSale,enabled:enabled},
+                success:function (data) {
+                    if (data.code == 0){
+                        $.ajax({
+                            url:"/store/product/addImages",
+                            type:"POST",
+                            traditional:true,
+                            data:{images:images, productId:data.data.id},
+                            success:function (data) {
+                                if (data.code == 0){
+                                    layer.msg(data.msg,{icon:1,time:1000});
+                                }
+                            }
+                        })
+                    }else {
+                        layer.msg(data.msg,{icon:2,time:2000});
+                    }
+                }
+            })
+        }
+    });
+    /*********滚动事件*********/
+    $("body").niceScroll({
+        cursorcolor:"#888888",
+        cursoropacitymax:1,
+        touchbehavior:false,
+        cursorwidth:"5px",
+        cursorborder:"0",
+        cursorborderradius:"5px"
+    });
 </script>

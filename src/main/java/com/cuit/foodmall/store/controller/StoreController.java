@@ -40,6 +40,7 @@ public class StoreController {
 		if (null == store){
 			return Result.error("没有店铺信息");
 		}
+		session.setAttribute("store",store);
 		return Result.ok(store);
 	}
 }

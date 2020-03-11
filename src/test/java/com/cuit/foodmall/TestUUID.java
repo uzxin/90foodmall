@@ -44,4 +44,16 @@ public class TestUUID {
 	public void test3(){
 		orderService.list();
 	}
+
+	@Test
+	public void test4(){
+		for (int i = 0; i < 10; i++) {
+			int hashCode = UUID.randomUUID().toString().hashCode();
+			//可能为负数
+			if(hashCode<0){
+				hashCode = -hashCode;
+			}
+			System.out.println(hashCode);
+		}
+	}
 }
