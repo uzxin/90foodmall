@@ -42,7 +42,7 @@ public class Order extends BasePO{
 	@TableField("product_quantity")
 	private int productQuantity;
 	/*
-	用户
+	下单人
 	 */
 	@TableField("user_id")
 	private Long userId;

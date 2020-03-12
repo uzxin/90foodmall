@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="css/shop.css" type="text/css" rel="stylesheet" />
+    <link href="css/Sellerber.css" type="text/css"  rel="stylesheet" />
+    <link href="css/bkg_ui.css" type="text/css"  rel="stylesheet" />
+    <link href="font/css/font-awesome.min.css"  rel="stylesheet" type="text/css" />
+    <link href="../user/layui/css/layui.css"  rel="stylesheet" type="text/css" />
+    <script src="js/jquery-1.9.1.min.js" type="text/javascript" ></script>
+    <script type="text/javascript" src="js/jquery.cookie.js"></script>
+    <script src="js/shopFrame.js" type="text/javascript"></script>
+    <script src="js/Sellerber.js" type="text/javascript"></script>
+    <script src="js/laydate/laydate.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/proTree.js" ></script>
+    <script src="../user/layui/layui.all.js" type="text/javascript"></script>
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js" type="text/javascript"></script>
+    <script src="js/respond.min.js"></script>
+    <script src="js/css3-mediaqueries.js"  type="text/javascript"></script>
+    <![endif]-->
+    <title>订单列表</title>
+</head>
+<body>
+<div class="operation clearfix mb15 same_module">
+    <ul class="choice_search">
+            <label class="label_name ">订单时间：</label>
+            <input style="width: 130px" class="laydate-icon col-xs-4 col-lg-3 form-control Select_Date" id="start" >
+            <span style=" float:left; padding:0px 10px; line-height:32px;">至</span>
+            <input style="width: 130px" class="laydate-icon col-xs-4 col-lg-3 form-control Select_Date" id="end">
+                <select id="orderStatus" class="margin-right l_f select_style">
+                    <option value="">--请选择订单状态--</option>
+                    <option value="3">待付款</option>
+                    <option value="4">待发货</option>
+                    <option value="5">待收货</option>
+                    <option value="6">待评价</option>
+                    <option value="7">已完成</option>
+                </select>
+            <button class="btn button_btn bg-deep-blue " lay-filter="searchOrder" lay-submit><i class="fa  fa-search"></i>&nbsp;搜索</button>
+        </li>
+    </ul>
+</div>
+<!--列表展示-->
+<div class="h_products_list clearfix" id="Sellerber">
+    <div class="list_Exhibition list_show padding15">
+        <div class="datalist_show">
+            <div class="datatable_height confirm">
+                <table class="layui-hide" id="orders" lay-filter="orders"></table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<!-- 表单弹窗 -->
+<div id="Delivery_stop" style=" display:none">
+    <div class="padding15">
+        <div class="content_style">
+            <div class="form-group"><label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 用户指定 </label>
+                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-9">
+                    <input type="text" id="shipMethodName" readonly class="col-xs-10 col-sm-8 col-xs-8" style="margin-left:0px;">
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label no-padding-right" for="form-field-1">快递公司 </label>
+                <div class="col-sm-9"><select class="form-control col-xs-8 col-sm-8 col-md-8" id="shipMethod">
+                    <option value="">--选择快递--</option>
+                </select></div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 快递号 </label>
+                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-9">
+                    <input type="text" id="expressNumber" placeholder="快递号" class="col-xs-10 col-sm-8 col-xs-8" style="margin-left:0px;">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="barDemo">
+    <a title="发货"  class="btn btn-xs btn-status" lay-event="send">发货</a>
+    <a title="订单详细" class="btn btn-xs btn-info" lay-event="detail" >详细</a>
+    <a title="删除" class="btn btn-xs btn-delete" lay-event="del">删除</a>
+</script>
+<script type="text/javascript">
+    //设置内页框架布局
+    $(function() {
+        $("#Sellerber").frame({
+            float : 'left',
+            color_btn:'.skin_select',
+            Sellerber_menu:'.list_content',
+            page_content:'.list_show',//内容
+            datalist:".datatable_height",//数据列表高度取值
+            header:65,//顶部高度
+            mwidth:200,//菜单栏宽度
+        });
+    });
+    //渲染快递列表
+    $(function () {
+        $.get("/order/listShipMethod",{},function (data) {
+            $.each(data.data,function (i,item) {
+                $("#shipMethod").append(" <option value="+item.id+">"+item.name+"</option>");
+            })
+        });
+    })
+    //渲染数据列表
+    layui.use(['table','form'], function(){
+        var $ = layui.jquery;
+        var table = layui.table;
+        var form = layui.form;
+        var insTb = table.render({
+            elem: '#orders'
+            ,url:'/store/order/page'
+            ,cellMinWidth: 100 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,cols: [[
+                {type: 'numbers',}
+                ,{field: 'id', hide: true}
+                ,{field:'orderNumber', width:286, title: '订单编号',align: 'center'}
+                ,{field:'productName', width:210, title: '商品名称',align: 'center'}
+                ,{field:'productQuantity',width:90, title: '数量', sort: true,align: 'center'}
+                ,{field:'payAmount',width:90, title: '总价', sort: true,align: 'center'}
+                ,{field:'createTime', width:120, title: '创建时间', sort: true,align: 'center'}
+                ,{field:'statusName', width:110, title: '状态',align: 'center',templet:function (d) {
+                    if (d.statusName=='待发货'){return "<span class=\"layui-badge\">"+d.statusName+"</span>";}
+                    if (d.statusName=='待收货'){return "<span class=\"layui-badge layui-bg-cyan\">"+d.statusName+"</span>";}
+                    if (d.statusName=='待评价'){return "<span class=\"layui-badge layui-bg-blue\">"+d.statusName+"</span>";}
+                    if (d.statusName=='已完成'){return "<span class=\"layui-badge layui-bg-gray\">"+d.statusName+"</span>";}
+                    }}
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:177,align: 'center'}
+            ]]
+            ,page: true
+            ,done:function(res){
+                tdTitle();
+            }
+        });
+        // layui-table表格字段过长，展示不完整时，鼠标放到上面展示完整信息
+        function tdTitle(){
+            $('th').each(function(index,element){
+                $(element).attr('title',$(element).text());
+            });
+            $('td').each(function(index,element){
+                $(element).attr('title',$(element).text());
+            });
+        }
+        // 工具条点击事件
+        table.on('tool(orders)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+            if (layEvent === 'send') { // 发货
+                send(data);
+            }else if(layEvent == 'detail'){
+                layui.data('order', {key: 'ls', value: data});
+                window.location.href="Order_detaileds.html";
+            } else if (layEvent === 'del') { // 删除
+                doDel(data.id);
+            }
+        });
+        // 发货
+        function send(order) {
+            if (order.statusName!="待发货"){
+                layer.msg("该订单已发货，请不要重复操作",{icon:2,time:2000});
+            }else{
+                $("#shipMethodName").val(order.shipMethodName);
+                layer.open({
+                    type: 1,
+                    title: '发货',
+                    maxmin: true,
+                    skin: 'layui-layer-molv',
+                    shadeClose:false,
+                    area : ['400px' , ''],
+                    content:$('#Delivery_stop'),
+                    btn:['确定','取消'],
+                    yes: function(index, layero){
+                        //alert($("#shipMethod").val()+$("#expressNumber").val()+order.id);
+                        $.post("/store/order/send",
+                            {orderId:order.id,shipMethodId:$("#shipMethod").val(),
+                                shipMethodName: $("#shipMethod").find("option:selected").text(),
+                                expressNumber:$("#expressNumber").val()},
+                            function (data) {
+                            if (data.code == 0){
+                                layer.msg(data.msg,{icon:6,time:1000});
+                                layer.close(index);
+                                insTb.reload();
+                            }
+                        })
+                    }
+                })
+            }
+        }
+        // 删除
+        function doDel(id) {
+            layer.confirm('确定要删除此订单吗？', {icon: 7, title:'警告'}, function (i) {
+                layer.close(i);
+                layer.load(2);
+                $.get('/store/order/del?id=' + id, {}, function (res) {
+                    layer.closeAll('loading');
+                    if (res.code == 0) {
+                        layer.msg(res.msg, {
+                            icon: 1
+                        });
+                        insTb.reload({}, 'data');
+                    } else {
+                        layer.msg(res.msg, {
+                            icon: 2
+                        });
+                    }
+                }, 'json');
+            });
+        }
+        // 搜索
+        form.on('submit(searchOrder)', function (data) {
+            insTb.reload({where:{begin:$("#start").val(),end:$("#end").val(),status:$("#orderStatus").val()}});
+        });
+    });
+
+    /******时间设置*******/
+    var start = {
+        elem: '#start',
+        format: 'YYYY-MM-DD',
+        // min: laydate.now(), //设定最小日期为当前日期
+        max: '2099-06-16', //最大日期
+        istime: true,
+        istoday: false,
+        choose: function(datas){
+            end.min = datas; //开始日选好后，重置结束日的最小日期
+            end.start = datas //将结束日的初始值设定为开始日
+        }
+    };
+    var end = {
+        elem: '#end',
+        format: 'YYYY-MM-DD',
+        //min: laydate.now(),
+        max: '2099-06-16',
+        istime: true,
+        istoday: false,
+        choose: function(datas){
+            start.max = datas; //结束日选好后，重置开始日的最大日期
+        }
+    };
+    laydate(start);
+    laydate(end);
+</script>

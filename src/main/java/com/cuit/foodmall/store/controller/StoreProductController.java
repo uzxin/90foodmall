@@ -87,12 +87,15 @@ public class StoreProductController extends BaseController {
 
 	/**
 	 * @description: 查询店铺所有商品
+	 * @param: product
+	 * @param: begin 开始时间
+	 * @param: end 结束时间
 	 * @param: page
 	 * @param: limit
 	 * @return: java.lang.Object
 	 */
 	@GetMapping("page")
-	public Object list(Product product,String begin,String end,
+	public Object page(Product product,String begin,String end,
 	                   @RequestParam(required = false,defaultValue = "1") int page,
 	                   @RequestParam(required = false,defaultValue = "10") int limit,
 	                   HttpSession session){

@@ -43,11 +43,10 @@ public class OrderController extends BaseController{
 	 */
 	@PostMapping("create")
 	public Object create(@RequestBody Map<String,String> map, HttpSession session){
-		String orderNumber = RandomUtil.get32();//订单号
 		Long addressId = null;
 		Long shipMethodId = null;
 		Long payMethodId = null;
-		BigDecimal payAmount = null;
+		String message = null;
 		Pattern pattern = Pattern.compile("[0-9]*");
 		Iterator<Map.Entry<String, String>> iterator1 = map.entrySet().iterator();
 		while (iterator1.hasNext()) {
@@ -61,16 +60,13 @@ public class OrderController extends BaseController{
 			if ("payMethodId".equals(next.getKey())) {
 				payMethodId = Long.parseLong(next.getValue());
 			}
-			if ("payAmount".equals(next.getKey())) {
-				payAmount = new BigDecimal(next.getValue());
-			}
 		}
 		Iterator<Map.Entry<String, String>> iterator2 = map.entrySet().iterator();
 		while (iterator2.hasNext()){
 			Map.Entry<String, String> next = iterator2.next();
 			if (pattern.matcher(next.getKey()).matches()){
 				Order order = new Order();
-				order.setOrderNumber(orderNumber);//订单号
+				order.setOrderNumber(RandomUtil.get32());//订单号
 				order.setProductId(Long.parseLong(next.getKey()));//商品id
 				order.setProductPrice(productService.getById(Long.parseLong(next.getKey())).getPriceSale());//单价
 				order.setProductQuantity(Integer.parseInt(next.getValue()));//数量
@@ -78,7 +74,8 @@ public class OrderController extends BaseController{
 				order.setUserAddressId(addressId);//收货地址
 				order.setShipMethodId(shipMethodId);//物流方式
 				order.setPayMethodId(payMethodId);//支付方式
-				order.setPayAmount(payAmount);//支付金额
+				//支付金额=单价*数量
+				order.setPayAmount(productService.getById(Long.parseLong(next.getKey())).getPriceSale().multiply(new BigDecimal(Integer.parseInt(next.getValue()))));
 				orderService.save(order);
 			}
 		}

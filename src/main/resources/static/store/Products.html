@@ -186,6 +186,8 @@
             layer.open({
                 type: 1,
                 title: "修改商品信息",
+                maxmin: true,
+                shadeClose:false,
                 skin: 'layui-layer-molv',
                 area:['300px','370px'],
                 content: $('#modelProduct').html(),
@@ -217,9 +219,7 @@
             layer.confirm('确定要删除“' + name + '”吗？', {icon: 7, title:'警告'}, function (i) {
                 layer.close(i);
                 layer.load(2);
-                $.get('/store/product/del?id=' + id, {
-                    id: id
-                }, function (res) {
+                $.get('/store/product/del?id=' + id, {}, function (res) {
                     layer.closeAll('loading');
                     if (res.code == 0) {
                         layer.msg(res.msg, {
