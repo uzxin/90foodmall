@@ -81,6 +81,8 @@ public class StoreOrderController {
 		orderService.update(wrapper);
 		//录入物流信息
 		User business = (User) session.getAttribute("business");
+		Store store = (Store) session.getAttribute("store");
+		logistics.setStoreId(store.getId());
 		logistics.setCreateUserId(business.getId());
 		logistics.setCreateUserName(business.getUsername());
 		logisticsService.save(logistics);

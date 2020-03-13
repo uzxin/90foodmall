@@ -132,6 +132,8 @@
             $("#payAmount").html(data.payAmount);//订单金额
             $("#payMethodName").html(data.payMethodName);//支付方式
             $("#statusName").html(data.statusName);//订单状态
+        }else {
+            layer.alert('请退回上一页或者关闭本页面重新打开', {icon: 6});
         }
         //渲染收货人信息
         $.get("/store/order/getAddress?addressId="+data.userAddressId,{},function (data) {
@@ -158,7 +160,7 @@
             $("#createUserName").html(data.data.createUserName);//发货人
         })
     });
-/***********图片查看**********/
+/***********物流查看**********/
 function logistics_info(){
 	 layer.open({
         type: 1,

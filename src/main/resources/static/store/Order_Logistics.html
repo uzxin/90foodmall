@@ -1,135 +1,145 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<link href="css/shop.css" type="text/css" rel="stylesheet" />
-<link href="css/Sellerber.css" type="text/css"  rel="stylesheet" />
-<link href="css/bkg_ui.css" type="text/css"  rel="stylesheet" />
-<link href="font/css/font-awesome.min.css"  rel="stylesheet" type="text/css" />
-<script src="js/jquery-1.9.1.min.js" type="text/javascript" ></script>
-<script type="text/javascript" src="js/jquery.cookie.js"></script>
-<script src="js/shopFrame.js" type="text/javascript"></script>
-<script src="js/Sellerber.js" type="text/javascript"></script>
-<script src="js/layer/layer.js" type="text/javascript"></script>
-<script src="js/laydate/laydate.js" type="text/javascript"></script>
-<title>物流管理</title>
-</head>
-<!--[if lt IE 9]>
-  <script src="js/html5shiv.js"></script>
-  <script src="js/respond.min.js"></script>
-  <script src="js/css3-mediaqueries.js"  type="text/javascript"></script>
-  <![endif]-->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="css/shop.css" type="text/css" rel="stylesheet" />
+    <link href="css/Sellerber.css" type="text/css"  rel="stylesheet" />
+    <link href="css/bkg_ui.css" type="text/css"  rel="stylesheet" />
+    <link href="font/css/font-awesome.min.css"  rel="stylesheet" type="text/css" />
+    <link href="../user/layui/css/layui.css"  rel="stylesheet" type="text/css" />
+    <script src="js/jquery-1.9.1.min.js" type="text/javascript" ></script>
+    <script type="text/javascript" src="js/jquery.cookie.js"></script>
+    <script src="js/shopFrame.js" type="text/javascript"></script>
+    <script src="js/Sellerber.js" type="text/javascript"></script>
+    <script src="js/layer/layer.js" type="text/javascript"></script>
+    <script src="js/laydate/laydate.js" type="text/javascript"></script>
+    <script src="../user/layui/layui.all.js" type="text/javascript"></script>
+    <title>物流管理</title>
+    </head>
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+      <script src="js/respond.min.js"></script>
+      <script src="js/css3-mediaqueries.js"  type="text/javascript"></script>
+      <![endif]-->
 <body>
 <div class="margin order_style" id="page_style">
     <div class="operation clearfix">
     <ul class="choice_search">
-     <li class="clearfix col-xs-3 col-lg-3 col-ms-3 "><label class="label_name ">订单号：</label><input name="" type="text"  class="form-control col-xs-8 col-lg-7"/></li>
-      <li class="clearfix col-xs-3 col-lg-3 col-ms-3 "><label class="label_name ">产品名称：</label><input name="" type="text"  class="form-control col-xs-8 col-lg-7"/></li>
-      <li class="clearfix col-xs-4 col-lg-5 col-ms-5 "><label class="label_name ">下单时间：</label> 
+     <li class="clearfix col-xs-3 col-lg-3 col-ms-3 "><label class="label_name ">快递号：</label><input id="expressNumber" type="text"  class="form-control col-xs-8 col-lg-7"/></li>
+      <li class="clearfix col-xs-4 col-lg-5 col-ms-5 "><label class="label_name ">发货时间：</label>
      <input class="laydate-icon col-xs-4 col-lg-3" id="start" style=" margin-right:10px; height:28px; line-height:28px; float:left">
       <span  style=" float:left; padding:0px 10px; line-height:32px;">至</span>
       <input class="laydate-icon col-xs-4 col-lg-3" id="end" style="height:28px; line-height:28px; float:left"></li>
-     <button class="btn button_btn bg-deep-blue " onclick=""  type="button"><i class="fa  fa-search"></i>&nbsp;搜索</button>
+     <button class="btn button_btn bg-deep-blue " lay-filter="searchLogistics" lay-submit><i class="fa  fa-search"></i>&nbsp;搜索</button>
     </ul>
     </div>
     <div class="list_order">
-        <table class="Logisticsb table table_list table_striped table-bordered">
-        <tr class="Logisticsb_info clearfix ">
-           <td colspan="4">
-             <ul>
-             <li class="clearfix col-xs-2 col-lg-3">订单号：2016100956745345435</li>
-             <li class="clearfix col-xs-2 col-lg-3">下单时间：2016-09-24 12:34:45</li>
-             <li class="clearfix col-xs-2 col-lg-3">付款时间：2016-09-24 12:35:45</li>
-             <li class="clearfix col-xs-2 col-lg-3">付款方式：支付宝</li>
-             </ul>
-           </td>
-           </tr>
-           <tr class="Logisticsb_content clearfix">
-           <td class="content_jb_name">
-            <table>
-            <tbody>
-              <tr><td>OPPO R9 4GB+64GB内存版 雪岩灰 全网通4G手机 双卡双待</td><td>1</td><td>2499</td></tr>
-              </tbody>
-            </table>         
-           </td>
-           <td class="content_jb">2499</td>
-            <td class="content_jb status">待发货</td>
-           <td class="content_jb">
-             <a href="javascript:ovid()" onclick="Advert_info(this,'234')" class="btn bg-deep-blue operation_btn">查看</a>
-             <a href="javascript:ovid()" onclick="issuance_btn(this,'234')" class="btn bg-deep-blue operation_btn">发货</a>
-           </td>
-           </tr>
-            <tr class="Logisticsb_info clearfix ">
-           <td colspan="4">
-             <ul>
-             <li class="clearfix col-xs-2 col-lg-3">订单号：2016100956745345435</li>
-             <li class="clearfix col-xs-2 col-lg-3">下单时间：2016-09-24 12:34:45</li>
-             <li class="clearfix col-xs-2 col-lg-3">付款时间：2016-09-24 12:35:45</li>
-             <li class="clearfix col-xs-2 col-lg-3">付款方式：支付宝</li>
-             </ul>
-           </td>
-           </tr>
-           <tr class="Logisticsb_content clearfix">
-           <td class="content_jb_name">
-            <table>
-            <tbody>
-              <tr><td>OPPO R9 4GB+64GB内存版 雪岩灰 全网通4G手机 双卡双待</td><td>1</td><td>2499</td></tr>
-              <tr><td>荣耀7i 海岛蓝 移动联通4G手机 双卡双待 京东自营</td><td>1</td><td>1099</td></tr>
-              </tbody>
-            </table>         
-           </td>
-           <td class="content_jb">2499</td>
-           <td class="content_jb status">待发货</td>
-           <td class="content_jb">
-             <a href="javascript:ovid()" onclick="Advert_info(this,'234')" class="btn bg-deep-blue operation_btn">查看</a>
-             <a href="javascript:ovid()" onclick="issuance_btn(this,'234')" class="btn bg-deep-blue operation_btn">发货</a>
-           </td>
-           </tr>
-        </table>
+        <table class="layui-hide" id="logistics" lay-filter="logistics"></table>
     </div>
 </div>
-<!--发货-->
-<div id="issuance_style" class="display">
- <ul class="add_style">
-      <li class="clearfix"><label class="label_name col-xs-2">选择快递：&nbsp;&nbsp;</label>
-      <span class="cont_style col-xs-9">
-      <select class="select Competence_sort" name="admin-role" size="1" id="Competence_sort">
-					<option value="0">--选择快递--</option>
-					<option value="1">邮政EMS</option>
-					<option value="2">邮政小包</option>
-					<option value="3">申通快递</option>
-                    <option value="4">圆通快递</option>
-                    <option value="5">中通快递</option>
-                    <option value="6">韵达快递</option>
-                    <option value="7">天天快递</option>
-                    <option value="8">百世汇通快递</option>
-                     <option value="9">顺丰快递</option>
-                      <option value="10">德邦快递</option>
-				</select>
-      
-      </span></li>
-       <li class="clearfix"><label class="label_name col-xs-2">快递单号：&nbsp;&nbsp;</label><span class="cont_style col-xs-9"><input name="快递单号" type="text" id="form-field-1" class="col-xs-10 col-sm-5" ></span></li>
- </ul>
+<div class="logistics_info" id="logistics_info" style="display:none">
+    <div class="track-rcol">
+        <div class="track-list">
+            <ul>
+                <li class="first">
+                    <i class="node-icon"></i>
+                    <span class="time">2016-03-10 18:07:15</span>
+                    <span class="txt">感谢您在京东购物，欢迎您再次光临！</span>
+                </li>
+                <li>
+                    <i class="node-icon"></i>
+                    <span class="time">2016-03-10 18:07:15</span>
+                    <span class="txt">【京东到家】京东配送员【申国龙】已出发，联系电话【18410106883，感谢您的耐心等待，参加评价还能赢取京豆呦】</span>
+                </li>
+                <li>
+                    <i class="node-icon"></i>
+                    <span class="time">2016-03-10 18:07:15</span>
+                    <span class="txt">感谢您在京东购物，欢迎您再次光临！</span>
+                </li>
+                <li>
+                    <i class="node-icon"></i>
+                    <span class="time">2016-03-10 18:07:15</span>
+                    <span class="txt">感谢您在京东购物，欢迎您再次光临！</span>
+                </li>
+                <li>
+                    <i class="node-icon"></i>
+                    <span class="time">2016-03-10 18:07:15</span>
+                    <span class="txt">感谢您在京东购物，欢迎您再次光临！</span>
+                </li>
+                <li>
+                    <i class="node-icon"></i>
+                    <span class="time">2016-03-10 18:07:15</span>
+                    <span class="txt">感谢您在京东购物，欢迎您再次光临！</span>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
 </body>
 </html>
+<script type="text/html" id="barDemo">
+    <a title="发货"  class="btn btn-xs btn-status" lay-event="view">查看物流</a>
+</script>
 <script>
-function issuance_btn(obj,id){
-	  
-	layer.open({
-        type: 1,
-        title: '发货',
-		maxmin: false, 
-		shadeClose: false, //点击遮罩关闭层
-        area : ['500px' , ''],
-        content:$('#issuance_style'),
-		btn:['提交','取消'],
-		
-		
-		})
-	
-	}
+    layui.use(['table','form'], function() {
+        var $ = layui.jquery;
+        var table = layui.table;
+        var form = layui.form;
+        var insTb = table.render({
+            elem: '#logistics'
+            ,url:'/store/logistics/page'
+            ,cellMinWidth: 100 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,cols: [[
+                {type: 'numbers',}
+                ,{field: 'id', hide: true}
+                ,{field:'shipMethodName', width:100, title: '快递',align: 'center'}
+                ,{field:'expressNumber', width:190, title: '快递号',align: 'center'}
+                ,{field:'orderNumber', width:286, title: '订单号',align: 'center'}
+                ,{field:'createUserName',width:90, title: '发货人',align: 'center'}
+                ,{field:'createTime', width:165, title: '发货时间', sort: true,align: 'center'}
+                ,{field:'updateTime', width:165, title: '物流上次更新时间', align: 'center'}
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:90,align: 'center'}
+            ]]
+            ,page: true
+            ,done:function(res){
+                tdTitle();
+            }
+        });
+        // layui-table表格字段过长，展示不完整时，鼠标放到上面展示完整信息
+        function tdTitle(){
+            $('th').each(function(index,element){
+                $(element).attr('title',$(element).text());
+            });
+            $('td').each(function(index,element){
+                $(element).attr('title',$(element).text());
+            });
+        }
+        // 工具条点击事件
+        table.on('tool(logistics)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+            if (layEvent === 'view') { // 发货
+                logistics_info();
+            }
+        });
+        // 搜索
+        form.on('submit(searchLogistics)', function (data) {
+            insTb.reload({where:{expressNumber:$("#expressNumber").val(),begin:$("#start").val(),end:$("#end").val()}});
+        });
+
+    })
+    /***********物流查看**********/
+    function logistics_info(){
+        layer.open({
+            type: 1,
+            title: '物流信息',
+            maxmin: true,
+            shadeClose:false, //点击遮罩关闭层
+            area : ['600px' , '400px'],
+            content:$('#logistics_info'),
+        });
+    }
 /*******滚动条*******/
 $("body").niceScroll({  
 	cursorcolor:"#888888",  

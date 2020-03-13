@@ -35,7 +35,9 @@
                     <option value="4">待发货</option>
                     <option value="5">待收货</option>
                     <option value="6">待评价</option>
-                    <option value="7">已完成</option>
+                    <option value="7">待退款</option>
+                    <option value="8">已退款</option>
+                    <option value="9">已完成</option>
                 </select>
             <button class="btn button_btn bg-deep-blue " lay-filter="searchOrder" lay-submit><i class="fa  fa-search"></i>&nbsp;搜索</button>
         </li>
@@ -122,6 +124,8 @@
                     if (d.statusName=='待发货'){return "<span class=\"layui-badge\">"+d.statusName+"</span>";}
                     if (d.statusName=='待收货'){return "<span class=\"layui-badge layui-bg-cyan\">"+d.statusName+"</span>";}
                     if (d.statusName=='待评价'){return "<span class=\"layui-badge layui-bg-blue\">"+d.statusName+"</span>";}
+                    if (d.statusName=='未退款'){return "<span class=\"layui-badge layui-bg-green\">"+d.statusName+"</span>";}
+                    if (d.statusName=='已退款'){return "<span class=\"layui-badge layui-bg-orange\">"+d.statusName+"</span>";}
                     if (d.statusName=='已完成'){return "<span class=\"layui-badge layui-bg-gray\">"+d.statusName+"</span>";}
                     }}
                 ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:177,align: 'center'}
@@ -171,7 +175,7 @@
                     yes: function(index, layero){
                         //alert($("#shipMethod").val()+$("#expressNumber").val()+order.id);
                         $.post("/store/order/send",
-                            {orderId:order.id,shipMethodId:$("#shipMethod").val(),
+                            {orderId:order.id,orderNumber:order.orderNumber,shipMethodId:$("#shipMethod").val(),
                                 shipMethodName: $("#shipMethod").find("option:selected").text(),
                                 expressNumber:$("#expressNumber").val()},
                             function (data) {
