@@ -1,6 +1,11 @@
 package com.cuit.foodmall.user.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cuit.foodmall.entity.Order;
+import com.cuit.foodmall.entity.User;
 import com.cuit.foodmall.service.OrderService;
 import com.cuit.foodmall.service.PayMethodService;
 import com.cuit.foodmall.service.ProductService;
@@ -8,6 +13,7 @@ import com.cuit.foodmall.service.ShipMethodService;
 import com.cuit.foodmall.util.RandomUtil;
 import com.cuit.foodmall.util.Result;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -80,6 +86,28 @@ public class OrderController extends BaseController{
 			}
 		}
 		return Result.ok("提交成功");
+	}
+
+	/**
+	 * @description: 查询用户名下订单
+	 * @param: page
+	 * @param: limit
+	 * @param: order
+	 * @return: java.lang.Object
+	 */
+	@GetMapping("page")
+	public Object page(@RequestParam(required = false,defaultValue = "1") int page,
+	                   @RequestParam(required = false,defaultValue = "10") int limit,
+	                   Order order, HttpSession session){
+		Page<Order> ipage = new Page<>(page, limit);
+		Long userId = ((User) session.getAttribute("user")).getId();//用户ID
+		LambdaQueryWrapper<Order> wrapper = new QueryWrapper<Order>().lambda();
+		if (StringUtils.isNotEmpty(order.getStatus())){
+			wrapper.eq(Order::getStatus, order.getStatus());
+		}
+		wrapper.eq(Order::getUserId, userId);
+		IPage<Order> p = orderService.page(ipage, wrapper);
+		return new Result(0,"", p.getTotal(), p.getRecords());
 	}
 
 	/**
