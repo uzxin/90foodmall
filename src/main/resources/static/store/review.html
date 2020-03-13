@@ -1,0 +1,196 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="css/shop.css" type="text/css" rel="stylesheet" />
+    <link href="css/Sellerber.css" type="text/css"  rel="stylesheet" />
+    <link href="css/bkg_ui.css" type="text/css"  rel="stylesheet" />
+    <link href="font/css/font-awesome.min.css"  rel="stylesheet" type="text/css" />
+    <link href="../user/layui/css/layui.css"  rel="stylesheet" type="text/css" />
+    <script src="js/jquery-1.9.1.min.js" type="text/javascript" ></script>
+    <script src="js/Sellerber.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/jquery.cookie.js"></script>
+    <script src="js/shopFrame.js" type="text/javascript"></script>
+    <script src="js/layer/layer.js" type="text/javascript"></script>
+    <script src="js/laydate/laydate.js" type="text/javascript"></script>
+    <script src="js/dist/echarts.js" type="text/javascript"></script>
+    <script src="../user/layui/layui.all.js" type="text/javascript"></script>
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js" type="text/javascript"></script>
+    <script src="js/respond.min.js"></script>
+    <script src="js/css3-mediaqueries.js"  type="text/javascript"></script>
+    <![endif]-->
+    <title>审核操作</title>
+</head>
+<body>
+<div class="margin" id="page_style"> <div class="Promp_plate label-success same_module"><b>提示：</b>审核未通过的商品请商家仔细阅读审核意见做出调整，再次提交审核，请敬请谅解。<a href="javascript:void()" class="fa fa-close close_Promp"></a></div>
+    <div class="refund_style " id="refund">
+
+        <div class=" datalist_show">
+            <div class="datatable_height confirm">
+                <table class="layui-hide" id="review" lay-filter="review"></table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<!-- 表单弹窗 -->
+<script type="text/html" id="modelProduct">
+    <form class="layui-form" id="modelProductForm" lay-filter="modelProductForm">
+        <div class="layui-form-item">
+            <input name="id" type="hidden"/>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">名字</label>
+            <div class="layui-input-inline">
+                <input type="text" name="name" required lay-verify="required" placeholder="请输入名字" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">成本</label>
+            <div class="layui-input-inline">
+                <input type="number" name="priceCost" required lay-verify="number" placeholder="请输入成本" autocomplete="off" class="layui-input">
+            </div>
+        </div><div class="layui-form-item">
+        <label class="layui-form-label">库存</label>
+        <div class="layui-input-inline">
+            <input type="number" name="inventory" required lay-verify="number" placeholder="请输入库存" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">原价</label>
+            <div class="layui-input-inline">
+                <input type="number" name="priceOriginal" required lay-verify="number" placeholder="请输入原价" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">售价</label>
+            <div class="layui-input-inline">
+                <input type="number" name="priceSale" required lay-verify="number" placeholder="请输入售价" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="editProduct">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</script>
+<script type="text/html" id="barDemo">
+    <a title="修改"  class="btn btn-xs btn-status" lay-event="edit">修改</a>
+    <a title="提交审核" class="btn btn-xs btn-info" lay-event="review" >提交审核</a>
+</script>
+<script type="text/javascript">
+    //设置内页框架布局
+    $(function() {
+        $("#refund").frame({
+            float : 'left',
+            Promp:'.close_Promp',//删除提示
+            Sellerber_menu:'.list_content',
+            datalist:".datatable_height",//数据列表高度取值
+            header:65,//顶部高度
+            mwidth:350,//宽度自定义
+            minStatue:true,
+        });
+    });
+    layui.use(['table','form'], function() {
+        var $ = layui.jquery;
+        var table = layui.table;
+        var form = layui.form;
+        var insTb = table.render({
+            elem: '#review'
+            ,url:'/store/review/page'
+            ,cellMinWidth: 100 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,cols: [[
+                {type: 'numbers',}
+                ,{field: 'id', hide: true}
+                ,{field:'categoryName', width:100, title: '分类',align: 'center'}
+                ,{field:'name', width:160, title: '商品名称', sort: true,align: 'center'}
+                ,{field:'createUserName', width:120, title: '上架人', align: 'center'}
+                ,{field:'createTime', width:120, title: '上架日期', align: 'center'}
+                ,{field:'reviewOpinion',width:345, title: '审核意见', align: 'center',templet:function (d) {
+                        return "<span style='color: red'>"+d.reviewOpinion+"</span>";
+                    }}
+                ,{field:'statusName', width:70, title: '状态',align: 'center',templet:function (d) {
+                        return "<span class=\"layui-badge layui-bg-orange\">"+d.statusName+"</span>";
+                    }}
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:170,align: 'center'}
+            ]]
+            ,page: true
+            ,done:function(res){
+                tdTitle();
+            }
+        });
+        // layui-table表格字段过长，展示不完整时，鼠标放到上面展示完整信息
+        function tdTitle(){
+            $('th').each(function(index,element){
+                $(element).attr('title',$(element).text());
+            });
+            $('td').each(function(index,element){
+                $(element).attr('title',$(element).text());
+            });
+        }
+        // 工具条点击事件
+        table.on('tool(review)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+            if (layEvent === 'edit') { //修改商品信息
+                edit(data);
+            }else if(layEvent == 'review'){//提交审核
+                review(data);
+            }
+        });
+        // 修改
+        function edit(product) {
+            layer.open({
+                type: 1,
+                title: "修改商品信息",
+                maxmin: true,
+                skin: 'layui-layer-molv',
+                area:['300px','370px'],
+                content: $('#modelProduct').html(),
+                success: function (layero, dIndex) {
+                    $(layero).children('.layui-layer-content').css('overflow', 'visible');
+                    var url = '/store/product/update';
+                    // 回显数据
+                    form.val('modelProductForm', product);
+                    // 表单提交事件
+                    form.on('submit(editProduct)', function (data) {
+                        layer.load(2);
+                        $.post(url, data.field, function (res) {
+                            layer.closeAll('loading');
+                            if (res.code == 0) {
+                                layer.close(dIndex);
+                                layer.msg(res.msg, {icon: 1});
+                                insTb.reload({}, 'data');
+                            } else {
+                                layer.msg(res.msg, {icon: 2});
+                            }
+                        }, 'json');
+                        return false;
+                    });
+                }
+            });
+        }
+        //提交审核
+        function review(product) {
+            layer.confirm('提交审核之前请确保已做出相应改正', {icon: 7, title:'警告'}, function (i) {
+                layer.close(i);
+                layer.load(2);
+                $.post("/store/review/submit",{id:product.id},function (data) {
+                    layer.closeAll('loading');
+                    if (data.code == 0){
+                        layer.msg("提交成功", {icon: 1});
+                        insTb.reload({}, 'data');
+                    }else {
+                        layer.msg("提交失败", {icon: 2});
+                    }
+                },'json');
+            })
+        }
+
+    })
+</script>

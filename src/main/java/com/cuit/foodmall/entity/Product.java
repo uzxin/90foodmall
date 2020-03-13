@@ -66,6 +66,11 @@ public class Product extends BasePO{
 	@TableField("status")
 	private Long status;
 	/*
+	审核意见
+	 */
+	@TableField("review_opinion")
+	private String reviewOpinion;
+	/*
 	/*
 	是否上架
 	 */

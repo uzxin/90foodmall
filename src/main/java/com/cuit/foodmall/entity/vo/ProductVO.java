@@ -64,6 +64,11 @@ public class ProductVO implements Serializable {
 	@TableField("enabled")
 	private String enabled;
 	/*
+	审核意见
+	 */
+	@TableField("review_opinion")
+	private String reviewOpinion;
+	/*
 	创建人id
 	 */
 	@TableField("create_user_id")
