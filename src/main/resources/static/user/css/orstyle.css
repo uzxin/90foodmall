@@ -14,7 +14,7 @@ img{width: 100%;}
 .td-operation{position:absolute;top:40px;right:5px;width:30%;text-align: right;}
 
 /*编号*/
-.dd-num {width:50%;float: left;max-width:250px;}
+.dd-num {width:50%;float: left;max-width:350px;}
 .order-title {overflow: hidden; padding:10px 0px ;}
 .order-title span{display: none;}
 /*商品信息*/
@@ -81,7 +81,7 @@ vertical-align: top;margin-top: 5px;margin-left: -24px;color: #b5b5b5;font-size:
 {
 .am-tabs-bd .am-tab-panel {padding:10px 10px 15px ;}
 .order-top{display: block;}
-.dd-num {width: 30%;}
+.dd-num {width: 40%;}
 .order-title span{display: inline;}
 .th{line-height:16px ;}
 /*订单信息*/

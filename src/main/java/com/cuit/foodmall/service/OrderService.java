@@ -8,6 +8,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.cuit.foodmall.entity.Order;
 import com.cuit.foodmall.entity.vo.OrderVO;
 
+import java.util.List;
+
 /**
  * @author: YX
  * @date: 2020/3/6 10:17
@@ -21,4 +23,18 @@ public interface OrderService extends IService<Order> {
 	 * @return: com.baomidou.mybatisplus.core.metadata.IPage<com.cuit.foodmall.entity.Order>
 	 */
 	IPage<OrderVO> listOrderBySid(Page<OrderVO> ipage, QueryWrapper<OrderVO> wrapper);
+
+	/**
+	 * @description: 查询用户订单
+	 * @param: wrapper
+	 * @return: com.baomidou.mybatisplus.core.metadata.IPage<com.cuit.foodmall.entity.Order>
+	 */
+	List<OrderVO> listOrderByUid(QueryWrapper<OrderVO> wrapper);
+
+	/**
+	 * @description: 查询订单详情
+	 * @param: orderId
+	 * @return: java.lang.String
+	 */
+	OrderVO getByOrderId(Long orderId);
 }

@@ -11,6 +11,8 @@ import com.cuit.foodmall.entity.vo.OrderVO;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 /**
  * @author: YX
  * @date: 2020/3/6 10:16
@@ -24,4 +26,20 @@ public interface OrderMapper extends BaseMapper<Order> {
 			"\tLEFT JOIN pay_method AS pm ON o.pay_method_id=pm.id \n" +
 			"\tLEFT JOIN status AS s ON o.status=s.id ${ew.customSqlSegment}")
 	IPage<OrderVO> listOrderBySid(Page<OrderVO> ipage, @Param(Constants.WRAPPER) QueryWrapper<OrderVO> wrapper);
+
+	@Select("SELECT o.*,p.name AS productName,pi.src AS src, s.name AS statusName,sm.name AS shipMethodName,pm.name AS payMethodName FROM orders AS o \n" +
+			"\tLEFT JOIN product AS p ON o.product_id=p.id \n" +
+			"\tLEFT JOIN product_image AS pi ON o.product_id=pi.product_id \n" +
+			"\tLEFT JOIN ship_method AS sm ON o.ship_method_id=sm.id \n" +
+			"\tLEFT JOIN pay_method AS pm ON o.pay_method_id=pm.id \n" +
+			"\tLEFT JOIN status AS s ON o.status=s.id ${ew.customSqlSegment}")
+	List<OrderVO> listOrderByUid(@Param(Constants.WRAPPER) QueryWrapper<OrderVO> wrapper);
+
+	@Select("SELECT o.*,p.name AS productName,pi.src AS src, s.name AS statusName,sm.name AS shipMethodName,pm.name AS payMethodName FROM orders AS o \n" +
+			"\tLEFT JOIN product AS p ON o.product_id=p.id \n" +
+			"\tLEFT JOIN product_image AS pi ON o.product_id=pi.product_id \n" +
+			"\tLEFT JOIN ship_method AS sm ON o.ship_method_id=sm.id \n" +
+			"\tLEFT JOIN pay_method AS pm ON o.pay_method_id=pm.id \n" +
+			"\tLEFT JOIN status AS s ON o.status=s.id WHERE o.id=#{orderId} AND o.del_flag=0 AND pi.type=0")
+	OrderVO getByOrderId(Long orderId);
 }

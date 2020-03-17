@@ -21,9 +21,14 @@ public class OrderVO extends Order {
 	@TableField("productName")
 	private String productName;
 	/*
+	商品名字
+	 */
+	@TableField("src")
+	private String src;
+	/*
 	下单时间
 	 */
-	@JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
 	@TableField ("create_time")
 	private Date createTime;
 	/*

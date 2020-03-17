@@ -12,6 +12,8 @@ import com.cuit.foodmall.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author: YX
  * @date: 2020/3/6 10:19
@@ -26,5 +28,15 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 	@Override
 	public IPage<OrderVO> listOrderBySid(Page<OrderVO> ipage, QueryWrapper<OrderVO> wrapper) {
 		return orderMapper.listOrderBySid(ipage, wrapper);
+	}
+
+	@Override
+	public List<OrderVO> listOrderByUid(QueryWrapper<OrderVO> wrapper) {
+		return orderMapper.listOrderByUid(wrapper);
+	}
+
+	@Override
+	public OrderVO getByOrderId(Long orderId) {
+		return orderMapper.getByOrderId(orderId);
 	}
 }
