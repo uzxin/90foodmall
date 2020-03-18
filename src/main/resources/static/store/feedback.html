@@ -1,279 +1,98 @@
 <!doctype html>
 <html>
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<link href="css/shop.css" type="text/css" rel="stylesheet" />
-<link href="css/Sellerber.css" type="text/css"  rel="stylesheet" />
-<link href="css/bkg_ui.css" type="text/css"  rel="stylesheet" />
-<link href="font/css/font-awesome.min.css"  rel="stylesheet" type="text/css" />
-<script src="js/jquery-1.9.1.min.js" type="text/javascript" ></script>
-<script src="js/Sellerber.js" type="text/javascript"></script>
-<script type="text/javascript" src="js/jquery.cookie.js"></script>
-<script src="js/shopFrame.js" type="text/javascript"></script>
-<script src="js/layer/layer.js" type="text/javascript"></script>
-<script src="js/laydate/laydate.js" type="text/javascript"></script>
-<script src="js/dist/echarts.js" type="text/javascript"></script>
-<!--[if lt IE 9]>
-<script src="js/html5shiv.js" type="text/javascript"></script>
-<script src="js/respond.min.js"></script>
-<script src="js/css3-mediaqueries.js"  type="text/javascript"></script>
-  <![endif]-->
-<title>无标题文档</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="css/shop.css" type="text/css" rel="stylesheet" />
+    <link href="css/Sellerber.css" type="text/css"  rel="stylesheet" />
+    <link href="css/bkg_ui.css" type="text/css"  rel="stylesheet" />
+    <link href="font/css/font-awesome.min.css"  rel="stylesheet" type="text/css" />
+    <link href="../user/layui/css/layui.css"  rel="stylesheet" type="text/css" />
+    <script src="js/jquery-1.9.1.min.js" type="text/javascript" ></script>
+    <script src="js/Sellerber.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/jquery.cookie.js"></script>
+    <script src="js/shopFrame.js" type="text/javascript"></script>
+    <script src="js/layer/layer.js" type="text/javascript"></script>
+    <script src="js/laydate/laydate.js" type="text/javascript"></script>
+    <script src="js/dist/echarts.js" type="text/javascript"></script>
+    <script src="../user/layui/layui.all.js" type="text/javascript"></script>
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js" type="text/javascript"></script>
+    <script src="js/respond.min.js"></script>
+    <script src="js/css3-mediaqueries.js"  type="text/javascript"></script>
+      <![endif]-->
+    <title>留言管理</title>
 </head>
 
 <body>
 <div class="margin" id="page_style">
-    <div class="operation clearfix mb15 same_module">
-<ul class="choice_search">
-      <li class="clearfix col-xs-2 col-lg-3 col-ms-3 "><label class="label_name ">用户名：</label>
-      <input placeholder="用户名"  name="" type="text" class="form-control col-xs-8 col-lg-8 col-ms-8">
-      </li>
-      <li class="clearfix col-xs-2 col-lg-3 col-ms-3"><label class="label_name ">留言时间：</label>
-      <input class="inline laydate-icon form-control Select_Date" id="start">
-      </li>
-      <li class="clearfix col-xs-2 col-lg-3 col-ms-3 ">
-       <select name="" class="margin-right l_f select_style"><option  value="1">已浏览</option><option value="2">未浏览</option></select>
-       <button type="button" class="btn button_btn bg-deep-blue "><i class="icon-search"></i>查询</button></li>
-    </ul>
-	</div>
-	<div class="h_products_list clearfix " id="Sellerber">
      <div class="padding15 clearfix">
 	   <div class="operation clearfix mb15  searchs_style">
        <span class="l_f">
-        <a href="Add_Brand.html"  title="添加品牌" class="btn button_btn bg-deep-blue"><i class="fa fa-plus"></i>批量回复</a>
-        <a href="javascript:ovid()" class="btn  button_btn btn-danger"><i class="fa fa-trash"></i>批量删除</a>
-        <a href="javascript:ovid()" class="btn  button_btn bg-yellow"><i class="fa fa-commenting"></i>已回复</a>
-        <a href="javascript:ovid()" class="btn  button_btn bg-green "><i class="fa  fa-comments-o"></i>未回复</a>
+           <a id="all" class="btn  button_btn bg-red"><i class="layui-icon-cols"></i>所有</a>
+        <a id="yes" class="btn  button_btn bg-yellow"><i class="fa fa-commenting"></i>已回复</a>
+        <a id="no" class="btn  button_btn bg-green "><i class="fa  fa-comments-o"></i>未回复</a>
        </span>
-       <span class="r_f">共：<b>234</b>条</span>
+       <span class="r_f">共：<b id="count">0</b>条</span>
      </div>
      <div class=" datalist_show">
        <div class="datatable_height confirm">
-          <table class="table table_list table_striped table-bordered" id="sample-table">
-              <thead>
-		 <tr>
-          <th width="25"><label><input type="checkbox" class="ace"><span class="lbl"></span></label></th>
-          <th width="150px">用户名</th>
-          <th width="">留言内容</th>
-          <th width="200px">时间</th>
-          <th width="70">状态</th> 
-          <th width="120">是否回复</th>              
-          <th width="250">操作</th>
-          </tr>
-      </thead>
-	<tbody>
-		<tr>
-          <td><label><input type="checkbox" class="ace"><span class="lbl"></span></label></td>
-          <td><u style="cursor:pointer"  class="text-primary" onclick="member_show('张小泉','member-show.html','1031','500','400')">张小泉</u></td>
-          <td class="text-l">
-          <a href="javascript:;" onclick="Guestbook_iew('12')">“第二届中国无锡水蜜桃开摘节”同时开幕，为期三个月的蜜桃季全面启动。值此京东“618品质狂欢节”之际，中国特产无锡馆限量上线618份...</a></td>
-          <td>2016-6-11 11:11:42</td>
-          <td class="td-status"><span class="label label-success radius">已浏览</span></td>
-          <td>未回复</td>
-          <td class="td-manage">
-           <a title="编辑" onclick="member_edit('编辑','member-add.html','4','','510')" href="javascript:;"  class="btn btn-xs btn-info" >回复</a> 
-           <a title="删除" href="javascript:;"  onclick="member_del(this,'1')" class="btn btn-xs btn-delete" >删除</a>
-          </td>
-        </tr>
-        	<tr>
-          <td><label><input type="checkbox" class="ace"><span class="lbl"></span></label></td>
-          <td><u style="cursor:pointer"  class="text-primary" onclick="member_show('张小泉','member-show.html','1031','500','400')">张小泉</u></td>
-          <td class="text-l">
-          <a href="javascript:;" onclick="Guestbook_iew('12')">“第二届中国无锡水蜜桃开摘节”同时开幕，为期三个月的蜜桃季全面启动。值此京东“618品质狂欢节”之际，中国特产无锡馆限量上线618份...</a></td>
-          <td>2016-6-11 11:11:42</td>
-          <td class="td-status"><span class="label label-success radius">已浏览</span></td>
-          <td>未回复</td>
-          <td class="td-manage">
-           <a title="编辑" onclick="member_edit('编辑','member-add.html','4','','510')" href="javascript:;"  class="btn btn-xs btn-info" >回复</a> 
-           <a title="删除" href="javascript:;"  onclick="member_del(this,'1')" class="btn btn-xs btn-delete" >删除</a>
-          </td>
-        </tr>
-        	<tr>
-          <td><label><input type="checkbox" class="ace"><span class="lbl"></span></label></td>
-          <td><u style="cursor:pointer"  class="text-primary" onclick="member_show('张小泉','member-show.html','1031','500','400')">张小泉</u></td>
-          <td class="text-l">
-          <a href="javascript:;" onclick="Guestbook_iew('12')">“第二届中国无锡水蜜桃开摘节”同时开幕，为期三个月的蜜桃季全面启动。值此京东“618品质狂欢节”之际，中国特产无锡馆限量上线618份...</a></td>
-          <td>2016-6-11 11:11:42</td>
-          <td class="td-status"><span class="label label-success radius">已浏览</span></td>
-          <td>未回复</td>
-          <td class="td-manage">
-           <a title="编辑" onclick="member_edit('编辑','member-add.html','4','','510')" href="javascript:;"  class="btn btn-xs btn-info" >回复</a> 
-           <a title="删除" href="javascript:;"  onclick="member_del(this,'1')" class="btn btn-xs btn-delete" >删除</a>
-          </td>
-        </tr>
-        	<tr>
-          <td><label><input type="checkbox" class="ace"><span class="lbl"></span></label></td>
-          <td><u style="cursor:pointer"  class="text-primary" onclick="member_show('张小泉','member-show.html','1031','500','400')">张小泉</u></td>
-          <td class="text-l">
-          <a href="javascript:;" onclick="Guestbook_iew('12')">“第二届中国无锡水蜜桃开摘节”同时开幕，为期三个月的蜜桃季全面启动。值此京东“618品质狂欢节”之际，中国特产无锡馆限量上线618份...</a></td>
-          <td>2016-6-11 11:11:42</td>
-          <td class="td-status"><span class="label label-success radius">已浏览</span></td>
-          <td>未回复</td>
-          <td class="td-manage">
-           <a title="编辑" onclick="member_edit('编辑','member-add.html','4','','510')" href="javascript:;"  class="btn btn-xs btn-info" >回复</a> 
-           <a title="删除" href="javascript:;"  onclick="member_del(this,'1')" class="btn btn-xs btn-delete" >删除</a>
-          </td>
-        </tr>
-        	<tr>
-          <td><label><input type="checkbox" class="ace"><span class="lbl"></span></label></td>
-          <td><u style="cursor:pointer"  class="text-primary" onclick="member_show('张小泉','member-show.html','1031','500','400')">张小泉</u></td>
-          <td class="text-l">
-          <a href="javascript:;" onclick="Guestbook_iew('12')">“第二届中国无锡水蜜桃开摘节”同时开幕，为期三个月的蜜桃季全面启动。值此京东“618品质狂欢节”之际，中国特产无锡馆限量上线618份...</a></td>
-          <td>2016-6-11 11:11:42</td>
-          <td class="td-status"><span class="label label-success radius">已浏览</span></td>
-          <td>已回复</td>
-          <td class="td-manage">
-           <a title="编辑" onclick="member_edit('编辑','member-add.html','4','','510')" href="javascript:;"  class="btn btn-xs btn-info" >回复</a> 
-           <a title="删除" href="javascript:;"  onclick="member_del(this,'1')" class="btn btn-xs btn-delete" >删除</a>
-          </td>
-        </tr>
-        	<tr>
-          <td><label><input type="checkbox" class="ace"><span class="lbl"></span></label></td>
-          <td><u style="cursor:pointer"  class="text-primary" onclick="member_show('张小泉','member-show.html','1031','500','400')">张小泉</u></td>
-          <td class="text-l">
-          <a href="javascript:;" onclick="Guestbook_iew('12')">“第二届中国无锡水蜜桃开摘节”同时开幕，为期三个月的蜜桃季全面启动。值此京东“618品质狂欢节”之际，中国特产无锡馆限量上线618份...</a></td>
-          <td>2016-6-11 11:11:42</td>
-          <td class="td-status"><span class="label label-success radius">已浏览</span></td>
-          <td>已回复</td>
-          <td class="td-manage">
-           <a title="编辑" onclick="member_edit('编辑','member-add.html','4','','510')" href="javascript:;"  class="btn btn-xs btn-info" >回复</a> 
-           <a title="删除" href="javascript:;"  onclick="member_del(this,'1')" class="btn btn-xs btn-delete" >删除</a>
-          </td>
-        </tr>
-        	<tr>
-          <td><label><input type="checkbox" class="ace"><span class="lbl"></span></label></td>
-          <td><u style="cursor:pointer"  class="text-primary" onclick="member_show('张小泉','member-show.html','1031','500','400')">张小泉</u></td>
-          <td class="text-l">
-          <a href="javascript:;" onclick="Guestbook_iew('12')">“第二届中国无锡水蜜桃开摘节”同时开幕，为期三个月的蜜桃季全面启动。值此京东“618品质狂欢节”之际，中国特产无锡馆限量上线618份...</a></td>
-          <td>2016-6-11 11:11:42</td>
-          <td class="td-status"><span class="label label-defaunt radius">未浏览</span></td>
-          <td>未回复</td>
-          <td class="td-manage">
-           <a title="编辑" onclick="member_edit('编辑','member-add.html','4','','510')" href="javascript:;"  class="btn btn-xs btn-info" >回复</a> 
-           <a title="删除" href="javascript:;"  onclick="member_del(this,'1')" class="btn btn-xs btn-delete" >删除</a>
-          </td>
-        </tr>
-         	<tr>
-          <td><label><input type="checkbox" class="ace"><span class="lbl"></span></label></td>
-          <td><u style="cursor:pointer"  class="text-primary" onclick="member_show('张小泉','member-show.html','1031','500','400')">张小泉</u></td>
-          <td class="text-l">
-          <a href="javascript:;" onclick="Guestbook_iew('12')">“第二届中国无锡水蜜桃开摘节”同时开幕，为期三个月的蜜桃季全面启动。值此京东“618品质狂欢节”之际，中国特产无锡馆限量上线618份...</a></td>
-          <td>2016-6-11 11:11:42</td>
-          <td class="td-status"><span class="label label-defaunt radius">未浏览</span></td>
-          <td>未回复</td>
-          <td class="td-manage">
-           <a title="编辑" onclick="member_edit('编辑','member-add.html','4','','510')" href="javascript:;"  class="btn btn-xs btn-info" >回复</a> 
-           <a title="删除" href="javascript:;"  onclick="member_del(this,'1')" class="btn btn-xs btn-delete" >删除</a>
-          </td>
-        </tr>
-         	<tr>
-          <td><label><input type="checkbox" class="ace"><span class="lbl"></span></label></td>
-          <td><u style="cursor:pointer"  class="text-primary" onclick="member_show('张小泉','member-show.html','1031','500','400')">张小泉</u></td>
-          <td class="text-l">
-          <a href="javascript:;" onclick="Guestbook_iew('12')">“第二届中国无锡水蜜桃开摘节”同时开幕，为期三个月的蜜桃季全面启动。值此京东“618品质狂欢节”之际，中国特产无锡馆限量上线618份...</a></td>
-          <td>2016-6-11 11:11:42</td>
-          <td class="td-status"><span class="label label-defaunt radius">未浏览</span></td>
-          <td>未回复</td>
-          <td class="td-manage">
-           <a title="编辑" onclick="member_edit('编辑','member-add.html','4','','510')" href="javascript:;"  class="btn btn-xs btn-info" >回复</a> 
-           <a title="删除" href="javascript:;"  onclick="member_del(this,'1')" class="btn btn-xs btn-delete" >删除</a>
-          </td>
-        </tr>
-         	<tr>
-          <td><label><input type="checkbox" class="ace"><span class="lbl"></span></label></td>
-          <td><u style="cursor:pointer"  class="text-primary" onclick="member_show('张小泉','member-show.html','1031','500','400')">张小泉</u></td>
-          <td class="text-l">
-          <a href="javascript:;" onclick="Guestbook_iew('12')">“第二届中国无锡水蜜桃开摘节”同时开幕，为期三个月的蜜桃季全面启动。值此京东“618品质狂欢节”之际，中国特产无锡馆限量上线618份...</a></td>
-          <td>2016-6-11 11:11:42</td>
-          <td class="td-status"><span class="label label-defaunt radius">未浏览</span></td>
-          <td>未回复</td>
-          <td class="td-manage">
-           <a title="编辑" onclick="member_edit('编辑','member-add.html','4','','510')" href="javascript:;"  class="btn btn-xs btn-info" >回复</a> 
-           <a title="删除" href="javascript:;"  onclick="member_del(this,'1')" class="btn btn-xs btn-delete" >删除</a>
-          </td>
-        </tr>
-         	<tr>
-          <td><label><input type="checkbox" class="ace"><span class="lbl"></span></label></td>
-          <td><u style="cursor:pointer"  class="text-primary" onclick="member_show('张小泉','member-show.html','1031','500','400')">张小泉</u></td>
-          <td class="text-l">
-          <a href="javascript:;" onclick="Guestbook_iew('12')">“第二届中国无锡水蜜桃开摘节”同时开幕，为期三个月的蜜桃季全面启动。值此京东“618品质狂欢节”之际，中国特产无锡馆限量上线618份...</a></td>
-          <td>2016-6-11 11:11:42</td>
-          <td class="td-status"><span class="label label-defaunt radius">未浏览</span></td>
-          <td>未回复</td>
-          <td class="td-manage">
-           <a title="编辑" onclick="member_edit('编辑','member-add.html','4','','510')" href="javascript:;"  class="btn btn-xs btn-info" >回复</a> 
-           <a title="删除" href="javascript:;"  onclick="member_del(this,'1')" class="btn btn-xs btn-delete" >删除</a>
-          </td>
-        </tr>
-         	<tr>
-          <td><label><input type="checkbox" class="ace"><span class="lbl"></span></label></td>
-          <td><u style="cursor:pointer"  class="text-primary" onclick="member_show('张小泉','member-show.html','1031','500','400')">张小泉</u></td>
-          <td class="text-l">
-          <a href="javascript:;" onclick="Guestbook_iew('12')">“第二届中国无锡水蜜桃开摘节”同时开幕，为期三个月的蜜桃季全面启动。值此京东“618品质狂欢节”之际，中国特产无锡馆限量上线618份...</a></td>
-          <td>2016-6-11 11:11:42</td>
-          <td class="td-status"><span class="label label-defaunt radius">未浏览</span></td>
-          <td>未回复</td>
-          <td class="td-manage">
-           <a title="编辑" onclick="member_edit('编辑','member-add.html','4','','510')" href="javascript:;"  class="btn btn-xs btn-info" >回复</a> 
-           <a title="删除" href="javascript:;"  onclick="member_del(this,'1')" class="btn btn-xs btn-delete" >删除</a>
-          </td>
-        </tr>
-         	<tr>
-          <td><label><input type="checkbox" class="ace"><span class="lbl"></span></label></td>
-          <td><u style="cursor:pointer"  class="text-primary" onclick="member_show('张小泉','member-show.html','1031','500','400')">张小泉</u></td>
-          <td class="text-l">
-          <a href="javascript:;" onclick="Guestbook_iew('12')">“第二届中国无锡水蜜桃开摘节”同时开幕，为期三个月的蜜桃季全面启动。值此京东“618品质狂欢节”之际，中国特产无锡馆限量上线618份...</a></td>
-          <td>2016-6-11 11:11:42</td>
-          <td class="td-status"><span class="label label-defaunt radius">未浏览</span></td>
-          <td>未回复</td>
-          <td class="td-manage">
-           <a title="编辑" onclick="member_edit('编辑','member-add.html','4','','510')" href="javascript:;"  class="btn btn-xs btn-info" >回复</a> 
-           <a title="删除" href="javascript:;"  onclick="member_del(this,'1')" class="btn btn-xs btn-delete" >删除</a>
-          </td>
-        </tr>
-         	<tr>
-          <td><label><input type="checkbox" class="ace"><span class="lbl"></span></label></td>
-          <td><u style="cursor:pointer"  class="text-primary" onclick="member_show('张小泉','member-show.html','1031','500','400')">张小泉</u></td>
-          <td class="text-l">
-          <a href="javascript:;" onclick="Guestbook_iew('12')">“第二届中国无锡水蜜桃开摘节”同时开幕，为期三个月的蜜桃季全面启动。值此京东“618品质狂欢节”之际，中国特产无锡馆限量上线618份...</a></td>
-          <td>2016-6-11 11:11:42</td>
-          <td class="td-status"><span class="label label-defaunt radius">未浏览</span></td>
-          <td>未回复</td>
-          <td class="td-manage">
-           <a title="编辑" onclick="member_edit('编辑','member-add.html','4','','510')" href="javascript:;"  class="btn btn-xs btn-info" >回复</a> 
-           <a title="删除" href="javascript:;"  onclick="member_del(this,'1')" class="btn btn-xs btn-delete" >删除</a>
-          </td>
-        </tr>
-         </tbody>
-		</table>
+           <table class="layui-hide" id="reviews" lay-filter="reviews"></table>
 	   </div>
 	  </div>
 	</div>
    </div>
 </div>
-<!--留言详细-->
-<div id="Guestbook" style="display:none">
+<!--回复留言弹窗-->
+<div id="reply" style="display:none">
  <div class="content_style padding15">
-  <div class="form-group"><label class="col-sm-2 control-label no-padding-right" for="form-field-1">留言用户 </label>
-       <div class="col-sm-9">胡海天堂</div>
+  <div class="form-group">
+      <label class="col-sm-2 control-label no-padding-right" for="form-field-1">用户: </label>
+      <div class="col-sm-9" style="height:30px" id="commentatorName"></div>
 	</div>
-   <div class="form-group"><label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 留言内容 </label>
-       <div class="col-sm-9">三年同窗，一起沐浴了一片金色的阳光，一起度过了一千个日夜，我们共同谱写了多少友谊的篇章?愿逝去的那些闪亮的日子，都化作美好的记忆，永远留在心房。认识您，不论是生命中的一段插曲，还是永久的知已，我都会珍惜，当我疲倦或老去，不再拥有青春的时候，这段旋律会滋润我生命的每一刻。在此我只想说：有您真好!无论你身在何方，我的祝福永远在您身边!</div>
+   <div class="form-group">
+       <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 评价内容: </label>
+       <div class="col-sm-9" style="height:30px" id="content"></div>
 	</div>
     <div class="form-group"><label class="col-sm-2 control-label no-padding-right" for="form-field-1">是否回复 </label>
        <div class="col-sm-9">
        <label><input name="checkbox" type="checkbox" class="ace" id="checkbox"><span class="lbl"> 回复</span></label>
        <div class="Reply_style">
-          <textarea name="权限描述" class="form-control" id="form_textarea" placeholder="" onkeyup="checkLength(this);"></textarea>
+          <textarea id="replyContent" class="form-control" id="replyContent" placeholder="" onkeyup="checkLength(this);"></textarea>
           <span class="wordage">剩余字数：<span id="sy" style="color:Red;">200</span>字</span>
        </div>
        </div>
 	</div>
  </div>
 </div>
+<!--查看留言弹窗-->
+<div id="details" style="display:none">
+    <div class="content_style padding15">
+        <div class="form-group">
+            <label class="col-sm-2 control-label no-padding-right" for="form-field-1">用户: </label>
+            <div class="col-sm-9" style="height:30px" id="commentatorName1"></div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 评价内容: </label>
+            <div class="col-sm-9" style="height:30px" id="content1"></div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 回复人: </label>
+            <div class="col-sm-9" style="height:30px" id="replyUser1"></div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 回复内容: </label>
+            <div class="col-sm-9" style="height:30px" id="replyContent1"></div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
+<script type="text/html" id="barDemo">
+    <a title="回复" class="btn btn-xs btn-info" lay-event="reply">回复</a>
+    <a title="查看" class="btn btn-xs btn-gray" lay-event="details">查看</a>
+    <a title="删除" class="btn btn-xs btn-delete" lay-event="del">删除</a>
+</script>
 <script>
 	//设置内页框架布局
 $(function() { 
@@ -286,20 +105,157 @@ $(function() {
 		header:65,//顶部高度
 		mwidth:350,//宽度自定义
 		minStatue:true,//隐藏或显示栏目
-		
 	});
 });
-	 /*用户-查看*/
-function member_show(title,url,id,w,h){
-	layer_show(title,url+'#?='+id,w,h);
-}
-/*留言-删除*/
-function member_del(obj,id){
-	layer.confirm('确认要删除吗？',function(index){
-		$(obj).parents("tr").remove();
-		layer.msg('已删除!',{icon:1,time:1000});
-	});
-}
+    layui.use(['table','form'], function() {
+        var $ = layui.jquery;
+        var table = layui.table;
+        var form = layui.form;
+        var insTb = table.render({
+            elem: '#reviews'
+            ,url:'/store/comment/page'
+            ,cellMinWidth: 100 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,cols: [[
+                {type: 'numbers',}
+                ,{field: 'id', hide: true}
+                ,{field:'orderNumber', width:286, title: '订单编号',align: 'center'}
+                ,{field:'productName', width:210, title: '商品名称',align: 'center'}
+                ,{field:'content',width:310, title: '评价', align: 'center'}
+                ,{field:'status', width:70, title: '状态',align: 'center',templet:function (d) {
+                        if (d.status=='0'){return "<span class=\"layui-badge\">未回复</span>";}
+                        if (d.status=='1'){return "<span class=\"layui-badge layui-bg-orange\">已回复</span>";}
+                    }}
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:180,align: 'center'}
+            ]]
+            ,page: true
+            ,done:function(res){
+                tdTitle();
+                $("#count").html(res.count);
+            }
+        });
+        // layui-table表格字段过长，展示不完整时，鼠标放到上面展示完整信息
+        function tdTitle(){
+            $('th').each(function(index,element){
+                $(element).attr('title',$(element).text());
+            });
+            $('td').each(function(index,element){
+                $(element).attr('title',$(element).text());
+            });
+        }
+        //所有
+        $("#all").click(function () {
+            insTb.reload({where:{status: ""}});
+        });
+        //已回复
+        $("#yes").click(function () {
+            insTb.reload({where:{status: "1"}});
+        });
+        //未回复
+        $("#no").click(function () {
+            insTb.reload({where:{status: "0"}});
+        });
+        // 工具条点击事件
+        table.on('tool(reviews)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+            if (layEvent === 'reply') { // 回复
+                if(data.status == '0'){
+                    reply(data);
+                }else {
+                    layer.msg("已回复，请不要重复操作",{icon:7,time:1000});
+                }
+            }else if(layEvent == 'details'){//查看
+                details(data);
+            }else if(layEvent == 'del'){//删除
+                doDel(data.id);
+            }
+        });
+        // 删除
+        function doDel(id) {
+            layer.confirm('确定要删除此评论吗？', {icon: 7, title:'警告'}, function (i) {
+                layer.close(i);
+                layer.load(2);
+                $.post('/store/comment/del?reviewId=' + id, {}, function (res) {
+                    layer.closeAll('loading');
+                    if (res.code == 0) {
+                        layer.msg(res.msg, {icon: 1});
+                        insTb.reload({}, 'data');
+                    } else {
+                        layer.msg(res.msg, {icon: 2});
+                    }
+                }, 'json');
+            });
+        }
+        /*留言回复*/
+        function reply(review){
+            $("#commentatorName").html(review.commentatorName);
+            $("#content").html(review.content);
+            $("#replyContent").html(review.replyContent);
+            var index = layer.open({
+                type: 1,
+                title: '回复',
+                maxmin: true,
+                shadeClose:false,
+                area : ['600px' , ''],
+                content:$('#reply'),
+                btn:['确定','取消'],
+                yes: function(index, layero){
+                    if($('input[name="checkbox"]').prop("checked")){
+                        if($("#replyContent").val()==""){
+                            layer.alert('回复内容不能为空！',{
+                                title: '提示框',
+                                icon:0,
+                            })
+                        }else{
+                            layer.alert('确定回复该内容？',{
+                                title: '提示框',
+                                icon:0,
+                                btn:['确定','取消'],
+                                yes: function(index){
+                                    layer.closeAll();
+                                    $.post("/store/comment/reply",{id:review.id,replyContent:$("#replyContent").val()}
+                                        ,function (data) {
+                                            if (data.code == 0){
+                                                layer.msg(data.msg,{icon:6,time:1000});
+                                                insTb.reload();
+                                            }else {
+                                                layer.msg(data.msg,{icon:5,time:2000});
+                                            }
+                                        })
+                                }
+                            });
+                        }
+                    }else{
+                        layer.alert('取消回复！',{
+                            title: '提示框',
+                            icon:0,
+                        });
+                        layer.close(index);
+                    }
+                }
+            })
+        };
+        /*查看评价*/
+        function details(review){
+            $("#commentatorName1").html(review.commentatorName);
+            $("#content1").html(review.content);
+            if (review.status=='1'){
+                $("#replyUser1").html(review.replyUser);
+                $("#replyContent1").html(review.replyContent);
+            }else {
+                $("#replyUser1").html("无");
+                $("#replyContent1").html("无");
+            }
+            var index = layer.open({
+                type: 1,
+                title: '详情',
+                maxmin: true,
+                shadeClose:false,
+                area : ['600px' , ''],
+                content:$('#details'),
+            })
+        };
+    })
 
 /*checkbox激发事件*/
 $('#checkbox').on('click',function(){
@@ -307,47 +263,9 @@ $('#checkbox').on('click',function(){
 		 $('.Reply_style').css('display','block');
 		}
 	else{
-		
 		 $('.Reply_style').css('display','none');
 		}	
 	})
-/*留言查看*/
-function Guestbook_iew(id){
-	var index = layer.open({
-        type: 1,
-        title: '留言信息',
-		maxmin: true, 
-		shadeClose:false,
-        area : ['600px' , ''],
-        content:$('#Guestbook'),
-		btn:['确定','取消'],
-		yes: function(index, layero){		 
-		  if($('input[name="checkbox"]').prop("checked")){			 
-			 if($('.form-control').val()==""){
-				layer.alert('回复内容不能为空！',{
-               title: '提示框',				
-			  icon:0,		
-			  }) 
-			 }else{			
-			      layer.alert('确定回复该内容？',{
-				   title: '提示框',				
-				   icon:0,	
-				   btn:['确定','取消'],	
-				   yes: function(index){					   
-					     layer.closeAll();
-					   }
-				  }); 		  
-		   }			
-	      }else{			
-			 layer.alert('是否要取消回复！',{
-               title: '提示框',				
-			icon:0,		
-			  }); 
-			  layer.close(index);      		  
-		  }
-	   }
-	})	
-};
 	/*字数限制*/
 function checkLength(which) {
 	var maxChars = 200; //
@@ -365,5 +283,14 @@ function checkLength(which) {
 		document.getElementById("sy").innerHTML = curr.toString();
 		return true;
 	}
-};
+}
+    /*******滚动条*******/
+    $("body").niceScroll({
+        cursorcolor:"#888888",
+        cursoropacitymax:1,
+        touchbehavior:false,
+        cursorwidth:"5px",
+        cursorborder:"0",
+        cursorborderradius:"5px"
+    });
 </script>

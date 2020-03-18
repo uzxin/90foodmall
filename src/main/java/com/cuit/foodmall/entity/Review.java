@@ -2,6 +2,7 @@ package com.cuit.foodmall.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,6 +38,11 @@ public class Review extends BasePO{
   @TableField("product_id")
   private long productId;
   /*
+  产品名字
+   */
+  @TableField("product_name")
+  private String productName;
+  /*
   评论人ID
    */
   @TableField("commentator_id")
@@ -69,7 +75,8 @@ public class Review extends BasePO{
   /*
   创建时间
    */
-  @TableField("createTime")
+  @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+  @TableField("create_time")
   private Date createTime;
 
 
