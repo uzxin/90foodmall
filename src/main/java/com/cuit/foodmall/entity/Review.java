@@ -58,6 +58,11 @@ public class Review extends BasePO{
   @TableField("content")
   private String content;
   /*
+  分数
+   */
+  @TableField("score")
+  private int score;
+  /*
   回复人
    */
   @TableField("reply_user")

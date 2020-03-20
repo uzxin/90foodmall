@@ -38,7 +38,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         }
     }
 
-    //试图映射
+    //视图映射
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("redirect:/user/home/index.html");

@@ -212,6 +212,7 @@
 														<p class="Mystatus" id="statusName"></p>
 														<p class="order-info"><a href="logistics.html">查看物流</a></p>
 														<p class="order-info"><a id="review" href="javascript:void(0);">评价商品</a></p>
+														<input type="hidden" id="score" value="5">
 													</div>
 												</li>
 												<li class="td td-change">
@@ -265,7 +266,7 @@
 				title: '请输入评价内容',
 				area: ['400px', '200px'] //自定义文本域宽高
 			}, function(value, index, elem){
-				$.post("/review/create",{content:value,orderId:$("#id").val(),productId:$("#productId").val()},function (data) {
+				$.post("/review/create",{content:value,score:$("#score").val(),orderId:$("#id").val(),productId:$("#productId").val()},function (data) {
 					if (data.code == 0){
 						layer.msg("评论成功",{icon:6,time:1000});
 						layer.close(index);
@@ -275,6 +276,18 @@
 					}
 				})
 			});
+			$(".layui-layer-content").append("<br/><div id='test'>");
+			layui.use(['rate'], function(){
+				var rate = layui.rate;
+				var star=rate.render({
+					elem: '#test'
+					,value: 5 //初始值
+					,text: true //开启文本
+					,choose:function (value) {
+						$("#score").val(value);
+					}
+				})
+			})
 		}
 	})
 </script>

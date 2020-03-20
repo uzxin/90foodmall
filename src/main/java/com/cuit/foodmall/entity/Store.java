@@ -32,39 +32,74 @@ public class Store extends BasePO{
 	@TableField("headImg")
 	private String headImg;
 	/*
-	店铺类型
+	店铺描述
 	 */
-	@TableField("store_type")
-	private String storeType;
+	@TableField("description")
+	private String description;
 	/*
-	店铺等级
+	店铺介绍
 	 */
-	@TableField("level")
-	private String level;
+	@TableField("introduction")
+	private String introduction;
 	/*
 	商家ID
 	 */
 	@TableField("business_id")
 	private Long businessId;
 	/*
+	法人名字
+	 */
+	@TableField("legal_user_name")
+	private String legalUserName;
+	/*
+	法人身份证号
+	 */
+	@TableField("legal_user_idcard")
+	private String legalUserIdCard;
+	/*
+	联系人
+	 */
+	@TableField("contact_user_name")
+	private String contactUserName;
+	/*
+	联系电话
+	 */
+	@TableField("contact_user_phone")
+	private String contactUserPhone;
+	/*
+	传真
+	 */
+	@TableField("fax")
+	private String fax;
+	/*
+	邮箱
+	 */
+	@TableField("email")
+	private String email;
+	/*
+	店铺等级
+	 */
+	@TableField("level")
+	private int level;
+	/*
+	相符描述
+	 */
+	@TableField("score_description")
+	private float scoreDescription;
+	/*
+	服务态度
+	 */
+	@TableField("score_service_attitude")
+	private float scoreServiceAttitude;
+	/*
+	发货速度
+	 */
+	@TableField("score_delivery_speed")
+	private float scoreDeliverySpeed;
+	/*
 	开通时间
 	 */
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT-8")
 	@TableField("create_time")
 	private Date createTime;
-	/*
-	相符描述
-	 */
-	@TableField("score_description")
-	private String scoreDescription;
-	/*
-	服务态度
-	 */
-	@TableField("score_service_attitude")
-	private String scoreServiceAttitude;
-	/*
-	发货速度
-	 */
-	@TableField("score_delivery_speed")
-	private String scoreDeliverySpeed;
 }

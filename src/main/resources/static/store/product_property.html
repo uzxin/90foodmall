@@ -1,0 +1,277 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="css/shop.css" type="text/css" rel="stylesheet" />
+    <link href="css/Sellerber.css" type="text/css"  rel="stylesheet" />
+    <link href="css/bkg_ui.css" type="text/css"  rel="stylesheet" />
+    <link href="font/css/font-awesome.min.css"  rel="stylesheet" type="text/css" />
+    <link href="../user/layui/css/layui.css"  rel="stylesheet" type="text/css" />
+    <script src="js/jquery-1.9.1.min.js" type="text/javascript" ></script>
+    <script type="text/javascript" src="js/jquery.cookie.js"></script>
+    <script src="js/shopFrame.js" type="text/javascript"></script>
+    <script src="js/Sellerber.js" type="text/javascript"></script>
+    <script src="js/laydate/laydate.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/proTree.js" ></script>
+    <script src="../user/layui/layui.all.js" type="text/javascript"></script>
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js" type="text/javascript"></script>
+    <script src="js/respond.min.js"></script>
+    <script src="js/css3-mediaqueries.js"  type="text/javascript"></script>
+    <![endif]-->
+    <title>商品属性</title>
+    <script type="text/javascript">
+        $(function () {
+            $.get("/store/productProperty/listProduct",{},function (data) {
+                $.each(data.data,function (i,item) {
+                    $("#productId").append("<option value="+item.id+">"+item.name+"</option>");
+                })
+            })
+            $.get("/store/productProperty/listProductProperty",{},function (data) {
+                $.each(data.data,function (i,item) {
+                    $("#propertyId").append("<option value="+item.id+">"+item.name+"</option>");
+                })
+            })
+        })
+    </script>
+</head>
+<body>
+<div class="operation clearfix mb15 same_module">
+    <ul class="choice_search">
+        <select id="productId" >
+            <option value="">--请选择商品--</option>
+        </select>
+        <select id="propertyId" >
+            <option value="">--请选择属性--</option>
+        </select>
+            <button class="btn button_btn bg-deep-blue " lay-filter="searchProduct" lay-submit><i class="fa  fa-search"></i>&nbsp;搜索</button>
+            <button class="btn button_btn bg-green " lay-filter="add" lay-submit><i class="fa fa-edit"></i>&nbsp;添加</button>
+    </ul>
+</div>
+<!--列表展示-->
+<div class="h_products_list clearfix" id="Sellerber">
+    <div class="list_Exhibition list_show padding15">
+        <div class="datalist_show">
+            <div class="datatable_height confirm">
+                <table class="layui-hide" id="productPropertys" lay-filter="productPropertys"></table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<!-- 表单弹窗 -->
+<script type="text/html" id="modelProduct">
+    <form class="layui-form" id="modelProductForm" lay-filter="modelProductForm">
+        <div class="layui-form-item">
+            <input id="ppId" type="hidden"/>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">属性</label>
+            <div class="layui-input-inline">
+                <input type="text" id="propertyName" required  readonly="readonly" autocomplete="off" class="layui-input">
+            </div>
+        </div><div class="layui-form-item">
+        <label class="layui-form-label">属性值</label>
+        <div class="layui-input-inline">
+            <input type="text" id="propertyValue" required  placeholder="请输入属性值" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="editProduct">立即提交</button>
+                <button class="layui-btn layui-btn-primary" id="reset">重置</button>
+            </div>
+        </div>
+    </form>
+</script>
+<script type="text/html" id="add">
+    <div class="layui-form-item"></div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品</label>
+            <select id="productId_add" class="margin-right l_f select_style">
+                <option value="">--请选择商品--</option>
+            </select>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">属性</label>
+            <select id="propertyId_add" class="margin-right l_f select_style">
+                <option value="">--请选择属性--</option>
+            </select>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">属性值</label>
+            <div class="layui-input-inline">
+                <input type="text" id="propertyValue_add" required  placeholder="请输入属性值" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+</script>
+<script type="text/html" id="barDemo">
+    <a title="编辑" class="btn btn-xs btn-info" lay-event="edit">编辑</a>
+    <a title="删除" class="btn btn-xs btn-del" lay-event="del">删除</a>
+</script>
+<script type="text/javascript">
+    //设置内页框架布局
+    $(function() {
+        $("#Sellerber").frame({
+            float : 'left',
+            color_btn:'.skin_select',
+            Sellerber_menu:'.list_content',
+            page_content:'.list_show',//内容
+            datalist:".datatable_height",//数据列表高度取值
+            header:65,//顶部高度
+            mwidth:200,//菜单栏宽度
+        });
+    });
+    //渲染数据列表
+    layui.use(['table','form'], function(){
+        var $ = layui.jquery;
+        var table = layui.table;
+        var form = layui.form;
+        var insTb = table.render({
+            elem: '#productPropertys'
+            ,url:'/store/productProperty/page'
+            ,cellMinWidth: 100 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,cols: [[
+                {type: 'numbers',}
+                ,{field: 'id', hide: true}
+                ,{field:'productName', width:200, title: '商品名',align: 'center'}
+                ,{field:'propertyName', width:150, title: '属性',align: 'center'}
+                ,{field:'propertyValue',width:285, title: '属性值',align: 'center'}
+                ,{field:'createUserName',width:120, title: '录入人',align: 'center'}
+                ,{field:'createTime', width:200, title: '时间', sort: true,align: 'center'}
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:130,align: 'center'}
+            ]]
+            ,page: true
+            ,done:function(res){
+                tdTitle();
+            }
+        });
+        // layui-table表格字段过长，展示不完整时，鼠标放到上面展示完整信息
+        function tdTitle(){
+            $('th').each(function(index,element){
+                $(element).attr('title',$(element).text());
+            });
+            $('td').each(function(index,element){
+                $(element).attr('title',$(element).text());
+            });
+        }
+        // 工具条点击事件
+        table.on('tool(productPropertys)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+            if (layEvent === 'edit') { // 编辑
+                edit(data);
+            } else if (layEvent === 'del') { // 删除
+                doDel(data.id);
+            }
+        });
+        // 修改
+        function edit(productProperty) {
+            layer.open({
+                type: 1,
+                title: "修改商品属性",
+                maxmin: true,
+                shadeClose:false,
+                skin: 'layui-layer-molv',
+                area:['300px',''],
+                content: $('#modelProduct').html(),
+                success: function (layero, dIndex) {
+                    $(layero).children('.layui-layer-content').css('overflow', 'visible');
+                    var url = '/store/productProperty/update';
+                    // 回显数据
+                    $("#ppId").val(productProperty.id);
+                    $("#propertyName").val(productProperty.propertyName);
+                    $("#propertyValue").val(productProperty.propertyValue);
+                    //重置
+                    $("#reset").click(function () {
+                        $("#propertyValue").val("");
+                    })
+                    // 表单提交事件
+                    form.on('submit(editProduct)', function (data) {
+                        if($("#propertyValue").val() ==null || $("#propertyValue").val()==''){
+                            layer.msg("请填写属性值");
+                        }else {
+                            layer.load(2);
+                            $.post(url, {id:$("#ppId").val(),propertyValue:$("#propertyValue").val()}, function (res) {
+                                layer.closeAll('loading');
+                                if (res.code == 0) {
+                                    layer.close(dIndex);
+                                    layer.msg(res.msg, {icon: 1});
+                                    insTb.reload({}, 'data');
+                                } else {
+                                    layer.msg(res.msg, {icon: 2});
+                                }
+                            }, 'json');
+                        }
+                        return false;
+                    });
+                }
+            });
+        }
+        // 删除
+        function doDel(id) {
+            layer.confirm('确定要删除此属性吗？', {icon: 7, title:'警告'}, function (i) {
+                layer.close(i);
+                layer.load(2);
+                $.post('/store/productProperty/del', {id:id}, function (res) {
+                    layer.closeAll('loading');
+                    if (res.code == 0) {
+                        layer.msg(res.msg, {icon: 1});
+                        insTb.reload({}, 'data');
+                    } else {
+                        layer.msg(res.msg, {con: 2});
+                    }
+                }, 'json');
+            });
+        }
+        // 搜索
+        form.on('submit(searchProduct)', function (data) {
+            insTb.reload({where:{productId:$("#productId").val(),propertyId:$("#propertyId").val()}});
+        });
+        //添加
+        form.on('submit(add)', function () {
+            $.get("/store/productProperty/listProduct",{},function (data) {
+                $.each(data.data,function (i,item) {
+                    $("#productId_add").append("<option value="+item.id+">"+item.name+"</option>");
+                })
+            })
+            $.get("/store/productProperty/listProductProperty",{},function (data) {
+                $.each(data.data,function (i,item) {
+                    $("#propertyId_add").append("<option value="+item.id+">"+item.name+"</option>");
+                })
+            })
+            layer.open({
+                type: 1,
+                title: "添加商品属性",
+                maxmin: true,
+                shadeClose: false,
+                skin: 'layui-layer-molv',
+                area: ['300px', '300px'],
+                content: $('#add').html(),
+                btn:['确定','取消'],
+                yes: function (index, layero) {
+                    var productId = $("#productId_add").val();
+                    var propertyId = $("#propertyId_add").val();
+                    var propertyName = $("#propertyId_add").find("option:selected").text();
+                    var propertyValue = $("#propertyValue_add").val();
+                    if(productId=='' || productId=='' || propertyValue==''){
+                        layer.msg("数据不完整");
+                    }else {
+                        $.post("/store/productProperty/add",{productId:productId,propertyId:propertyId,
+                            propertyName:propertyName,propertyValue:propertyValue},function (data) {
+                            if (data.code==0){
+                                layer.close(index);
+                                layer.msg(data.msg,{icon:1,time:1000});
+                                insTb.reload();
+                            }else {
+                                layer.msg(data.msg,{icon:2,time:2000});
+                            }
+                        })
+                    }
+                }
+            })
+        });
+    });
+</script>

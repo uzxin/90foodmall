@@ -1,6 +1,7 @@
 package com.cuit.foodmall.user.controller;
 
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.cuit.foodmall.entity.Order;
 import com.cuit.foodmall.entity.Product;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * @author: YX
@@ -67,5 +69,13 @@ public class ReviewController {
 	public Object page(HttpSession session){
 		Long userId = ((User) session.getAttribute("user")).getId();//用户ID
 		return Result.ok(reviewService.listByUId(userId));
+	}
+
+	@GetMapping("listReviewByPid")
+	public Object listReviewByPid(Long pid){
+		LambdaQueryWrapper<Review> wrapper = new QueryWrapper<Review>().lambda();
+		wrapper.eq(Review::getProductId, pid);
+		List<Review> list = reviewService.list(wrapper);
+		return new Result(0,"",list.size(),list);
 	}
 }

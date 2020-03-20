@@ -7,9 +7,7 @@ import com.cuit.foodmall.entity.User;
 import com.cuit.foodmall.service.StoreService;
 import com.cuit.foodmall.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -42,5 +40,18 @@ public class StoreController {
 		}
 		session.setAttribute("store",store);
 		return Result.ok(store);
+	}
+
+	/**
+	 * @description: 修改店铺信息
+	 * @param: store
+	 * @return: java.lang.Object
+	 */
+	@PostMapping("update")
+	public Object update(@RequestBody Store store){
+		if (storeService.updateById(store)){
+			return Result.ok("修改成功");
+		}
+		return Result.error("修改失败");
 	}
 }

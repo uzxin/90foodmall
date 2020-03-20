@@ -32,6 +32,9 @@
            <a id="all" class="btn  button_btn bg-red"><i class="layui-icon-cols"></i>所有</a>
         <a id="yes" class="btn  button_btn bg-yellow"><i class="fa fa-commenting"></i>已回复</a>
         <a id="no" class="btn  button_btn bg-green "><i class="fa  fa-comments-o"></i>未回复</a>
+        <a id="good" class="btn  button_btn bg-orange"><i class="layui-icon">&#xe6c6;</i>好评</a>
+        <a id="middle" class="btn  button_btn bg-azure"><i class="layui-icon">&#xe6af;</i>中评</a>
+        <a id="bad" class="btn  button_btn bg-gray"><i class="layui-icon">&#xe6c5;</i>差评</a>
        </span>
        <span class="r_f">共：<b id="count">0</b>条</span>
      </div>
@@ -144,15 +147,27 @@ $(function() {
         }
         //所有
         $("#all").click(function () {
-            insTb.reload({where:{status: ""}});
+            insTb.reload({where:{status: "",scoreTop: "",scoreButtom:""}});
         });
         //已回复
         $("#yes").click(function () {
-            insTb.reload({where:{status: "1"}});
+            insTb.reload({where:{status: "1",scoreTop: "",scoreButtom:""}});
         });
         //未回复
         $("#no").click(function () {
-            insTb.reload({where:{status: "0"}});
+            insTb.reload({where:{status: "0",scoreTop: "",scoreButtom:""}});
+        });
+        //好评
+        $("#good").click(function () {
+            insTb.reload({where:{status: "",scoreTop: "5",scoreButtom:"5"}});
+        });
+        //中评
+        $("#middle").click(function () {
+            insTb.reload({where:{status: "",scoreTop: "3",scoreButtom:"4"}});
+        });
+        //差评
+        $("#bad").click(function () {
+            insTb.reload({where:{status: "",scoreTop: "1",scoreButtom:"2"}});
         });
         // 工具条点击事件
         table.on('tool(reviews)', function (obj) {

@@ -2,10 +2,13 @@ package com.cuit.foodmall.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import java.util.Date;
 
 /**
  * @author: YX
@@ -78,6 +81,12 @@ public class UserInformation extends BasePO{
 	 */
 	@TableField("user_idCard_reverse")
 	private String idCardReverse;
+	/*
+	注册日期
+	 */
+	@JsonFormat(pattern="yyyy-MM-dd")
+	@TableField("create_time")
+	private Date createTime;
 
 	public UserInformation(Long userId, String phone, String email) {
 		this.userId = userId;

@@ -32,12 +32,14 @@ public class StoreCommentController {
 	/**
 	 * @description: 查询店铺留言
 	 * @param: review
+	 * @param: scoreTop
+	 * @param: scoreButtom
 	 * @param: page
 	 * @param: limit
 	 * @return: java.lang.Object
 	 */
 	@GetMapping("page")
-	public Object page(Review review, HttpSession session,
+	public Object page(Review review, HttpSession session, Integer scoreTop, Integer scoreButtom,
 	                   @RequestParam(required = false,defaultValue = "1") int page,
 	                   @RequestParam(required = false,defaultValue = "10") int limit){
 		Long storeId = ((Store) session.getAttribute("store")).getId();//店铺ID
@@ -45,6 +47,9 @@ public class StoreCommentController {
 		QueryWrapper<Review> wrapper = new QueryWrapper<>();
 		if (StringUtils.isNotEmpty(review.getStatus())){
 			wrapper.eq("r.status", review.getStatus());
+		}
+		if (null != scoreTop && null != scoreButtom){
+			wrapper.between("r.score", scoreTop, scoreButtom);
 		}
 		wrapper.eq("r.store_id", storeId);
 		wrapper.eq("r.del_flag", "0");

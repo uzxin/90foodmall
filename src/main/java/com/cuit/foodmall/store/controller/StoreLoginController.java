@@ -67,6 +67,7 @@ public class StoreLoginController {
 	@GetMapping("loginout")
 	public void loginout(HttpSession session){
 		session.removeAttribute("business");
+		session.removeAttribute("store");
 		log.info("退出登录");
 	}
 }

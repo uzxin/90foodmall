@@ -3,9 +3,10 @@ package com.cuit.foodmall.user.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.cuit.foodmall.entity.Category;
+import com.cuit.foodmall.entity.MallHeadLines;
 import com.cuit.foodmall.service.CategoryService;
+import com.cuit.foodmall.service.MallHeadLinesService;
 import com.cuit.foodmall.util.Result;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,18 +20,19 @@ import java.util.Map;
 
 /**
  * @author: YX
- * @date: 2020/2/28 09:07
- * @description: 商品分类
+ * @date: 2020/3/19 10:42
+ * @description: 商城首页
  */
 @RestController
-@RequestMapping("category")
-@Slf4j
-public class CategoryController {
+@RequestMapping("index")
+public class IndexController {
 
 	@Autowired
 	private CategoryService categoryService;
 	@Autowired
 	private RedisTemplate redisTemplate;
+	@Autowired
+	private MallHeadLinesService mallHeadLinesService;
 
 	/**
 	 * @description: 查询商品分类
@@ -66,18 +68,34 @@ public class CategoryController {
 		return Result.ok(list);
 	}
 
-	@GetMapping("list")
-	public Object list(){
-		return Result.ok(categoryService.list());
+	/**
+	 * @description: 查询商城头条
+	 * @return: java.lang.Object
+	 */
+	@GetMapping("listMallHeadLines")
+	public Object listMallHeadLines(){
+		LambdaQueryWrapper<MallHeadLines> wrapper = new QueryWrapper<MallHeadLines>().lambda();
+		//按照权重降序
+		wrapper.orderByDesc(MallHeadLines::getWeight);
+		return Result.ok(mallHeadLinesService.list(wrapper));
 	}
 
-
+	/**
+	 * @description: 查询父节点下的分类
+	 * @param: pid
+	 * @return: java.util.List<com.cuit.foodmall.entity.Category>
+	 */
 	public List<Category> listByPid(Long pid){
 		LambdaQueryWrapper<Category> wrapper = new QueryWrapper<Category>().lambda();
 		wrapper.eq(Category::getPid, pid);
 		return categoryService.list(wrapper);
 	}
 
+	/**
+	 * @description: 查询某一级别下的分类
+	 * @param: level
+	 * @return: java.util.List<com.cuit.foodmall.entity.Category>
+	 */
 	public List<Category> listByLevel(Long level){
 		LambdaQueryWrapper<Category> wrapper = new QueryWrapper<Category>().lambda();
 		wrapper.eq(Category::getLevel, level);

@@ -174,17 +174,22 @@
                     btn:['确定','取消'],
                     yes: function(index, layero){
                         //alert($("#shipMethod").val()+$("#expressNumber").val()+order.id);
-                        $.post("/store/order/send",
-                            {orderId:order.id,orderNumber:order.orderNumber,shipMethodId:$("#shipMethod").val(),
-                                shipMethodName: $("#shipMethod").find("option:selected").text(),
-                                expressNumber:$("#expressNumber").val()},
-                            function (data) {
-                            if (data.code == 0){
-                                layer.msg(data.msg,{icon:6,time:1000});
-                                layer.close(index);
-                                insTb.reload();
-                            }
-                        })
+                        if ($("#shipMethod").val()==null || $("#shipMethod").val()==''
+                            || $("#expressNumber").val()==null || $("#expressNumber").val()==''){
+                            layer.msg("请填写快递信息");
+                        }else {
+                            $.post("/store/order/send",
+                                {orderId:order.id,orderNumber:order.orderNumber,shipMethodId:$("#shipMethod").val(),
+                                    shipMethodName: $("#shipMethod").find("option:selected").text(),
+                                    expressNumber:$("#expressNumber").val()},
+                                function (data) {
+                                    if (data.code == 0){
+                                        layer.msg(data.msg,{icon:6,time:1000});
+                                        layer.close(index);
+                                        insTb.reload();
+                                    }
+                                })
+                        }
                     }
                 })
             }
