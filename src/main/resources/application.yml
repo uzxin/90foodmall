@@ -41,3 +41,8 @@ mybatis-plus:
       table-underline: true
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+#全局参数
+user:
+  loginPassword: 123456
+  payPassword: 123456

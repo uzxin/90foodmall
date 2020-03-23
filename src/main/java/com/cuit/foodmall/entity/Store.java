@@ -97,6 +97,11 @@ public class Store extends BasePO{
 	@TableField("score_delivery_speed")
 	private float scoreDeliverySpeed;
 	/*
+	状态
+	 */
+	@TableField("status")
+	private String status;
+	/*
 	开通时间
 	 */
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT-8")

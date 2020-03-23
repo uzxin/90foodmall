@@ -2,10 +2,14 @@ package com.cuit.foodmall.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.mysql.cj.conf.PropertyDefinitions;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import java.util.Date;
 
 /**
  * @author: YX
@@ -38,4 +42,10 @@ public class User extends BasePO{
 	 */
 	@TableField("user_account_status")
 	private String accountStatus;
+	/*
+	创建时间
+	 */
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	@TableField("create_time")
+	private Date createTime;
 }
