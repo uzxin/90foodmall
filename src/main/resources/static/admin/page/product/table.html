@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>所有店铺</title>
+    <title>所有商品</title>
     <link rel="stylesheet" href="../../assets/libs/layui/css/layui.css"/>
     <link rel="stylesheet" href="../../assets/module/admin.css?v=315"/>
     <!--[if lt IE 9]>
@@ -28,13 +28,13 @@
             <div class="layui-form toolbar">
                 <div class="layui-form-item">
                     <div class="layui-inline">
-                        <label class="layui-form-label w-auto">名字</label>
+                        <label class="layui-form-label w-auto">商品名字</label>
                         <div class="layui-input-inline mr0">
-                            <input id="name" name="name" class="layui-input" type="text" placeholder="请输入店铺名字"/>
+                            <input id="name" name="name" class="layui-input" type="text" placeholder="请输入商品名字"/>
                         </div>
                     </div>
                     <div class="layui-inline">
-                        <label class="layui-form-label w-auto">开店日期</label>
+                        <label class="layui-form-label w-auto">上架日期</label>
                         <div class="layui-input-inline mr0">
                             <input type="text" class="layui-input" id="date" placeholder="请选择">
                             <input type="hidden" id="begin" name="begin">
@@ -46,10 +46,10 @@
                         <div class="layui-input-inline mr0">
                             <select name="sort" id="sort">
                                 <option value=""></option>
-                                <option value="level">店铺等级</option>
-                                <option value="scoreDescription">相符描述</option>
-                                <option value="scoreServiceAttitude">服务态度</option>
-                                <option value="scoreDeliverySpeed">发货速度</option>
+                                <option value="price_cost">成本</option>
+                                <option value="price_sale">售价</option>
+                                <option value="inventory">库存</option>
+                                <option value="sales">销量</option>
                             </select>
                         </div>
                     </div>
@@ -68,89 +68,54 @@
 
 <!-- 表格操作列 -->
 <script type="text/html" id="tableBarUser">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="view">查看商家</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="view">查看详情</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-    <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="score">打分</a>
 </script>
 <!-- 表单弹窗 -->
 <script type="text/html" id="modelUser">
     <form id="modelUserForm" lay-filter="modelUserForm" class="layui-form model-form">
         <input id="id" name="id" type="hidden"/>
         <div class="layui-form-item">
-            <label class="layui-form-label">商家ID</label>
+            <label class="layui-form-label">名字</label>
             <div class="layui-input-block">
-                <input id="businessId" name="businessId" readonly="readonly" placeholder="请输入账号" type="text" class="layui-input" maxlength="20"
+                <input id="name" name="name" readonly="readonly" type="text" class="layui-input" maxlength="20"
                        lay-verType="tips" lay-verify="required" required/>
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">联系人</label>
+            <label class="layui-form-label">成本</label>
             <div class="layui-input-block">
-                <input id="contactUserName" name="contactUserName" placeholder="请输入联系人" type="text" class="layui-input" maxlength="20"
+                <input id="priceCost" name="priceCost" readonly="readonly" type="text" class="layui-input" maxlength="20"
                        lay-verType="tips" lay-verify="required" required/>
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">联系电话</label>
+            <label class="layui-form-label">原价</label>
             <div class="layui-input-block">
-                <input id="contactUserPhone" name="contactUserPhone" placeholder="请输入联系电话" type="text" class="layui-input" maxlength="20"
-                       lay-verType="tips" lay-verify="required|phone" required/>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">传真</label>
-            <div class="layui-input-block">
-                <input id="fax" name="fax" placeholder="请输入传真" type="text" class="layui-input" maxlength="20"
+                <input id="priceOriginal" name="priceOriginal" readonly="readonly"  type="text" class="layui-input" maxlength="20"
                        lay-verType="tips" lay-verify="required" required/>
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">邮箱</label>
+            <label class="layui-form-label">售价</label>
             <div class="layui-input-block">
-                <input id="email" name="email" placeholder="请输入邮箱" type="text" class="layui-input" maxlength="20"
-                       lay-verType="tips" lay-verify="email" required/>
-            </div>
-        </div>
-        <div class="layui-form-item text-right">
-            <button class="layui-btn layui-btn-primary" type="button" ew-event="closePageDialog">取消</button>
-            <button class="layui-btn" lay-filter="modelSubmitUser" lay-submit>保存</button>
-        </div>
-    </form>
-</script>
-<script type="text/html" id="score">
-    <form id=scoreForm" lay-filter="scoreForm" class="layui-form model-form">
-        <input id="id" name="id" type="hidden"/>
-        <div class="layui-form-item">
-            <label class="layui-form-label">店铺等级</label>
-            <div class="layui-input-block">
-                <div id="level"></div>
-                <input type="hidden" id="level" name="level">
+                <input id="priceSale" name="priceSale" readonly="readonly"  type="text" class="layui-input" maxlength="20"
+                       lay-verType="tips" lay-verify="required" required/>
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">相符描述</label>
+            <label class="layui-form-label">库存</label>
             <div class="layui-input-block">
-                <div id="scoreDescription"></div>
-                <input type="hidden" id="scoreDescription" name="scoreDescription">
+                <input id="inventory" name="inventory" readonly="readonly"  type="text" class="layui-input" maxlength="20"
+                       lay-verType="tips" lay-verify="required" required/>
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">服务态度</label>
+            <label class="layui-form-label">销量</label>
             <div class="layui-input-block">
-                <div id="scoreServiceAttitude"></div>
-                <input type="hidden" id="scoreServiceAttitude" name="scoreServiceAttitude">
+                <input id="sales" name="sales" readonly="readonly"  type="text" class="layui-input" maxlength="20"
+                       lay-verType="tips" lay-verify="required" required/>
             </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">发货速度</label>
-            <div class="layui-input-block">
-                <div id="scoreDeliverySpeed"></div>
-                <input type="hidden" id="scoreDeliverySpeed" name="scoreDeliverySpeed">
-            </div>
-        </div>
-        <div class="layui-form-item text-right">
-            <button class="layui-btn layui-btn-primary" type="button" ew-event="closePageDialog">取消</button>
-            <button class="layui-btn" lay-filter="modelSubmitUser" lay-submit>保存</button>
         </div>
     </form>
 </script>
@@ -184,28 +149,28 @@
         // 渲染表格
         var insTb = table.render({
             elem: '#tableUser',
-            url: '/admin/store/page',
+            url: '/admin/product/page',
             page: true,
             toolbar: true,
             cellMinWidth: 100,
             cols: [[
                 {type: 'numbers'},
                 {field: 'id', hide: true},
-                {field: 'name',width:'200',align: 'center', title: '店铺名字'},
-                {field: 'description',width:'145',align: 'center',title: '描述'},
-                {field: 'legalUserName',width:'120',align: 'center',title: '法人名字'},
-                {field: 'legalUserIdCard',width:'175',align: 'center',title: '身份证'},
-                {field: 'level',width:'85',sort:true,align: 'center',title: '等级'},
+                {field: 'name',width:'220',align: 'center', title: '名字'},
+                {field: 'categoryName',width:'120',align: 'center',title: '分类'},
+                {field: 'storeName',width:'150',align: 'center',title: '店铺'},
+                {field: 'createTime',width:'130',align: 'center',sort:true,title: '上架日期'},
+                {field: 'createUserName',width:'120',align: 'center',title: '上架人'},
                 {
-                    field: 'status', title: '状态', width:120, align: 'center', templet: function (d) {
-                        if (d.status == '1') {
-                            return "<input type='checkbox' value='" + d.id + "' name='accountStatus' lay-filter='ckState' lay-skin='switch' lay-text='开启|关闭' checked >";
-                        } else if (d.status == '2'){
-                            return "<input type='checkbox' value='" + d.id + "' name='accountStatus' lay-filter='ckState' lay-skin='switch' lay-text='开启|关闭' >";
+                    field: 'enabled', title: '状态', width:120, align: 'center', templet: function (d) {
+                        if (d.enabled == '0') {
+                            return "<input type='checkbox' value='" + d.id + "' name='accountStatus' lay-filter='ckState' lay-skin='switch' lay-text='上架|下架' checked >";
+                        } else if (d.enabled == '1'){
+                            return "<input type='checkbox' value='" + d.id + "' name='accountStatus' lay-filter='ckState' lay-skin='switch' lay-text='上架|下架' >";
                         }
                     }
                 },
-                {align: 'center', width:'190',toolbar: '#tableBarUser', title: '操作'}
+                {align: 'center', width:'160',toolbar: '#tableBarUser', title: '操作'}
             ]]
             ,done:function(res){
                 tdTitle();
@@ -229,20 +194,18 @@
         table.on('tool(tableUser)', function (obj) {
             var data = obj.data;
             var layEvent = obj.event;
-            if (layEvent === 'view') { // 查看商家
+            if (layEvent === 'view') { // 查看商品详情
                 showEditModel(data);
             } else if (layEvent === 'del') { // 删除
                 doDel(data.id, data.name);
-            } else if (layEvent === 'score') { // 打分
-                score(data);
             }
         });
 
-        // 查看商家信息
+        // 查看商品详情信息
         function showEditModel(mUser) {
             admin.open({
                 type: 1,
-                title: '查看商家',
+                title: '商品详情',
                 content: $('#modelUser').html(),
                 success: function (layero, dIndex) {
                     $(layero).children('.layui-layer-content').css('overflow', 'visible');
@@ -267,66 +230,6 @@
                 }
             });
         }
-        // 打分
-        function score(score) {
-            admin.open({
-                type: 1,
-                title: '打分',
-                content: $('#score').html(),
-                area:'550px',
-                success: function (layero, dIndex) {
-                    rate.render({
-                        elem: '#level'
-                        ,value: score.level
-                        ,text: true
-                        ,choose:function (value) {
-                            $("input#level").val(value);
-                        }
-                        ,setText: function(value){
-                            this.span.text(value+"级");
-                        }
-                    })
-                    render("scoreDescription",score.scoreDescription);
-                    render("scoreServiceAttitude",score.scoreServiceAttitude);
-                    render("scoreDeliverySpeed",score.scoreDeliverySpeed);
-                    $(layero).children('.layui-layer-content').css('overflow', 'visible');
-                    var url = '/admin/store/score';
-                    // 回显数据
-                    form.val('scoreForm', score);
-                    // 表单提交事件
-                    form.on('submit(modelSubmitUser)', function (data) {
-                        layer.load(2);
-                        $.post(url,data.field, function (res) {
-                            layer.closeAll('loading');
-                            if (res.code == 0) {
-                                layer.close(dIndex);
-                                layer.msg(res.msg, {icon: 1});
-                                insTb.reload({}, 'data');
-                            } else {
-                                layer.msg(res.msg, {icon: 2});
-                            }
-                        }, 'json');
-                        return false;
-                    });
-                }
-            });
-        }
-        //自定义render
-        function render(elem,initialValue) {
-            rate.render({
-                elem: '#'+elem
-                ,value: initialValue
-                ,length: 10
-                ,half: true
-                ,text: true
-                ,choose:function (value) {
-                    $("input#"+elem).val(value);
-                }
-                ,setText: function(value){
-                    this.span.text(value+"分");
-                }
-            })
-        }
         // 删除
         function doDel(id, name) {
             layer.confirm('确定要删除“' + name + '”吗？', {
@@ -335,7 +238,7 @@
             }, function (i) {
                 layer.close(i);
                 layer.load(2);
-                $.get('/admin/store/del', {id: id}, function (res) {
+                $.get('/admin/product/del', {id: id}, function (res) {
                     layer.closeAll('loading');
                     if (res.code == 0) {
                         layer.msg(res.msg, {icon: 1});
@@ -344,10 +247,10 @@
                 }, 'json');
             });
         }
-        // 修改店铺状态
+        // 修改商品上下架状态
         form.on('switch(ckState)', function (data) {
             layer.confirm('是否更改?', {icon: 3, title:'提示'}, function(index){
-                $.post("/admin/store/openOrClose",{id:data.value},function (res) {
+                $.post("/admin/product/changeEnabled",{id:data.value},function (res) {
                     if (res.code == 0) {
                         layer.msg(res.msg, {icon: 1, time: 2000});
                         insTb.reload();

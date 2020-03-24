@@ -102,6 +102,11 @@ public class Store extends BasePO{
 	@TableField("status")
 	private String status;
 	/*
+	审核意见
+	 */
+	@TableField("review_opinion")
+	private String reviewOpinion;
+	/*
 	开通时间
 	 */
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT-8")
