@@ -56,7 +56,7 @@
                     </dd>
                     <hr>
                     <dd lay-unselect>
-                        <a ew-event="logout" data-url="page/template/login.html">退出</a>
+                        <a ew-event="logout" data-url="page/login.html">退出</a>
                     </dd>
                 </dl>
             </li>
@@ -74,52 +74,46 @@
                 <li class="layui-nav-item">
                     <a><i class="layui-icon layui-icon-home"></i>&emsp;<cite>系统主页</cite></a>
                     <dl class="layui-nav-child">
-                        <dd><a lay-href="page/console/welcome.html">欢迎页</a></dd>
+                        <dd><a lay-href="/admin/page/console/welcome.html">欢迎页</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item">
                     <a><i class="layui-icon layui-icon-template"></i>&emsp;<cite>用户管理</cite></a>
                     <dl class="layui-nav-child">
-                        <dd><a lay-href="page/user/table.html">账号管理</a></dd>
-                        <dd><a lay-href="page/user/userinfo.html">用户资料</a></dd>
+                        <dd><a lay-href="/admin/page/user/table.html">账号管理</a></dd>
+                        <dd><a lay-href="/admin/page/user/userinfo.html">用户资料</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item">
                     <a><i class="layui-icon layui-icon-template"></i>&emsp;<cite>店铺管理</cite></a>
                     <dl class="layui-nav-child">
-                        <dd><a lay-href="page/store/table.html">所有店铺</a></dd>
-                        <dd><a lay-href="page/store/reviewStore.html">店铺审核</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a><i class="layui-icon layui-icon-template"></i>&emsp;<cite>分类管理</cite></a>
-                    <dl class="layui-nav-child">
-                        <dd><a lay-href="page/category/table.html">全部分类</a></dd>
+                        <dd><a lay-href="/admin/page/store/table.html">所有店铺</a></dd>
+                        <dd><a lay-href="/admin/page/store/reviewStore.html">店铺审核</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item">
                     <a><i class="layui-icon layui-icon-template"></i>&emsp;<cite>商品管理</cite></a>
                     <dl class="layui-nav-child">
-                        <dd><a lay-href="page/product/table.html">所有商品</a></dd>
-                        <dd><a lay-href="page/product/reviewProduct.html">商品审核</a></dd>
+                        <dd><a lay-href="/admin/page/product/table.html">所有商品</a></dd>
+                        <dd><a lay-href="/admin/page/product/reviewProduct.html">商品审核</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item">
                     <a><i class="layui-icon layui-icon-template"></i>&emsp;<cite>广告管理</cite></a>
                     <dl class="layui-nav-child">
-                        <dd><a lay-href="">广告管理</a></dd>
+                        <dd><a lay-href="/admin/page/advertisement/mallHeadLines.html">商城头条</a></dd>
+                        <dd><a lay-href="">首页推荐</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item">
-                    <a><i class="layui-icon layui-icon-template"></i>&emsp;<cite>角色管理</cite></a>
+                    <a><i class="layui-icon layui-icon-template"></i>&emsp;<cite>数据维护</cite></a>
                     <dl class="layui-nav-child">
-                        <dd><a lay-href="page/system/role.html">角色管理</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a><i class="layui-icon layui-icon-template"></i>&emsp;<cite>权限管理</cite></a>
-                    <dl class="layui-nav-child">
-                        <dd><a lay-href="page/system/role.html">权限管理</a></dd>
+                        <dd><a lay-href="/admin/page/category/table.html">商品分类</a></dd>
+                        <dd><a lay-href="/admin/page/bank/table.html">银行</a></dd>
+                        <dd><a lay-href="/admin/page/payMethod/table.html">支付方式</a></dd>
+                        <dd><a lay-href="/admin/page/shipMethod/table.html">物流方式</a></dd>
+                        <dd><a lay-href="/admin/page/property/table.html">商品属性</a></dd>
+                        <dd><a lay-href="/admin/page/securityQuestion/table.html">密保问题</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item">
@@ -130,10 +124,11 @@
                     </dl>
                 </li>
                 <li class="layui-nav-item">
-                    <a><i class="layui-icon layui-icon-set"></i>&emsp;<cite>系统管理</cite></a>
+                    <a><i class="layui-icon layui-icon-set"></i>&emsp;<cite>系统设置</cite></a>
                     <dl class="layui-nav-child">
-                        <dd><a lay-href="page/system/authorities.html">菜单管理</a></dd>
-                        <dd><a lay-href="page/system/loginRecord.html">登录日志</a></dd>
+                        <dd><a lay-href="/admin/page/role/table.html">角色管理</a></dd>
+                        <dd><a lay-href="/admin/page/auth/table.html">权限管理</a></dd>
+                        <dd><a lay-href="/admin/page/system/loginRecord.html">登录日志</a></dd>
                     </dl>
                 </li>
             </ul>

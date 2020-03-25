@@ -12,28 +12,29 @@ import java.util.Date;
 
 /**
  * @author: YX
- * @date: 2020/2/25 14:20
- * @description: 密保问题
+ * @date: 2020/3/25 15:51
+ * @description: 角色权限
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@TableName("security_question")
-public class SecurityQuestion extends BasePO {
+@TableName("role_auth")
+public class RoleAuth extends BasePO{
+
 	/*
-	密保问题
+	角色ID
 	 */
-	@TableField("question")
-	private String question;
+	@TableField("role_id")
+	private Long roleId;
 	/*
-	创建人ID
+	权限ID
 	 */
-	@TableField("create_user_id")
-	private Long createUserId;
+	@TableField("auth_id")
+	private Long authId;
 	/*
-	创建人
-	*/
+	创建人姓名
+	 */
 	@TableField("create_user_name")
 	private String createUserName;
 	/*

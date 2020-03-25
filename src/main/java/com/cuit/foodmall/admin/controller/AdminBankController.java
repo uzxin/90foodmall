@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.cuit.foodmall.entity.Role;
-import com.cuit.foodmall.service.RoleService;
+import com.cuit.foodmall.entity.Bank;
+import com.cuit.foodmall.service.BankService;
 import com.cuit.foodmall.util.Result;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,68 +13,58 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * @author: YX
- * @date: 2020/3/23 12:21
- * @description: 角色
+ * @date: 2020/3/25 12:01
+ * @description: 银行
  */
 @RestController
-@RequestMapping("admin/role")
-public class AdminRoleController {
+@RequestMapping("admin/bank")
+public class AdminBankController {
 
 	@Autowired
-	private RoleService roleService;
+	private BankService bankService;
 
 	/**
-	 * @description: 查询角色
-	 * @param: role
+	 * @description: 查询银行
+	 * @param: bank
 	 * @param: page
 	 * @param: limit
 	 * @return: java.lang.Object
 	 */
 	@GetMapping("page")
-	public Object page(Role role, @RequestParam(required = false,defaultValue = "1") int page,
+	public Object page(Bank bank, @RequestParam(required = false,defaultValue = "1") int page,
 	                   @RequestParam(required = false,defaultValue = "10") int limit){
-		Page<Role> ipage = new Page<>(page, limit);
-		LambdaQueryWrapper<Role> wrapper = new QueryWrapper<Role>().lambda();
-		if (StringUtils.isNotEmpty(role.getName())){
-			wrapper.like(Role::getName, role.getName());
+		Page<Bank> ipage = new Page<>(page, limit);
+		LambdaQueryWrapper<Bank> wrapper = new QueryWrapper<Bank>().lambda();
+		if (StringUtils.isNotEmpty(bank.getBankName())){
+			wrapper.like(Bank::getBankName, bank.getBankName());
 		}
-		IPage<Role> p = roleService.page(ipage, wrapper);
+		IPage<Bank> p = bankService.page(ipage, wrapper);
 		return new Result(0,"",p.getTotal(),p.getRecords());
 	}
 
 	/**
-	 * @description: 更新或添加角色
+	 * @description: 更新或添加
 	 * @param: mallHeadLines
 	 * @return: java.lang.Object
 	 */
 	@PostMapping("addOrUpdate")
-	public Object addOrUpdate(Role role){
-		if (roleService.saveOrUpdate(role)){
+	public Object addOrUpdate(Bank bank){
+		if (bankService.saveOrUpdate(bank)){
 			return Result.ok();
 		}
 		return Result.error();
 	}
 
-
 	/**
-	 * @description: 删除角色
+	 * @description: 删除
 	 * @param: id
 	 * @return: java.lang.Object
 	 */
 	@PostMapping("del")
 	public Object del(Long id){
-		if (roleService.removeById(id)){
+		if (bankService.removeById(id)){
 			return Result.ok("删除成功");
 		}
 		return Result.error("删除失败");
-	}
-
-	/**
-	 * @description: 查询所有角色
-	 * @return: java.lang.Object
-	 */
-	@GetMapping("list")
-	public Object list(){
-		return Result.ok(roleService.list());
 	}
 }

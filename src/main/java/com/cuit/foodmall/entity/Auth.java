@@ -12,28 +12,54 @@ import java.util.Date;
 
 /**
  * @author: YX
- * @date: 2020/2/25 14:20
- * @description: 密保问题
+ * @date: 2020/3/25 14:48
+ * @description: 权限
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@TableName("security_question")
-public class SecurityQuestion extends BasePO {
+@TableName("auth")
+public class Auth extends BasePO{
+
 	/*
-	密保问题
+	名字
 	 */
-	@TableField("question")
-	private String question;
+	@TableField("name")
+	private String name;
+	/*
+	描述
+	 */
+	@TableField("description")
+	private String description;
+	/*
+	父节点
+	 */
+	@TableField("pid")
+	private Long pid;
+	/*
+	级别
+	 */
+	@TableField("level")
+	private Long level;
+	/*
+	url地址
+	 */
+	@TableField("address")
+	private String address;
+	/*
+	图标
+	 */
+	@TableField("icon")
+	private String icon;
 	/*
 	创建人ID
 	 */
 	@TableField("create_user_id")
 	private Long createUserId;
 	/*
-	创建人
-	*/
+	创建人名字
+	 */
 	@TableField("create_user_name")
 	private String createUserName;
 	/*
