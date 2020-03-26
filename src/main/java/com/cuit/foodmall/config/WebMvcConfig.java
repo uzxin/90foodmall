@@ -1,6 +1,7 @@
 package com.cuit.foodmall.config;
 
-import com.cuit.foodmall.interceptor.MyInterceptor;
+import com.cuit.foodmall.interceptor.UserInterceptor;
+import com.cuit.foodmall.interceptor.AdminInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.ResourceUtils;
@@ -17,7 +18,9 @@ import java.io.FileNotFoundException;
 public class WebMvcConfig implements WebMvcConfigurer {
 
     @Autowired
-    private MyInterceptor myInterceptor;
+    private UserInterceptor userInterceptor;
+    @Autowired
+    private AdminInterceptor adminInterceptor;
 
     //跨域设置
     @Override
@@ -48,6 +51,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 通过registry来注册拦截器，通过addPathPatterns来添加拦截路径
-        registry.addInterceptor(this.myInterceptor).addPathPatterns("/shoppingcart/**").addPathPatterns("/user/person/index.html");
+        registry.addInterceptor(this.userInterceptor).addPathPatterns("/shoppingcart/**").addPathPatterns("/user/person/index.html");
+        registry.addInterceptor(this.adminInterceptor).addPathPatterns("/admin/index.html").addPathPatterns("/admin/page/**");
     }
 }

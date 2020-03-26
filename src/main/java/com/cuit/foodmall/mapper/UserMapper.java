@@ -5,10 +5,13 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.cuit.foodmall.entity.Auth;
 import com.cuit.foodmall.entity.User;
 import com.cuit.foodmall.entity.vo.UserVO;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
  * @author: YX
@@ -21,4 +24,9 @@ public interface UserMapper extends BaseMapper<User> {
 			"LEFT JOIN user_information AS ui ON u.id=ui.user_id\n" +
 			"LEFT JOIN user_role AS ur ON u.id=ur.user_id ${ew.customSqlSegment}")
 	IPage<UserVO> listUser(Page<UserVO> ipage, @Param(Constants.WRAPPER) QueryWrapper<UserVO> wrapper);
+
+	@Select("SELECT * FROM auth WHERE id in\n" +
+			"(SELECT auth_id FROM role_auth WHERE role_id in\n" +
+			"(SELECT role_id from user_role WHERE user_id=#{userId}))")
+	List<Auth> getAuths(Long userId);
 }

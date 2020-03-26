@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
  * @description: 拦截器
  */
 @Component
-public class MyInterceptor implements HandlerInterceptor {
+public class UserInterceptor implements HandlerInterceptor {
 	//请求处理前，也就是访问Controller前
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

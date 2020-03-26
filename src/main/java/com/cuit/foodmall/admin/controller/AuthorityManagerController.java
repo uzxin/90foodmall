@@ -1,14 +1,8 @@
 package com.cuit.foodmall.admin.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.cuit.foodmall.entity.Auth;
-import com.cuit.foodmall.entity.Role;
-import com.cuit.foodmall.entity.RoleAuth;
-import com.cuit.foodmall.entity.UserRole;
-import com.cuit.foodmall.service.AuthService;
-import com.cuit.foodmall.service.RoleAuthService;
-import com.cuit.foodmall.service.RoleService;
-import com.cuit.foodmall.service.UserRoleService;
+import com.cuit.foodmall.entity.*;
+import com.cuit.foodmall.service.*;
 import com.cuit.foodmall.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -37,6 +33,8 @@ public class AuthorityManagerController {
     private RoleAuthService roleAuthService;
     @Autowired
     private AuthService authService;
+    @Autowired
+    private UserService userService;
 
     /**
      * @description: 查询角色权限
@@ -45,7 +43,7 @@ public class AuthorityManagerController {
      */
     @GetMapping("getRoleAuths")
     public Object getRoleAuths(Long roleId){
-        //查询所有角色权限
+        //查询角色所有权限
         List<RoleAuth> roleAuths = roleAuthService.list(new LambdaQueryWrapper<RoleAuth>().eq(RoleAuth::getRoleId, roleId));
         if(null != roleAuths){
             if(roleAuths.size()>0){
@@ -87,6 +85,24 @@ public class AuthorityManagerController {
             }
         }
         return Result.ok("设置失败");
+    }
+
+    /**
+     * @description: 获取用户权限
+     * @param: session
+     * @return: java.lang.Object
+     */
+    @GetMapping("getAuths")
+    public Object getAuths(HttpServletRequest request){
+        User user = (User) request.getSession().getAttribute("admin");
+        if (null != user){
+            List<Auth> auths = userService.getAuths(user.getId());
+            if (auths.size() == 0){
+                return Result.error("没有权限");
+            }
+            return Result.ok(auths);
+        }
+        return Result.error("未登录");
     }
 
 }

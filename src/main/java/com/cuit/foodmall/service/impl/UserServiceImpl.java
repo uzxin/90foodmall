@@ -4,12 +4,15 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.cuit.foodmall.entity.Auth;
 import com.cuit.foodmall.entity.vo.UserVO;
 import com.cuit.foodmall.mapper.UserMapper;
 import com.cuit.foodmall.entity.User;
 import com.cuit.foodmall.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author: YX
@@ -24,5 +27,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 	@Override
 	public IPage<UserVO> listUser(Page<UserVO> ipage, QueryWrapper<UserVO> wrapper) {
 		return userMapper.listUser(ipage, wrapper);
+	}
+
+	@Override
+	public List<Auth> getAuths(Long userId) {
+		return userMapper.getAuths(userId);
 	}
 }

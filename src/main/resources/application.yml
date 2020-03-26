@@ -46,3 +46,4 @@ mybatis-plus:
 user:
   loginPassword: 123456
   payPassword: 123456
+TOKEN_EXPIRE: 1800

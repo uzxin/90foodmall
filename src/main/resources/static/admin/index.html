@@ -45,18 +45,18 @@
             <li class="layui-nav-item" lay-unselect>
                 <a>
                     <img src="assets/images/head.png" class="layui-nav-img">
-                    <cite>管理员</cite>
+                    <cite id="loginName">管理员</cite>
                 </a>
                 <dl class="layui-nav-child">
                     <dd lay-unselect>
                         <a ew-href="page/template/user-info.html">个人中心</a>
                     </dd>
                     <dd lay-unselect>
-                        <a ew-event="psw">修改密码</a>
+                        <a id="changePassword">修改密码</a>
                     </dd>
                     <hr>
                     <dd lay-unselect>
-                        <a ew-event="logout" data-url="page/login.html">退出</a>
+                        <a id="logout">退出</a>
                     </dd>
                 </dl>
             </li>
@@ -67,68 +67,15 @@
     </div>
 
     <!-- 侧边栏 -->
+    <!-- 侧边栏 -->
     <div class="layui-side">
         <div class="layui-side-scroll">
-            <ul class="layui-nav layui-nav-tree arrow2" lay-filter="admin-side-nav" lay-accordion="true"
-                style="margin-top: 15px;">
+            <ul class="layui-nav layui-nav-tree" lay-filter="admin-side-nav" lay-accordion="true"
+                style="margin: 15px 0;/*overflow-y: auto; height: 100%;*/">
                 <li class="layui-nav-item">
                     <a><i class="layui-icon layui-icon-home"></i>&emsp;<cite>系统主页</cite></a>
                     <dl class="layui-nav-child">
                         <dd><a lay-href="/admin/page/console/welcome.html">欢迎页</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a><i class="layui-icon layui-icon-template"></i>&emsp;<cite>用户管理</cite></a>
-                    <dl class="layui-nav-child">
-                        <dd><a lay-href="/admin/page/user/table.html">账号管理</a></dd>
-                        <dd><a lay-href="/admin/page/user/userinfo.html">用户资料</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a><i class="layui-icon layui-icon-template"></i>&emsp;<cite>店铺管理</cite></a>
-                    <dl class="layui-nav-child">
-                        <dd><a lay-href="/admin/page/store/table.html">所有店铺</a></dd>
-                        <dd><a lay-href="/admin/page/store/reviewStore.html">店铺审核</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a><i class="layui-icon layui-icon-template"></i>&emsp;<cite>商品管理</cite></a>
-                    <dl class="layui-nav-child">
-                        <dd><a lay-href="/admin/page/product/table.html">所有商品</a></dd>
-                        <dd><a lay-href="/admin/page/product/reviewProduct.html">商品审核</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a><i class="layui-icon layui-icon-template"></i>&emsp;<cite>广告管理</cite></a>
-                    <dl class="layui-nav-child">
-                        <dd><a lay-href="/admin/page/advertisement/mallHeadLines.html">商城头条</a></dd>
-                        <dd><a lay-href="">首页推荐</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a><i class="layui-icon layui-icon-template"></i>&emsp;<cite>数据维护</cite></a>
-                    <dl class="layui-nav-child">
-                        <dd><a lay-href="/admin/page/category/table.html">商品分类</a></dd>
-                        <dd><a lay-href="/admin/page/bank/table.html">银行</a></dd>
-                        <dd><a lay-href="/admin/page/payMethod/table.html">支付方式</a></dd>
-                        <dd><a lay-href="/admin/page/shipMethod/table.html">物流方式</a></dd>
-                        <dd><a lay-href="/admin/page/property/table.html">商品属性</a></dd>
-                        <dd><a lay-href="/admin/page/securityQuestion/table.html">密保问题</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a><i class="layui-icon layui-icon-template"></i>&emsp;<cite>统计分析</cite></a>
-                    <dl class="layui-nav-child">
-                        <dd><a lay-href="page/console/console.html">控制台</a></dd>
-                        <dd><a lay-href="page/console/dashboard.html">分析页</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a><i class="layui-icon layui-icon-set"></i>&emsp;<cite>系统设置</cite></a>
-                    <dl class="layui-nav-child">
-                        <dd><a lay-href="/admin/page/role/table.html">角色管理</a></dd>
-                        <dd><a lay-href="/admin/page/auth/table.html">权限管理</a></dd>
-                        <dd><a lay-href="/admin/page/system/loginRecord.html">登录日志</a></dd>
                     </dl>
                 </li>
             </ul>
@@ -143,26 +90,174 @@
         <span class="pull-right">Version 1.0.0</span>
     </div>
 </div>
-
 <!-- 加载动画 -->
 <div class="page-loading">
     <div class="ball-loader">
         <span></span><span></span><span></span><span></span>
     </div>
 </div>
+<!-- 侧边栏渲染模板 -->
+<script id="sideNav" type="text/html">
+    {{#  layui.each(d, function(index, item){ }}
+    <li class="layui-nav-item">
+        <a lay-href="{{(item.address&&item.level==2)? item.address:'javascript:;'}}"><i class="layui-icon {{item.icon}}"></i>&emsp;<cite>{{item.name}}</cite></a>
+        {{# if(item.children&&item.children.length>0){ }}
+        <dl class="layui-nav-child">
+            {{# layui.each(item.children, function(index, subItem){ }}
+            <dd>
+                <a lay-href="{{ subItem.address ? subItem.address:'javascript:;'}}">{{ subItem.name }}</a>
+                {{# if(subItem.children&&subItem.children.length>0){ }}
+                <dl class="layui-nav-child">
+                    {{# layui.each(subItem.children, function(index, thrItem){ }}
+                    <dd><a lay-href="{{ thrItem.address ? thrItem.address:'javascript:;'}}">{{ thrItem.name }}</a></dd>
+                    {{# }); }}
+                </dl>
+                {{# } }}
+            </dd>
+            {{# }); }}
+        </dl>
+        {{# } }}
+    </li>
+    {{#  }); }}
+</script>
 
+<script type="text/html" id="changePwd">
+    <form class="layui-form model-form" id="form-psw">
+        <div class="layui-form-item">
+            <label class="layui-form-label">原始密码:</label>
+            <div class="layui-input-block">
+                <input type="password" name="oldPassword" placeholder="请输入原始密码" class="layui-input"
+                       lay-verType="tips" lay-verify="required" required/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">新密码:</label>
+            <div class="layui-input-block">
+                <input type="password" name="newPassword" placeholder="请输入新密码" class="layui-input"
+                       lay-verType="tips" lay-verify="required|psw" required/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">确认密码:</label>
+            <div class="layui-input-block">
+                <input type="password" name="repassword" placeholder="请再次输入新密码" class="layui-input"
+                       lay-verType="tips" lay-verify="required|repsw" required/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block text-right">
+                <button class="layui-btn" lay-filter="submitPsw" lay-submit>保存</button>
+                <button class="layui-btn layui-btn-primary" type="button" ew-onc="closeDialog">取消</button>            </div>
+        </div>
+    </form>
+</script>
 <!-- js部分 -->
 <script type="text/javascript" src="./assets/libs/layui/layui.js"></script>
 <script type="text/javascript" src="./assets/js/common.js?v=315"></script>
 <script>
-    layui.use(['index'], function () {
+    layui.use(['layer', 'element', 'admin', 'index', 'laytpl', 'notice', 'form'], function () {
         var $ = layui.jquery;
+        var layer = layui.layer;
+        var admin = layui.admin;
         var index = layui.index;
+        var laytpl = layui.laytpl;
+        var element = layui.element;
+        var notice = layui.notice;
+        var form = layui.form;
 
         // 默认加载主页
         index.loadHome({
             menuPath: 'page/console/welcome.html',
             menuName: '<i class="layui-icon layui-icon-home"></i>'
+        });
+
+        // 检查是否登录
+        admin.req('/admin/getUser?' + new Date().getTime(), {}, function (res) {
+            if (res.code == 401) {
+                return window.top.location.replace('/admin/login.html');
+            } else if (res.code == 0) {
+                $('#loginName').html(res.data.username);
+                renderMenu(res.data.id);
+            }
+        }, 'GET');
+
+        var renderMenu = function (userId) {
+            admin.req('/admin/authorityManager/getAuths?' + new Date().getTime(), {}, function (res) {
+                if (res.code == 0) {
+                    var data = res.data;
+                    var obj = transform(data);
+                    laytpl(sideNav.innerHTML).render(obj[0].children, function (html) {
+                        html = html;
+                        $('*[lay-filter=admin-side-nav]').append(html);
+                        element.render('nav');
+                        admin.activeNav('/page/home.html');
+                    });
+                }
+            }, 'GET');
+        };
+
+        function transform(list) {
+            var group = {};
+            $.each(list, function (i, e) {
+                var parentId = e.pid;
+                if (!group.hasOwnProperty(parentId)) {
+                    group[parentId] = [];
+                }
+                group[parentId].push(e);
+            });
+            $.each(list, function (i, e) {
+                var id = e.id;
+                if (group.hasOwnProperty(id)) {
+                    e.children = group[id];
+                }
+            });
+            console.log(group["-1"]);
+            return group["-1"];
+        }
+
+        // 退出
+        $("#logout").click(function () {
+            layer.confirm('确定要退出登陆吗?', {icon: 3, title:'温馨提示'}, function(index){
+                $.get("/admin/logout",{},function (data) {
+                    if (data.code == 0){
+                        window.location.href="/admin/login.html";
+                    }else {
+                        layer.msg("退出失败",{icon:2,time:2000});
+                    }
+                })
+                layer.close(index);
+            });
+        })
+
+        //修改密码
+        $('#changePassword').click(function () {
+            admin.open({
+                type: 1,
+                title: '修改密码',
+                content: $('#changePwd').html(),
+                success: function (index, layero) {
+                    form.on('submit(submitPsw)', function (data) {
+                        var formData = data.field;
+                        //若两次新密码不一致
+                        if(formData.newPassword != formData.repassword){
+                            layer.msg('两次输入的新密码不一致', {icon: 2});
+                        }else{
+                            admin.req('/admin/changePassword', formData, function (res) {
+                                if (res.code == 0){
+                                    layer.msg(res.msg, {icon: 1});
+                                    admin.req('/admin/logout', {}, function () {
+                                        window.location.href = '/admin/login.html';
+                                    }, 'GET');
+                                } else{
+                                    layer.msg(res.msg, {icon: 2});
+                                }
+                            }, 'POST');
+                        }
+                        return false;
+                    });
+                }
+
+            });
         });
 
     });

@@ -56,4 +56,9 @@ public class TestUUID {
 			System.out.println(hashCode);
 		}
 	}
+
+	@Test
+	public void test454548(){
+		System.out.println(UUID.randomUUID().toString());
+	}
 }
