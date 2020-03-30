@@ -30,7 +30,7 @@
                     <div class="layui-inline">
                         <label class="layui-form-label w-auto">账号：</label>
                         <div class="layui-input-inline mr0">
-                            <input name="account" class="layui-input" type="text" placeholder="请输入账号"/>
+                            <input name="loginName" class="layui-input" type="text" placeholder="请输入账号"/>
                         </div>
                     </div>
                     <div class="layui-inline">
@@ -69,23 +69,17 @@
         // 渲染表格
         var insTb = table.render({
             elem: '#tableLog',
-            url: '../../json/loginRecord.json',
+            url: '/admin/loginLog/page',
             page: true,
             cellMinWidth: 100,
             title: '登录日志',
             cols: [[
                 {type: 'checkbox'},
-                {field: 'username', sort: true, title: '账号'},
-                {field: 'nickName', sort: true, title: '用户名'},
-                {field: 'ipAddress', sort: true, title: 'IP'},
+                {field: 'loginName', sort: true, title: '账号'},
+                {field: 'loginIp', sort: true, title: 'IP'},
                 {field: 'device', sort: true, title: '设备'},
-                {field: 'osName', sort: true, title: '设备类型'},
                 {field: 'browserType', sort: true, title: '浏览器'},
-                {
-                    field: 'createTime', templet: function (d) {
-                        return util.toDateString(d.createTime);
-                    }, title: '登录时间'
-                }
+                {field: 'createTime', sort: true, title: '登陆时间'},
             ]]
         });
 

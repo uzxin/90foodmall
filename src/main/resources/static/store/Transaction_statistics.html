@@ -1,0 +1,320 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="css/shop.css" type="text/css" rel="stylesheet" />
+    <link href="css/Sellerber.css" type="text/css"  rel="stylesheet" />
+    <link href="css/bkg_ui.css" type="text/css"  rel="stylesheet" />
+    <link href="font/css/font-awesome.min.css"  rel="stylesheet" type="text/css" />
+    <script src="js/jquery-1.9.1.min.js" type="text/javascript" ></script>
+    <script src="js/Sellerber.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/jquery.cookie.js"></script>
+    <script src="js/shopFrame.js" type="text/javascript"></script>
+    <script src="js/layer/layer.js" type="text/javascript"></script>
+    <script src="js/laydate/laydate.js" type="text/javascript"></script>
+    <script src="js/dist/echarts.js" type="text/javascript"></script>
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js" type="text/javascript"></script>
+    <script src="js/respond.min.js"></script>
+    <script src="js/css3-mediaqueries.js"  type="text/javascript"></script>
+    <![endif]-->
+    <title>订单</title>
+</head>
+<body>
+<div class="margin order_style" id="page_style">
+    <div class="clearfix mb15 same_module">
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-4">
+            <a href="javascript:ovid()" class="tile-button btn_Plate bg-red ">
+                <div class="carousel Module_info">
+                    <div class="left_img bg_color_red">
+                        <i class="fa fa-shopping-cart"></i>
+                        <h3>订单总量</h3>
+                    </div>
+                    <div class="right_info" id="totalOrders"></div>
+                </div>
+            </a>
+        </div>
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-4">
+            <a href="javascript:ovid()" class="tile-button btn_Plate bg-deep-blue">
+                <div class="carousel Module_info">
+                    <div class="left_img bg_color_bule">
+                        <i class="fa fa-cny"></i>
+                        <h3>预计收入</h3>
+                    </div>
+                    <div class="right_info" id="estimatedIncome"></div>
+                </div>
+            </a>
+        </div>
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-4">
+            <a href="javascript:ovid()" class="tile-button btn_Plate bg-green">
+                <div class="carousel Module_info">
+                    <div class="left_img bg_color_green">
+                        <i class="fa  fa-cny"></i>
+                        <h3>已到账</h3>
+                    </div>
+                    <div class="right_info" id="arrived"></div>
+                </div>
+            </a>
+        </div>
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-4">
+            <a href="javascript:ovid()" class="tile-button btn_Plate bg-orange">
+                <div class="carousel Module_info">
+                    <div class="left_img bg_color_orange">
+                        <i class="fa  fa-cny"></i>
+                        <h3>未到账</h3>
+                    </div>
+                    <div class="right_info" id="unaccounted"></div>
+                </div>
+            </a>
+        </div>
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-4">
+            <a href="javascript:ovid()" class="tile-button btn_Plate bg-yellow">
+                <div class="carousel Module_info">
+                    <div class="left_img bg_color_yellow">
+                        <i class="fa  fa-cny"></i>
+                        <h3>已退款</h3>
+                    </div>
+                    <div class="right_info" id="refunded"></div>
+                </div>
+            </a>
+        </div>
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-4">
+            <a href="javascript:ovid()" class="tile-button btn_Plate bg-yellow">
+                <div class="carousel Module_info">
+                    <div class="left_img bg_color_yellow">
+                        <i class="fa  fa-cny"></i>
+                        <h3>待退款</h3>
+                    </div>
+                    <div class="right_info" id="notRefunded"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="h_products_list clearfix same_module" id="Sellerber">
+        <div class="Sellerber_left menu" id="menuBar">
+            <div class="menu_style" id="menu_style">
+                <div class="list_content" id="charts">
+                </div>
+            </div>
+        </div>
+        <div id="main" style="overflow:hidden; width:100%; overflow:auto; margin-top: 30px" class="list_Exhibition list_show">	</div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    //设置内页框架布局
+    $(function() {
+        $("#Sellerber").frame({
+            float : 'left',
+            color_btn:'.skin_select',
+            Sellerber_menu:'.list_content',
+            page_content:'.list_show',//内容
+            datalist:".datatable_height",//数据列表高度取值
+            header:65,//顶部高度
+            mwidth:400,//菜单栏宽度
+            minStatue:true,
+        });
+        $.get("/store/transactionStatistics/getData",{},function (data) {
+            $("#totalOrders").html(data.data.totalOrders+"笔");//订单总数
+            $("#estimatedIncome").html(data.data.estimatedIncome+"元");//预计收入
+            $("#arrived").html(data.data.arrived+"元");//已到账
+            $("#unaccounted").html(data.data.unaccounted+"元");//未到账
+            $("#refunded").html(data.data.refunded+"元");//已退款
+            $("#notRefunded").html(data.data.notRefunded+"元");//未退款
+            var res = [];
+            var pendingPayment = new Object();
+            pendingPayment.value = data.data.pendingPayment;
+            pendingPayment.name = "待支付";
+            res.push(pendingPayment);
+            var toBeDelivered = new Object();
+            toBeDelivered.value = data.data.toBeDelivered;
+            toBeDelivered.name = "待发货";
+            res.push(toBeDelivered);
+            var toBeReceived = new Object();
+            toBeReceived.value = data.data.toBeReceived;
+            toBeReceived.name = "待收货";
+            res.push(toBeReceived);
+            var comment = new Object();
+            comment.value = data.data.comment;
+            comment.name = "待评价";
+            res.push(comment);
+            var pendingRefund = new Object();
+            pendingRefund.value = data.data.pendingRefund;
+            pendingRefund.name = "待退款";
+            res.push(pendingRefund);
+            var refunded_orders = new Object();
+            refunded_orders.value = data.data.refunded_orders;
+            refunded_orders.name = "已退款";
+            res.push(refunded_orders);
+            var completed = new Object();
+            completed.value = data.data.completed;
+            completed.name = "已完成";
+            res.push(completed);
+            //统计
+            require.config({
+                paths: {
+                    echarts: './js/dist'
+                }
+            });
+            require(
+                [
+                    'echarts',
+                    'echarts/theme/macarons',
+                    'echarts/chart/line',   // 按需加载所需图表，如需动态类型切换功能，别忘了同时加载相应图表
+                    'echarts/chart/bar',
+                    'echarts/chart/pie'
+                ],
+                function (ec,theme) {
+                    var myChart2 = ec.init(document.getElementById('charts'),theme);
+                    option2 = {
+                        title: {
+                            text: '所有订单',
+                            left: 'center',
+                            top: 20,
+                            textStyle: {
+                                color: '#ccc'
+                            }
+                        },
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: '{a} <br/>{b} : {c} ({d}%)'
+                        },
+                        visualMap: {
+                            show: false,
+                            min: 80,
+                            max: 600,
+                            inRange: {
+                                colorLightness: [0, 1]
+                            }
+                        },
+                        series: [
+                            {
+                                type: 'pie',
+                                radius: '55%',
+                                center: ['50%', '50%'],
+                                data: res.sort(function (a, b) { return a.value - b.value; }),
+                                roseType: 'radius',
+                                label: {
+                                    color: 'rgba(255, 255, 255, 0.3)'
+                                },
+                                labelLine: {
+                                    lineStyle: {
+                                        color: 'rgba(255, 255, 255, 0.3)'
+                                    },
+                                    smooth: 0.2,
+                                    length: 10,
+                                    length2: 20
+                                },
+                                itemStyle: {
+                                    color: '#c23531',
+                                    shadowBlur: 200,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                },
+                                animationType: 'scale',
+                                animationEasing: 'elasticOut',
+                                animationDelay: function (idx) {
+                                    return Math.random() * 200;
+                                }
+                            }
+                        ]
+                    };
+                    myChart2.setOption(option2);
+                });
+        })
+        $.get("/store/transactionStatistics/lastWeek",{},function (data) {
+            var date = [];
+            var orders = [];
+            var amount = [];
+            $.each(data.data,function (i, item) {
+                date.push(item.date);
+                orders.push(item.orders);
+                amount.push(item.amount);
+            })
+            //统计
+            require.config({
+                paths: {
+                    echarts: './js/dist'
+                }
+            });
+            require(
+                [
+                    'echarts',
+                    'echarts/theme/macarons',
+                    'echarts/chart/line',   // 按需加载所需图表，如需动态类型切换功能，别忘了同时加载相应图表
+                    'echarts/chart/bar',
+                    'echarts/chart/pie'
+                ],
+                function (ec,theme) {
+                    var myChart1 = ec.init(document.getElementById('main'),theme);
+                    option1 = {
+                        title : {
+                            text: '最近7天交易统计',
+                            subtext: '',
+                            x:'center'
+                        },
+                        tooltip : {
+                            trigger: 'axis'
+                        },
+                        toolbox: {
+                            show : true,
+                            feature : {
+                                mark : {show: true},
+                                dataView : {show: true, readOnly: false},
+                                magicType: {show: true, type: ['line', 'bar']},
+                                restore : {show: true},
+                                saveAsImage : {show: true}
+                            }
+                        },
+                        calculable : true,
+                        legend: {
+                            y : 'bottom',
+                            x:'center',
+                            data:['订单','金额']
+                        },
+                        xAxis : [
+                            {
+                                type : 'category',
+                                "axisLabel":{
+                                    interval: 0
+                                },
+                                data : date
+                            }
+                        ],
+                        yAxis : [
+                            {
+                                type : 'value',
+                                name : '订单',
+                                axisLabel : {
+                                    formatter: '{value} 单'
+                                }
+                            },
+                            {
+                                type : 'value',
+                                name : '金额',
+                                axisLabel : {
+                                    formatter: '{value} 元'
+                                }
+                            }
+                        ],
+                        series : [
+
+                            {
+                                name:'订单',
+                                type:'bar',
+                                data:orders
+                            },
+                            {
+                                name:'金额',
+                                type:'line',
+                                yAxisIndex: 1,
+                                data:amount
+                            }
+                        ]
+                    };
+                    myChart1.setOption(option1);
+                });
+        })
+    });
+</script>

@@ -42,4 +42,10 @@ public interface OrderMapper extends BaseMapper<Order> {
 			"\tLEFT JOIN pay_method AS pm ON o.pay_method_id=pm.id \n" +
 			"\tLEFT JOIN status AS s ON o.status=s.id WHERE o.id=#{orderId} AND o.del_flag=0 AND pi.type=0")
 	OrderVO getByOrderId(Long orderId);
+
+	@Select("SELECT * FROM orders\n" +
+			"WHERE date_sub(curdate(), interval 7 day) <= date(create_time)\n" +
+			"AND del_flag=0\n" +
+			"AND product_id IN(SELECT id FROM product WHERE store_id =#{storeId})")
+	List<OrderVO> listForTheLastSevenDays(Long storeId);
 }

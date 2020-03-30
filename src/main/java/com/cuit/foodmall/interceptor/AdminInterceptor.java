@@ -1,6 +1,10 @@
 package com.cuit.foodmall.interceptor;
 
+import eu.bitwalker.useragentutils.UserAgent;
+import com.cuit.foodmall.entity.LoginLog;
 import com.cuit.foodmall.entity.User;
+import com.cuit.foodmall.service.LoginLogService;
+import com.cuit.foodmall.util.IpAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -20,6 +24,8 @@ import javax.servlet.http.HttpServletResponse;
 public class AdminInterceptor implements HandlerInterceptor {
 	@Autowired
 	private RedisTemplate redisTemplate;
+	@Autowired
+	private LoginLogService loginLogService;
 
 	//请求处理前，也就是访问Controller前
 	@Override
@@ -61,5 +67,14 @@ public class AdminInterceptor implements HandlerInterceptor {
 	//请求结果结果已经渲染好了，response没有进行返回但也无法修改reponse了（一般用于清理数据）
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+		User user = (User) request.getSession().getAttribute("admin");
+		LoginLog loginLog = new LoginLog();
+		String ipAddress = IpAddress.getIpAddress(request);//获取IP
+		loginLog.setLoginIp(ipAddress);
+		loginLog.setDevice(System.getProperty("os.name"));//操作系统
+		loginLog.setBrowserType(UserAgent.parseUserAgentString(request.getHeader("User-Agent")).getBrowser().getName());//浏览器名称
+		loginLog.setLoginId(user.getId());
+		loginLog.setLoginName(user.getUsername());
+		loginLogService.save(loginLog);
 	}
 }

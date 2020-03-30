@@ -1,6 +1,5 @@
 package com.cuit.foodmall.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -38,5 +37,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 	@Override
 	public OrderVO getByOrderId(Long orderId) {
 		return orderMapper.getByOrderId(orderId);
+	}
+
+	@Override
+	public List<OrderVO> listForTheLastSevenDays(Long storeId) {
+		return orderMapper.listForTheLastSevenDays(storeId);
 	}
 }

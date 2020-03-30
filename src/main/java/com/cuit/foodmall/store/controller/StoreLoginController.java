@@ -2,7 +2,9 @@ package com.cuit.foodmall.store.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.cuit.foodmall.entity.Store;
 import com.cuit.foodmall.entity.User;
+import com.cuit.foodmall.service.StoreService;
 import com.cuit.foodmall.service.UserService;
 import com.cuit.foodmall.util.Result;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +29,8 @@ public class StoreLoginController {
 
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private StoreService storeService;
 
 	@PostMapping("login")
 	public Object login(User user, HttpSession session){
@@ -41,7 +45,12 @@ public class StoreLoginController {
 			log.info("登录失败");
 			return Result.error("您输入的用户名和密码不匹配");
 		}
+		Store store = storeService.getOne(new QueryWrapper<Store>().lambda().eq(Store::getBusinessId,u.getId()));
+		if (null == store){
+			return Result.error("没有店铺信息");
+		}
 		session.setAttribute("business", u);
+		session.setAttribute("store",store);
 		log.info("登录成功");
 		return Result.ok("登录成功");
 	}

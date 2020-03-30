@@ -360,9 +360,9 @@
 				    str+='<div class="time_display clearfix">';
 					str+='<span class="h com-time ">'+d.getHours()+'</span>'+'<b class="">：</b>'; 
 					str+='<span class="m com-time ">'+d.getMinutes()+'</span>'+'<b class="">：</b>'; 
-					str+='<span class="s com-time ">'+d.getSeconds()+'</span></div>';		
-					str+='<div class="date_display clearfix"><div class="years"><span>AD'+d.getFullYear()+'年'+'</span>'; 
-					str+='<span>'+d.getMonth() + 1+'月'+'</span></div>'; 
+					str+='<span class="s com-time ">'+d.getSeconds()+'</span></div>';
+					str+='<div class="date_display clearfix"><div class="years"><span>'+d.getFullYear()+'年'+'</span>';
+					str+='<span>'+(d.getMonth()+1)+'月'+'</span></div>';
 					str+='<div class="day">'+d.getDate()+'</div>';
 					str+='<div>'+weekday[d.getDay()-1]+'</div></div>';  
 					return str; 

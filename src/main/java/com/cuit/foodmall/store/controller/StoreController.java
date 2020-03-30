@@ -28,17 +28,10 @@ public class StoreController {
 	 */
 	@GetMapping("getStoreByBusinessId")
 	public Object getStoreByBusinessId(HttpSession session){
-		User user = (User) session.getAttribute("business");
-		if (null == user){
-			return Result.error("未登录");
-		}
-		LambdaQueryWrapper<Store> wrapper = new QueryWrapper<Store>().lambda();
-		wrapper.eq(Store::getBusinessId,user.getId());
-		Store store = storeService.getOne(wrapper);
+		Store store = (Store) session.getAttribute("store");
 		if (null == store){
 			return Result.error("没有店铺信息");
 		}
-		session.setAttribute("store",store);
 		return Result.ok(store);
 	}
 

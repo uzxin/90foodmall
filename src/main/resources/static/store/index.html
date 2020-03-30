@@ -19,25 +19,6 @@
   <script src="js/css3-mediaqueries.js"  type="text/javascript"></script>
     <![endif]-->
   <title>首页</title>
- <script type="text/javascript">
-  $(function () {
-   $.ajax({
-    url:"/store/getStoreByBusinessId",
-    success:function (data) {
-     if (data.code == 0){
-      $("#headImg").attr("src",data.data.headImg);
-      $("#id").html(data.data.id);
-      $("#name").html(data.data.name);
-      $("#level").html(data.data.level);
-      $("#createTime").html(data.data.createTime);
-      $("#scoreDescription").html(data.data.scoreDescription+"分");
-      $("#scoreServiceAttitude").html(data.data.scoreServiceAttitude+"分");
-      $("#scoreDeliverySpeed").html(data.data.scoreDeliverySpeed+"分");
-     }
-    }
-   })
-  })
- </script>
 </head>
 
 <body  id="iframe_box">
@@ -45,68 +26,68 @@
 <div class="spacing_style" ></div>
  <div class="margin-bottom clearfix ">
   <div class="col-xs-2 col-sm-2 col-md-2 col-lg-4">
+   <a href="/store/Orders.html" class="tile-button btn_Plate bg-red ">
+    <div class="carousel Module_info">
+     <div class="left_img bg_color_red">
+      <i class="fa fa-shopping-cart"></i>
+      <h3>订单</h3>
+     </div>
+     <div class="right_info" id="order_number"></div>
+    </div>
+   </a>
+  </div>
+  <div class="col-xs-2 col-sm-2 col-md-2 col-lg-4">
    <a href="javascript:ovid()" class="tile-button btn_Plate bg-deep-blue">
    <div class="carousel Module_info">
    <div class="left_img bg_color_bule">
     <i class="fa fa-cny"></i>
     <h3>成交金额</h3>
    </div>
-   <div class="right_info">4567.89元</div>
+   <div class="right_info" id="turnover"></div>
    </div>
    </a>
   </div>
    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-4">
-   <a href="javascript:ovid()" class="tile-button btn_Plate bg-green">
+   <a href="/store/feedback.html" class="tile-button btn_Plate bg-green">
    <div class="carousel Module_info">
    <div class="left_img bg_color_green">
     <i class="fa  fa-comments-o"></i>
-    <h3>留言</h3>
+    <h3>评价</h3>
    </div>
-   <div class="right_info">4567条</div>
+   <div class="right_info" id="review_number"></div>
    </div>
    </a>
   </div>
-   <div class="col-xs-2 col-sm-2 col-md-2 col-lg-4">
-   <a href="javascript:ovid()" class="tile-button btn_Plate bg-red ">
-   <div class="carousel Module_info">
-   <div class="left_img bg_color_red">
-    <i class="fa fa-shopping-cart"></i>
-    <h3>订单</h3>
-   </div>
-   <div class="right_info">4567笔</div>
-   </div>
-   </a>
-  </div> 
  <div class="col-xs-2 col-sm-2 col-md-2 col-lg-4">
-   <a href="javascript:ovid()" class="tile-button btn_Plate bg-orange">
+   <a href="/store/Products.html" class="tile-button btn_Plate bg-orange">
    <div class="carousel Module_info">
    <div class="left_img bg_color_orange">
-    <i class="fa  fa-volume-up "></i>
-    <h3>通知</h3>
+    <i class="fa fa-plus-square "></i>
+    <h3>商品</h3>
    </div>
-   <div class="right_info">456条</div>
+   <div class="right_info" id="product_number"></div>
    </div>
    </a>
   </div>
   <div class="col-xs-2 col-sm-2 col-md-2 col-lg-4">
-   <a href="javascript:ovid()" class="tile-button btn_Plate bg-purple">
+   <a href="/store/Order_Logistics.html" class="tile-button btn_Plate bg-purple">
    <div class="carousel Module_info">
    <div class="left_img bg_color_purple">
     <i class="fa  fa-clock-o "></i>
-    <h3>待处理</h3>
+    <h3>物流</h3>
    </div>
-   <div class="right_info">17条</div>
+   <div class="right_info" id="logistics_number"></div>
    </div>
    </a>
   </div>
    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-4">
-   <a href="javascript:ovid()" class="tile-button btn_Plate bg-yellow">
+   <a href="/store/Refund.html" class="tile-button btn_Plate bg-yellow">
    <div class="carousel Module_info">
    <div class="left_img bg_color_yellow">
-    <i class="fa  fa-clock-o "></i>
-    <h3>紧急通知</h3>
+    <i class="fa  fa-volume-up "></i>
+    <h3>退款</h3>
    </div>
-   <div class="right_info">10条</div>
+   <div class="right_info" id="refund_number"></div>
    </div>
    </a>
   </div>
@@ -177,34 +158,33 @@
   <div class="title_name"><i></i>店铺/订单状态提示</div>
   <div class="clearfix">
   <div class="col-xs-3 col-lg-6 ">   
-   <div class="prompt_name"><i class="icon_Order"></i>订单& 商品</div>
+   <div class="prompt_name"><i class="icon_Order"></i>商品</div>
    <ul class="padding list_info">   
-   <li>代发货订单 &nbsp;<a href="">(02)</a></li>
-   <li>已完成订单 &nbsp;<a href="">(32)</a></li>
-   <li>未完成订单 &nbsp;<a href="">(02)</a></li>
+   <li>待审核 &nbsp;<a href="/store/Products.html" id="product_pending_review"></a></li>
+   <li>通过 &nbsp;<a href="/store/Products.html" id="product_psss"></a></li>
+   <li>不通过 &nbsp;<a href="/store/review.html" id="product_nopass"></a></li>
    </ul>
   </div>
    <div class="col-xs-3 col-lg-6">    
-   <div class="prompt_name"><i class="icon_Promotions"></i>促销</div>
+   <div class="prompt_name"><i class="icon_Promotions"></i>订单</div>
    <ul class="padding list_info">   
-   <li>待审核的促销 &nbsp;<a href="">(02)</a></li>
-   <li>发布的促销 &nbsp;<a href="">(32)</a></li>
-   <li>即将结束的促销 &nbsp;<a href="">(02)</a></li>
+   <li>已完成 &nbsp;<a href="/store/Orders.html" id="order_completed"></a></li>
+   <li>待发货 &nbsp;<a href="/store/Orders.html" id="order_toBeDelivered"></a></li>
+   <li>待收货 &nbsp;<a href="/store/Orders.html" id="order_toBeReceived"></a></li>
    </ul>
   </div>
    <div class="col-xs-3 col-lg-6">    
-   <div class="prompt_name"><i class="icon_Aftermarket"></i>售后</div>
+   <div class="prompt_name"><i class="icon_Aftermarket"></i>退款</div>
    <ul class="padding list_info"> 
-   <li>待处理订单 &nbsp;<a href="">(02)</a></li>
-   <li>待退款订单 &nbsp;<a href="">(32)</a></li>
-   <li>待处理售后单 &nbsp;<a href="">(02)</a></li>  
+   <li>待退款订单 &nbsp;<a href="/store/Refund.html" id="refund_pending"></a></li>
+   <li>已退款订单 &nbsp;<a href="/store/Refund.html" id="refund_refunded"></a></li>
    </ul>
   </div>
    <div class="col-xs-3 col-lg-6 ">  
-   <div class="prompt_name"><i class="icon_Billing"></i>结算</div>
+   <div class="prompt_name"><i class="icon_Billing"></i>评论</div>
     <ul class="padding list_info">  
-   <li>待支付 &nbsp;<a href="">(02)</a></li>
-   <li>待结算确认 &nbsp;<a href="">(32)</a></li>
+   <li>已回复 &nbsp;<a href="/store/feedback.html" id="review_replied"></a></li>
+   <li>待回复 &nbsp;<a href="/store/feedback.html" id="review_pendingReply"></a></li>
    </ul>
   </div>
   </div>
@@ -223,67 +203,7 @@
      <th>商品名称</th>
      <th width="80">销售数量</th>
     </thead>
-    <tbody>
-     <tr>
-      <td ><em>1</em></td>
-      <td>2345776</td>
-      <td><a href="#">联想（ThinkPad ）轻薄系列</a></td>
-      <td>23</td>
-     </tr>
-      <tr>
-      <td ><em>2</em></td>
-      <td>2345776</td>
-      <td><a href="#">施巴（sebamed）婴儿泡泡沐浴露200ml家庭装</a></td>
-      <td>23</td>
-     </tr>
-      <tr>
-      <td ><em>3</em></td>
-      <td>2345776</td>
-      <td><a href="#">七匹狼纯棉时尚休闲条纹翻领POLO衫T恤</a></td>
-      <td>23</td>
-     </tr>
-      <tr>
-      <td ><em>4</em></td>
-      <td>2345776</td>
-      <td><a href="#">桂格即食燕麦片超值装1478g</a></td>
-      <td>23</td>
-     </tr>
-      <tr>
-      <td ><em>5</em></td>
-      <td>2345776</td>
-      <td><a href="#">韩国爱敬挚爱香氛花香洗护套装（洗发水600ml+护发素</a></td>
-      <td>23</td>
-     </tr>
-      <tr>
-      <td ><em>6</em></td>
-      <td>2345776</td>
-      <td><a href="#">韩国爱敬挚爱香氛花香洗护套装（洗发水600ml+护发素</a></td>
-      <td>23</td>
-     </tr>
-      <tr>
-      <td ><em>7</em></td>
-      <td>2345776</td>
-      <td><a href="#">韩国爱敬挚爱香氛花香洗护套装（洗发水600ml+护发素</a></td>
-      <td>23</td>
-     </tr>
-      <tr>
-      <td ><em>8</em></td>
-      <td>2345776</td>
-      <td><a href="#">韩国爱敬挚爱香氛花香洗护套装（洗发水600ml+护发素</a></td>
-      <td>23</td>
-     </tr>
-      <tr>
-      <td ><em>9</em></td>
-      <td>2345776</td>
-      <td><a href="#">韩国爱敬挚爱香氛花香洗护套装（洗发水600ml+护发素</a></td>
-      <td>23</td>
-     </tr>
-      <tr>
-      <td ><em>10</em></td>
-      <td>2345776</td>
-      <td><a href="#">韩国爱敬挚爱香氛花香洗护套装（洗发水600ml+护发素</a></td>
-      <td>23</td>
-     </tr>
+    <tbody id="product_sales_charts">
     </tbody>
    </table>
   </div>
@@ -302,113 +222,141 @@ $(function() {
 		Sellerber_menu:'.list_content',
 		page_content:'.list_show',//内容
 		datalist:".datatable_height",//数据列表高度取值
-		 time:'#set-time', 
+        time:'#set-time',
 	 });
+
+	 //渲染店铺信息
+    $.get("/store/getStoreByBusinessId", {},function (data) {
+     if (data.code == 0){
+       $("#headImg").attr("src",data.data.headImg);
+       $("#id").html(data.data.id);
+       $("#name").html(data.data.name);
+       $("#level").html(data.data.level);
+       $("#createTime").html(data.data.createTime);
+       $("#scoreDescription").html(data.data.scoreDescription+"分");
+       $("#scoreServiceAttitude").html(data.data.scoreServiceAttitude+"分");
+       $("#scoreDeliverySpeed").html(data.data.scoreDeliverySpeed+"分");
+      }});
+    //渲染销售数据
+    $.get("/store/home/statistics",{},function (data) {
+     $("#order_number").html(data.data.order_number+"笔");
+     $("#review_number").html(data.data.review_number+"条");
+     $("#product_number").html(data.data.product_number+"件");
+     $("#logistics_number").html(data.data.logistics_number+"条");
+     $("#refund_number").html(data.data.refund_number+"笔");
+     $("#turnover").html(data.data.turnover+"元");
+     $("#product_pending_review").html("("+data.data.product_pending_review+")");
+     $("#product_psss").html("("+data.data.product_psss+")");
+     $("#product_nopass").html("("+data.data.product_nopass+")");
+     $("#order_completed").html("("+data.data.order_completed+")");
+     $("#order_toBeDelivered").html("("+data.data.order_toBeDelivered+")");
+     $("#order_toBeReceived").html("("+data.data.order_toBeReceived+")");
+     $("#refund_pending").html("("+data.data.refund_pending+")");
+     $("#refund_refunded").html("("+data.data.refund_refunded+")");
+     $("#review_replied").html("("+data.data.review_replied+")");
+     $("#review_pendingReply").html("("+data.data.review_pendingReply+")");
+    });
+    //渲染商品销售排行榜
+     $.get("/store/home/getProductBySale",{},function (data) {
+      $.each(data.data,function (i,item) {
+       var number = i+1;
+       $("#product_sales_charts").append("<tr>\n" +
+               "<td ><em>"+number+"</em></td>\n" +
+               "<td>"+item.id+"</td>\n" +
+               "<td><a href='javascript:void(0);'>"+item.name+"</a></td>\n" +
+               "<td>"+item.sales+"</td>\n" +
+               "   </tr>");
+      })
+     })
 });
 
 /*********************/
-   require.config({
-            paths: {
-                echarts: './js/dist'
+$.get("/store/transactionStatistics/lastWeek",{},function (data) {
+ var date = [];
+ var orders = [];
+ var amount = [];
+ $.each(data.data,function (i, item) {
+  date.push(item.date);
+  orders.push(item.orders);
+  amount.push(item.amount);
+ })
+ require.config({
+  paths: {
+   echarts: './js/dist'
+  }
+ });
+ require(
+         [
+          'echarts',
+          'echarts/theme/macarons',
+          'echarts/chart/line',   // 按需加载所需图表，如需动态类型切换功能，别忘了同时加载相应图表
+          'echarts/chart/bar'
+         ],
+         function (ec,theme) {
+          var myChart = ec.init(document.getElementById('main'),theme);
+          option = {
+           title : {
+            text: '当周交易记录',
+            subtext: '每周7天的交易记录'
+           },
+           tooltip : {
+            trigger: 'axis'
+           },
+           legend: {
+            data:['订单','金额']
+           },
+           toolbox: {
+            show : true,
+            feature : {
+             mark : {show: true},
+             dataView : {show: true, readOnly: false},
+             magicType : {show: true, type: ['line', 'bar']},
+             restore : {show: true},
+             saveAsImage : {show: true}
             }
-        });
-        require(
-            [
-                'echarts',
-				'echarts/theme/macarons',
-                'echarts/chart/line',   // 按需加载所需图表，如需动态类型切换功能，别忘了同时加载相应图表
-                'echarts/chart/bar'
-            ],
-            function (ec,theme) {
-                var myChart = ec.init(document.getElementById('main'),theme);
-               option = {
-    title : {
-        text: '当周交易记录',
-        subtext: '每周7天的交易记录'
-    },
-    tooltip : {
-        trigger: 'axis'
-    },
-    legend: {
-        data:['所有订单','已完成','未完成']
-    },
-    toolbox: {
-        show : true,
-        feature : {
-            mark : {show: true},
-            dataView : {show: true, readOnly: false},
-            magicType : {show: true, type: ['line', 'bar']},
-            restore : {show: true},
-            saveAsImage : {show: true}
-        }
-    },
-    calculable : true,
-    xAxis : [
-        {
-            type : 'category',
-            boundaryGap : false,
-            data : ['周一','周二','周三','周四','周五','周六','周日']
-        }
-    ],
-    yAxis : [
-        {
-            type : 'value',
-            axisLabel : {
-                formatter: '{value}单'
+           },
+           xAxis : [
+            {
+             type : 'category',
+             "axisLabel":{
+              interval: 0
+             },
+             boundaryGap : false,
+             data : date
             }
-        }
-    ],
-    series : [
-        {
-            name:'所有订单',
-            type:'line',
-            data:[110, 110, 150, 130, 125, 133, 106],
-            markPoint : {
-                data : [
-                    {type : 'max', name: '最大值'},
-                    {type : 'min', name: '最小值'}
-                ]
+           ],
+           yAxis : [
+            {
+             type : 'value',
+             name : '订单',
+             axisLabel : {
+              formatter: '{value} 单'
+             }
             },
-            markLine : {
-                data : [
-                    {type : 'average', name: '平均值'}
-                ]
+            {
+             type : 'value',
+             name : '金额',
+             axisLabel : {
+              formatter: '{value} 元'
+             }
             }
-        },
-        {
-            name:'已完成',
-            type:'line',
-            data:[110, 105, 140, 130, 110, 121, 100],
-            markPoint : {
-                data : [
-                    {name : '周最低', value : -2, xAxis: 1, yAxis: -1.5}
-                ]
+           ],
+           series : [
+            {
+             name:'订单',
+             type:'line',
+             data:orders,
             },
-            markLine : {
-                data : [
-                    {type : 'average', name : '平均值'}
-                ]
-            }
-        },
-		   {
-            name:'未完成',
-            type:'line',
-            data:[0, 5, 10, 0, 15, 12, 6],
-            markPoint : {
-                data : [
-                    {name : '周最低', value : -2, xAxis: 1, yAxis: -1.5}
-                ]
+            {
+             name:'金额',
+             type:'line',
+             data:amount,
+             yAxisIndex: 1
             },
-            markLine : {
-                data : [
-                    {type : 'average', name : '平均值'}
-                ]
-            }
-        }
-    ]
-};
-                  
-			myChart.setOption(option);
-			}
-			);
+           ]
+          };
+          myChart.setOption(option);
+         }
+ );
+})
 </script>
