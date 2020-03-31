@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.cuit.foodmall.aop.StoreLog;
 import com.cuit.foodmall.entity.Order;
 import com.cuit.foodmall.entity.Refund;
 import com.cuit.foodmall.entity.Store;
@@ -38,6 +39,7 @@ public class StoreRefundController {
 	 * @param: limit
 	 * @return: java.lang.Object
 	 */
+	@StoreLog(value = "查看退款")
 	@GetMapping("page")
 	public Object page(Refund refund, HttpSession session,
 	                   @RequestParam(required = false,defaultValue = "1") int page,
@@ -58,6 +60,7 @@ public class StoreRefundController {
 	 * @param: refund
 	 * @return: java.lang.Object
 	 */
+	@StoreLog(value = "退款")
 	@PostMapping("refund")
 	public Object refund(Refund refund, HttpSession session){
 		//修改退款记录表状态

@@ -3,6 +3,7 @@ package com.cuit.foodmall.store.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.cuit.foodmall.aop.StoreLog;
 import com.cuit.foodmall.entity.Product;
 import com.cuit.foodmall.entity.Store;
 import com.cuit.foodmall.entity.vo.ProductVO;
@@ -31,6 +32,7 @@ public class StoreReviewController {
 	 * @param: limit
 	 * @return: java.lang.Object
 	 */
+	@StoreLog(value = "查看审核未通过")
 	@GetMapping("page")
 	public Object page(@RequestParam(required = false,defaultValue = "1") int page,
 	                   @RequestParam(required = false,defaultValue = "10") int limit,
@@ -50,6 +52,7 @@ public class StoreReviewController {
 	 * @param: product
 	 * @return: java.lang.Object
 	 */
+	@StoreLog(value = "提交审核")
 	@PostMapping("submit")
 	public Object review(Product product){
 		//将产品状态置为待审核

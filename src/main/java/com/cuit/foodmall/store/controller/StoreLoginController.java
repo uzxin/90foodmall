@@ -2,6 +2,7 @@ package com.cuit.foodmall.store.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.cuit.foodmall.aop.StoreLog;
 import com.cuit.foodmall.entity.Store;
 import com.cuit.foodmall.entity.User;
 import com.cuit.foodmall.service.StoreService;
@@ -32,6 +33,7 @@ public class StoreLoginController {
 	@Autowired
 	private StoreService storeService;
 
+	@StoreLog(value = "登录")
 	@PostMapping("login")
 	public Object login(User user, HttpSession session){
 		if (StringUtils.isEmpty(user.getUsername()) || StringUtils.isEmpty(user.getPassword())){

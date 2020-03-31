@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.cuit.foodmall.aop.StoreLog;
 import com.cuit.foodmall.entity.*;
 import com.cuit.foodmall.entity.vo.OrderVO;
 import com.cuit.foodmall.entity.vo.UserAddressVO;
@@ -47,6 +48,7 @@ public class StoreOrderController {
 	 * @param: limit
 	 * @return: java.lang.Object
 	 */
+	@StoreLog(value = "查看订单")
 	@GetMapping("page")
 	public Object page(Order order, String begin, String end,
 	                   @RequestParam(required = false,defaultValue = "1") int page,
@@ -72,6 +74,7 @@ public class StoreOrderController {
 	 * @param: logistics
 	 * @return: java.lang.Object
 	 */
+	@StoreLog(value = "发货")
 	@PostMapping("send")
 	public Object send(Logistics logistics,HttpSession session){
 		//修改订单状态为已发货(待收货)
@@ -106,6 +109,7 @@ public class StoreOrderController {
 	 * @param: id
 	 * @return: java.lang.Object
 	 */
+	@StoreLog(value = "删除订单")
 	@GetMapping("del")
 	public Object del(Long id){
 		if(orderService.removeById(id)){

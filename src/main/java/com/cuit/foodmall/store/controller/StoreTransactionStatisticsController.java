@@ -1,15 +1,16 @@
 package com.cuit.foodmall.store.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.cuit.foodmall.aop.StoreLog;
 import com.cuit.foodmall.entity.Order;
 import com.cuit.foodmall.entity.Store;
 import com.cuit.foodmall.entity.dto.OrderAndAmount;
 import com.cuit.foodmall.entity.dto.TransactionDTO;
 import com.cuit.foodmall.entity.vo.OrderVO;
+import com.cuit.foodmall.entity.vo.ProfitVO;
 import com.cuit.foodmall.service.OrderService;
 import com.cuit.foodmall.util.Result;
 import org.apache.commons.lang3.StringUtils;
-import org.omg.CosNaming.NamingContextPackage.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -43,6 +43,7 @@ public class StoreTransactionStatisticsController {
 	 * @param: session
 	 * @return: java.lang.Object
 	 */
+	@StoreLog(value = "查看交易统计")
 	@GetMapping("getData")
 	public Object getData(HttpSession session){
 		TransactionDTO t = new TransactionDTO();
@@ -143,27 +144,28 @@ public class StoreTransactionStatisticsController {
 	 * @param: endDate
 	 * @return: java.lang.Object
 	 */
+	@StoreLog(value = "查看收支统计")
 	@GetMapping("fundStatistics")
 	public Object fundStatistics(String startDate, String endDate, HttpSession session) throws ParseException {
 		Long storeId = ((Store) session.getAttribute("store")).getId();//店铺ID
-		/*QueryWrapper<Order> wrapper = new QueryWrapper<>();
+		QueryWrapper<ProfitVO> wrapper = new QueryWrapper<>();
 		if (StringUtils.isNotEmpty(startDate) && StringUtils.isNotEmpty(endDate)){
-			wrapper.between("create_time", startDate, endDate);
+			wrapper.between("o.create_time", startDate, endDate);
 		}else{
 			//默认查询最近七天
-			wrapper.between("create_time", LocalDateTime.now().minusDays(6).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
+			wrapper.between("o.create_time", LocalDateTime.now().minusDays(6).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
 					LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		}
-		wrapper.last("AND product_id IN(SELECT id FROM product WHERE store_id ="+storeId+")");
-		List<Order> orders = orderService.list(wrapper);*/
-		LocalDateTime start = LocalDateTime.parse(startDate, DateTimeFormatter.ofPattern("yyyy-MM--dd"));
-		LocalDateTime end = LocalDateTime.parse(endDate, DateTimeFormatter.ofPattern("yyyy-MM--dd"));
-		for (LocalDateTime local = start.plusDays(1); local.isBefore(end); ){
-			System.out.println(local);
-			System.out.println(end.minusDays(1));
+		wrapper.eq("o.del_flag","0");
+		wrapper.in("o.status","6","9");
+		wrapper.last("AND o.product_id IN(SELECT id FROM product WHERE store_id ="+storeId+")"+" group by create_time");
+		List<ProfitVO> profitVOS = orderService.listProfit(wrapper);
+		if (profitVOS.isEmpty()){
+			return Result.error("暂无数据");
 		}
-		System.out.println(end);
-
-		return Result.ok();
+		for (ProfitVO p : profitVOS) {
+			p.setProfit(p.getPayAmount().subtract(p.getCost()));
+		}
+		return Result.ok(profitVOS);
 	}
 }

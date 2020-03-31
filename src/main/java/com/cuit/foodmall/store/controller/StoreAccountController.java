@@ -3,6 +3,7 @@ package com.cuit.foodmall.store.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.cuit.foodmall.aop.StoreLog;
 import com.cuit.foodmall.entity.User;
 import com.cuit.foodmall.entity.UserInformation;
 import com.cuit.foodmall.service.UserInformationService;
@@ -35,6 +36,7 @@ public class StoreAccountController {
 	 * @param: session
 	 * @return: java.lang.Object
 	 */
+	@StoreLog(value = "查看个人信息")
 	@GetMapping("myInformation")
 	public Object myInformation(HttpSession session){
 		User user = (User) session.getAttribute("business");
@@ -48,6 +50,7 @@ public class StoreAccountController {
 	 * @param: userInformation
 	 * @return: java.lang.Object
 	 */
+	@StoreLog(value = "修改个人信息")
 	@PostMapping("update")
 	public Object update(UserInformation userInformation){
 		if (userInformationService.updateById(userInformation)){
@@ -61,6 +64,7 @@ public class StoreAccountController {
 	 * @param: user
 	 * @return: java.lang.Object
 	 */
+	@StoreLog(value = "修改密码")
 	@PostMapping("updatePassword")
 	public Object updatePassword(String oldPassword, String newPassword, HttpSession session){
 		User user = (User) session.getAttribute("business");

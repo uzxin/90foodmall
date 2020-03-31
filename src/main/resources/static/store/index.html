@@ -138,14 +138,9 @@
  </div>
  <div class=" col-xs-3">
   <div class="admin_info frame clearfix">
-  <div class="title_name"><i></i>登陆记录 <a href="#">+更多</a></div>
+  <div class="title_name"><i></i>操作记录 <a href="/store/rizhi_list.html">+更多</a></div>
   <table class="record_list table table_list">
-  <tbody>
-   <tr><td>管理员</td><td>2016-08-04 12:45:43</td></tr>
-   <tr><td>管理员</td><td>2016-08-14 23:34:23</td></tr>
-   <tr><td>管理员</td><td>2016-08-24 11:34:53</td></tr>
-   <tr><td>管理员</td><td>2016-08-24 11:34:53</td></tr>
-   <tr><td>管理员</td><td>2016-08-24 11:34:53</td></tr>
+  <tbody id="log">
    </tbody>
   </table>
   </div>
@@ -237,6 +232,13 @@ $(function() {
        $("#scoreServiceAttitude").html(data.data.scoreServiceAttitude+"分");
        $("#scoreDeliverySpeed").html(data.data.scoreDeliverySpeed+"分");
       }});
+    //渲染操作记录
+      $.get("/store/operationLog/page",{},function (data) {
+         $.each(data.data,function (i,item) {
+           $("#log").append("<tr><td>"+item.operatorName+"</td><td>"+item.createTime+"</td></tr>");
+           if (i == 4){return false;}
+         })
+      });
     //渲染销售数据
     $.get("/store/home/statistics",{},function (data) {
      $("#order_number").html(data.data.order_number+"笔");

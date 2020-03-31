@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.cuit.foodmall.entity.Order;
 import com.cuit.foodmall.entity.vo.OrderVO;
+import com.cuit.foodmall.entity.vo.ProductVO;
+import com.cuit.foodmall.entity.vo.ProfitVO;
 
 import java.util.List;
 
@@ -16,7 +18,7 @@ import java.util.List;
  */
 public interface OrderService extends IService<Order> {
 	/**
-	 * @description: 查询店铺所有订单
+	 * @description: 分页查询店铺所有订单
 	 * @param: ipage
 	 * @param: wrappe
 	 * @return: com.baomidou.mybatisplus.core.metadata.IPage<com.cuit.foodmall.entity.Order>
@@ -43,4 +45,11 @@ public interface OrderService extends IService<Order> {
 	 * @return: java.util.List<com.cuit.foodmall.entity.Order>
 	 */
 	List<OrderVO> listForTheLastSevenDays(Long storeId);
+
+	/**
+	 * @description: 查询利润
+	 * @param: wrapper
+	 * @return: java.util.List<com.cuit.foodmall.entity.vo.ProfitVO>
+	 */
+	List<ProfitVO> listProfit(QueryWrapper<ProfitVO> wrapper);
 }

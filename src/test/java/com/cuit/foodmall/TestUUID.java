@@ -1,20 +1,18 @@
 package com.cuit.foodmall;
 
-import com.cuit.foodmall.entity.Order;
 import com.cuit.foodmall.service.OrderService;
 import com.cuit.foodmall.util.RandomUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.security.SecureRandom;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Random;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 /**
  * @author: YX
@@ -60,5 +58,29 @@ public class TestUUID {
 	@Test
 	public void test454548(){
 		System.out.println(UUID.randomUUID().toString());
+	}
+
+	@Test
+	public void test1578(){
+		System.out.println(getBetweenDate("2020-03-20","2020-03-20"));
+		System.out.println(getBetweenDate("2020-03-20","2020-03-19"));
+		System.out.println(getBetweenDate("2020-03-20","2020-03-31"));
+	}
+
+	public static List<String> getBetweenDate(String start, String end){
+		List<String> list = new ArrayList<>();
+		LocalDate startDate = LocalDate.parse(start);
+		LocalDate endDate = LocalDate.parse(end);
+
+		long distance = ChronoUnit.DAYS.between(startDate, endDate);
+		if (distance < 1) {
+			return list;
+		}
+		Stream.iterate(startDate, d -> {
+			return d.plusDays(1);
+		}).limit(distance + 1).forEach(f -> {
+			list.add(f.toString());
+		});
+		return list;
 	}
 }

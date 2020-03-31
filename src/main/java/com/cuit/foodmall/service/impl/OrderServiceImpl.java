@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cuit.foodmall.entity.Order;
 import com.cuit.foodmall.entity.vo.OrderVO;
+import com.cuit.foodmall.entity.vo.ProfitVO;
 import com.cuit.foodmall.mapper.OrderMapper;
 import com.cuit.foodmall.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +43,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 	@Override
 	public List<OrderVO> listForTheLastSevenDays(Long storeId) {
 		return orderMapper.listForTheLastSevenDays(storeId);
+	}
+
+	@Override
+	public List<ProfitVO> listProfit(QueryWrapper<ProfitVO> wrapper) {
+		return orderMapper.listProfit(wrapper);
 	}
 }

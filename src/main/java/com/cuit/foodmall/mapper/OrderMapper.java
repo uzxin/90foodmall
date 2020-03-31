@@ -8,8 +8,10 @@ import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cuit.foodmall.entity.Order;
 import com.cuit.foodmall.entity.vo.OrderVO;
+import com.cuit.foodmall.entity.vo.ProfitVO;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -48,4 +50,9 @@ public interface OrderMapper extends BaseMapper<Order> {
 			"AND del_flag=0\n" +
 			"AND product_id IN(SELECT id FROM product WHERE store_id =#{storeId})")
 	List<OrderVO> listForTheLastSevenDays(Long storeId);
+
+	@Select("SELECT DATE_FORMAT(o.create_time,'%Y-%m-%d') as create_time,sum(p.price_cost*o.product_quantity) AS cost,\n" +
+			"sum(o.pay_amount) AS pay_amount FROM orders AS o\n" +
+			"INNER JOIN product AS p ON p.id=o.product_id ${ew.customSqlSegment}")
+	List<ProfitVO> listProfit(@Param(Constants.WRAPPER) QueryWrapper<ProfitVO> wrapper);
 }

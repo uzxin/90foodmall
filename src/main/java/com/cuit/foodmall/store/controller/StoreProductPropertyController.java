@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.cuit.foodmall.aop.StoreLog;
 import com.cuit.foodmall.entity.ProductProperty;
 import com.cuit.foodmall.entity.Store;
 import com.cuit.foodmall.entity.User;
@@ -43,6 +44,7 @@ public class StoreProductPropertyController {
 	 * @param: limit
 	 * @return: java.lang.Object
 	 */
+	@StoreLog(value = "查看商品属性")
 	@GetMapping("page")
 	public Object page(ProductProperty productProperty, HttpSession session,
 	                   @RequestParam(required = false,defaultValue = "1") int page,
@@ -66,6 +68,7 @@ public class StoreProductPropertyController {
 	 * @description: 增加
 	 * @return: java.lang.Object
 	 */
+	@StoreLog(value = "添加商品属性")
 	@PostMapping("add")
 	public Object add(ProductProperty productProperty, HttpSession session){
 		//查询是否该商品已存在该属性
@@ -86,6 +89,7 @@ public class StoreProductPropertyController {
 	 * @param: productProperty
 	 * @return: java.lang.Object
 	 */
+	@StoreLog(value = "修改商品属性")
 	@PostMapping("update")
 	public Object update(ProductProperty productProperty){
 		UpdateWrapper<ProductProperty> wrapper = new UpdateWrapper<>();
@@ -102,6 +106,7 @@ public class StoreProductPropertyController {
 	 * @param: id
 	 * @return: java.lang.Object
 	 */
+	@StoreLog(value = "删除商品属性")
 	@PostMapping("del")
 	public Object del(Long id){
 		if (productPropertyService.removeById(id)){

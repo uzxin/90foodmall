@@ -1,9 +1,7 @@
 package com.cuit.foodmall.store.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.cuit.foodmall.aop.StoreLog;
 import com.cuit.foodmall.entity.Store;
-import com.cuit.foodmall.entity.User;
 import com.cuit.foodmall.service.StoreService;
 import com.cuit.foodmall.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +38,9 @@ public class StoreController {
 	 * @param: store
 	 * @return: java.lang.Object
 	 */
+	@StoreLog(value = "修改店铺信息")
 	@PostMapping("update")
-	public Object update(@RequestBody Store store){
+	public Object update(@RequestBody Store store, HttpSession session){
 		if (storeService.updateById(store)){
 			return Result.ok("修改成功");
 		}

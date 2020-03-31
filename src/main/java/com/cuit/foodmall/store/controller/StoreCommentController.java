@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.cuit.foodmall.aop.StoreLog;
 import com.cuit.foodmall.entity.Review;
 import com.cuit.foodmall.entity.Store;
 import com.cuit.foodmall.entity.User;
@@ -38,6 +39,7 @@ public class StoreCommentController {
 	 * @param: limit
 	 * @return: java.lang.Object
 	 */
+	@StoreLog(value = "查看评论")
 	@GetMapping("page")
 	public Object page(Review review, HttpSession session, Integer scoreTop, Integer scoreButtom,
 	                   @RequestParam(required = false,defaultValue = "1") int page,
@@ -62,6 +64,7 @@ public class StoreCommentController {
 	 * @param: review
 	 * @return: java.lang.Object
 	 */
+	@StoreLog(value = "回复评论")
 	@PostMapping("reply")
 	public Object reply(Review review, HttpSession session){
 		review.setReplyUser(((User) session.getAttribute("business")).getUsername());//回复人
@@ -76,10 +79,11 @@ public class StoreCommentController {
 		return Result.error("回复失败");
 	}
 	/**
-	 * @description: 删除留言
+	 * @description: 删除评论
 	 * @param: reviewId
 	 * @return: java.lang.Object
 	 */
+	@StoreLog(value = "删除评论")
 	@PostMapping("del")
 	public Object del(Long reviewId){
 		if (reviewService.removeById(reviewId)){

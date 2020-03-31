@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.cuit.foodmall.aop.StoreLog;
 import com.cuit.foodmall.entity.Product;
 import com.cuit.foodmall.entity.ProductImage;
 import com.cuit.foodmall.entity.Store;
@@ -44,6 +45,7 @@ public class StoreProductController extends BaseController {
 	 * @param: product
 	 * @return: java.lang.Object
 	 */
+	@StoreLog(value = "添加商品")
 	@PostMapping("add")
 	public Object add(Product product, HttpSession session){
 		if (null != productService.getOne(new QueryWrapper<Product>().lambda().eq(Product::getName,product.getName()))){
@@ -94,6 +96,7 @@ public class StoreProductController extends BaseController {
 	 * @param: limit
 	 * @return: java.lang.Object
 	 */
+	@StoreLog(value = "查看商品列表")
 	@GetMapping("page")
 	public Object page(Product product,String begin,String end,
 	                   @RequestParam(required = false,defaultValue = "1") int page,
@@ -119,6 +122,7 @@ public class StoreProductController extends BaseController {
 	 * @param: id
 	 * @return: java.lang.Object
 	 */
+	@StoreLog(value = "修改产品上下架状态")
 	@PostMapping("changeEnabled")
 	public Object changeEnabled(Long id){
 		Product product = productService.getById(id);
@@ -138,6 +142,7 @@ public class StoreProductController extends BaseController {
 	 * @param: id
 	 * @return: java.lang.Object
 	 */
+	@StoreLog(value = "删除商品")
 	@GetMapping("del")
 	public Object del(Long id){
 		if(productService.removeById(id)){
@@ -146,6 +151,12 @@ public class StoreProductController extends BaseController {
 		return Result.error("删除失败");
 	}
 
+	/**
+	 * @description: 修改商品
+	 * @param: product
+	 * @return: java.lang.Object
+	 */
+	@StoreLog(value = "修改商品")
 	@PostMapping("update")
 	public Object update(Product product){
 		if (productService.updateById(product)){

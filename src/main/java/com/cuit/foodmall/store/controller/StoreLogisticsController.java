@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.cuit.foodmall.aop.StoreLog;
 import com.cuit.foodmall.entity.Logistics;
 import com.cuit.foodmall.entity.Refund;
 import com.cuit.foodmall.entity.Store;
@@ -37,6 +38,7 @@ public class StoreLogisticsController {
 	 * @param: limit
 	 * @return: java.lang.Object
 	 */
+	@StoreLog(value = "查看物流")
 	@GetMapping("page")
 	public Object page(Logistics logistics, HttpSession session,String begin, String end,
 						@RequestParam(required = false, defaultValue = "1") int page,
