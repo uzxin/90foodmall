@@ -49,9 +49,6 @@
                 </a>
                 <dl class="layui-nav-child">
                     <dd lay-unselect>
-                        <a ew-href="page/template/user-info.html">个人中心</a>
-                    </dd>
-                    <dd lay-unselect>
                         <a id="changePassword">修改密码</a>
                     </dd>
                     <hr>
@@ -75,7 +72,7 @@
                 <li class="layui-nav-item">
                     <a><i class="layui-icon layui-icon-home"></i>&emsp;<cite>系统主页</cite></a>
                     <dl class="layui-nav-child">
-                        <dd><a lay-href="/admin/page/console/welcome.html">欢迎页</a></dd>
+                        <dd><a lay-href="/admin/workplace.html">首页</a></dd>
                     </dl>
                 </li>
             </ul>
@@ -167,7 +164,7 @@
 
         // 默认加载主页
         index.loadHome({
-            menuPath: 'page/console/welcome.html',
+            menuPath: '/admin/workplace.html',
             menuName: '<i class="layui-icon layui-icon-home"></i>'
         });
 

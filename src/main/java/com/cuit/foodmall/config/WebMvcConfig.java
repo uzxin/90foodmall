@@ -51,7 +51,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 通过registry来注册拦截器，通过addPathPatterns来添加拦截路径
-        registry.addInterceptor(this.userInterceptor).addPathPatterns("/shoppingcart/**").addPathPatterns("/user/person/index.html");
+        registry.addInterceptor(this.userInterceptor).addPathPatterns("/shoppingcart/**").addPathPatterns("/user/person/index.html")
+        .addPathPatterns("/user/home/shopcart.html");
+
         registry.addInterceptor(this.adminInterceptor).addPathPatterns("/admin/index.html");
     }
 }

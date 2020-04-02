@@ -4,11 +4,14 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.cuit.foodmall.aop.StoreLog;
+import com.cuit.foodmall.entity.StoreOperationLog;
 import com.cuit.foodmall.entity.User;
 import com.cuit.foodmall.entity.UserInformation;
+import com.cuit.foodmall.service.StoreOperationLogService;
 import com.cuit.foodmall.service.UserInformationService;
 import com.cuit.foodmall.service.UserService;
 import com.cuit.foodmall.util.Result;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +33,8 @@ public class StoreAccountController {
 	private UserInformationService userInformationService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private StoreOperationLogService storeOperationLogService;
 
 	/**
 	 * @description: 查询个人信息
@@ -81,5 +86,27 @@ public class StoreAccountController {
 			return Result.ok("修改成功");
 		}
 		return Result.error("修改失败");
+	}
+
+	/**
+	 * @description: 查看个人操作日志
+	 * @param: date
+	 * @param: keyword
+	 * @param: session
+	 * @return: java.lang.Object
+	 */
+	@GetMapping("getLogByUserId")
+	public Object getLogByUserId(String date, String keyword ,HttpSession session){
+		Long userId = ((User) session.getAttribute("business")).getId();
+		LambdaQueryWrapper<StoreOperationLog> wrapper = new QueryWrapper<StoreOperationLog>().lambda();
+		wrapper.eq(StoreOperationLog::getOperatorId, userId);
+		if (StringUtils.isNotEmpty(date)){
+			wrapper.like(StoreOperationLog::getCreateTime, date);
+		}
+		if (StringUtils.isNotEmpty(keyword)){
+			wrapper.like(StoreOperationLog::getOperating, keyword);
+		}
+		wrapper.orderByDesc(StoreOperationLog::getCreateTime);
+		return Result.ok(storeOperationLogService.list(wrapper));
 	}
 }

@@ -28,7 +28,7 @@
             <div class="layui-form toolbar">
                 <div class="layui-form-item">
                     <div class="layui-inline">
-                        <label class="layui-form-label w-auto">商品名字</label>
+                        <label class="layui-form-label w-auto">名字</label>
                         <div class="layui-input-inline mr0">
                             <input id="name" name="name" class="layui-input" type="text" placeholder="请输入商品名字"/>
                         </div>
@@ -160,7 +160,7 @@
                 {field: 'categoryName',width:'120',align: 'center',title: '分类'},
                 {field: 'storeName',width:'150',align: 'center',title: '店铺'},
                 {field: 'createTime',width:'130',align: 'center',sort:true,title: '上架日期'},
-                {field: 'createUserName',width:'120',align: 'center',title: '上架人'},
+                {field: 'createUserName',width:'100',align: 'center',title: '上架人'},
                 {
                     field: 'enabled', title: '状态', width:120, align: 'center', templet: function (d) {
                         if (d.enabled == '0') {

@@ -6,14 +6,26 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cuit.foodmall.entity.ProductImage;
 import com.cuit.foodmall.entity.ProductProperty;
+import com.cuit.foodmall.entity.SearchHistory;
+import com.cuit.foodmall.entity.User;
 import com.cuit.foodmall.entity.vo.ProductVO;
+import com.cuit.foodmall.es.ProductES;
+import com.cuit.foodmall.es.ProductRepository;
 import com.cuit.foodmall.service.ProductImageService;
 import com.cuit.foodmall.service.ProductPropertyService;
 import com.cuit.foodmall.service.ProductService;
+import com.cuit.foodmall.service.SearchHistoryService;
 import com.cuit.foodmall.util.Result;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * @author: YX
@@ -31,6 +43,42 @@ public class ProductController {
 	private ProductImageService productImageService;
 	@Autowired
 	private ProductPropertyService productPropertyService;
+	@Autowired
+	private ProductRepository productRepository;
+	@Autowired
+	private SearchHistoryService searchHistoryService;
+
+	/**
+	 * @description: 根据关键词搜索
+	 * @param: keyWord
+	 * @return: java.lang.Object
+	 */
+	@GetMapping("search")
+	public Object search(String keyword, HttpSession session,
+	                     @RequestParam(required = false,defaultValue = "1") int page,
+	                     @RequestParam(required = false,defaultValue = "12") int limit){
+		page -= 1;
+		PageRequest ipage = PageRequest.of(page, limit);
+		NativeSearchQueryBuilder builder = new NativeSearchQueryBuilder();
+		if (StringUtils.isEmpty(keyword)){
+			return Result.error("关键词不能为空");
+		}
+		builder.withQuery(QueryBuilders.boolQuery().should(QueryBuilders.matchQuery("name",keyword))
+				.should(QueryBuilders.matchQuery("category",keyword))
+				.should(QueryBuilders.matchQuery("storeName",keyword))
+		);
+		builder.withPageable(ipage);
+		org.springframework.data.domain.Page<ProductES> list = productRepository.search(builder.build());
+		if (StringUtils.isNotEmpty(keyword)){
+			User user = (User) session.getAttribute("user");
+			SearchHistory history = new SearchHistory();
+			history.setUserId(user.getId());
+			history.setUsername(user.getUsername());
+			history.setKeyword(keyword);
+			searchHistoryService.save(history);
+		}
+		return Result.ok(list);
+	}
 
 	/**
 	 * @description: 根据分类查询商品
@@ -78,5 +126,15 @@ public class ProductController {
 		LambdaQueryWrapper<ProductImage> wrapper = new QueryWrapper<ProductImage>().lambda();
 		wrapper.eq(ProductImage::getProductId, productId);
 		return Result.ok(productImageService.list(wrapper));
+	}
+
+	/**
+	 * @description: 查看搜索记录
+	 * @return: java.lang.Object
+	 */
+	@GetMapping("getSearchHistory")
+	public Object getSearchHistory(HttpSession session){
+		User user = (User) session.getAttribute("user");
+		return Result.ok(searchHistoryService.listByUserId(user.getId()));
 	}
 }

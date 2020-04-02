@@ -21,7 +21,7 @@ public interface ProductMapper extends BaseMapper<Product> {
 
 	@Select("SELECT p.*,pi.src FROM product AS p " +
 			"LEFT JOIN product_image AS pi " +
-			"ON p.id=pi.product_id WHERE p.category_id=#{categoryId} AND p.del_flag=0 AND pi.type=0")
+			"ON p.id=pi.product_id WHERE p.category_id=#{categoryId} AND p.status=11 AND p.del_flag=0 AND pi.type=0")
 	IPage<ProductVO> listProductByCid(Page<ProductVO> page, Long categoryId);
 
 	@Select("SELECT p.*,pi.src FROM product AS p " +

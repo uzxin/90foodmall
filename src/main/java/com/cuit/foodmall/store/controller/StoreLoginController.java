@@ -42,14 +42,18 @@ public class StoreLoginController {
 		LambdaQueryWrapper<User> wrapper = new QueryWrapper<User>().lambda();
 		wrapper.eq(User::getUsername, user.getUsername());
 		wrapper.eq(User::getPassword, user.getPassword());
+		wrapper.eq(User::getAccountStatus, "1");
 		User u = userService.getOne(wrapper);
 		if (u == null){
 			log.info("登录失败");
 			return Result.error("您输入的用户名和密码不匹配");
 		}
-		Store store = storeService.getOne(new QueryWrapper<Store>().lambda().eq(Store::getBusinessId,u.getId()));
+		LambdaQueryWrapper<Store> lambda = new QueryWrapper<Store>().lambda();
+		lambda.eq(Store::getBusinessId,u.getId());
+		lambda.eq(Store::getStatus,"1");//只有状态为1（开启）的店铺才能登陆
+		Store store = storeService.getOne(lambda);
 		if (null == store){
-			return Result.error("没有店铺信息");
+			return Result.error("未查询到您的店铺信息");
 		}
 		session.setAttribute("business", u);
 		session.setAttribute("store",store);

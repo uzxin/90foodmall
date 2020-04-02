@@ -25,7 +25,7 @@ public interface UserMapper extends BaseMapper<User> {
 			"LEFT JOIN user_role AS ur ON u.id=ur.user_id ${ew.customSqlSegment}")
 	IPage<UserVO> listUser(Page<UserVO> ipage, @Param(Constants.WRAPPER) QueryWrapper<UserVO> wrapper);
 
-	@Select("SELECT * FROM auth WHERE id in\n" +
+	@Select("SELECT * FROM auth WHERE del_flag=0 AND id in\n" +
 			"(SELECT auth_id FROM role_auth WHERE role_id in\n" +
 			"(SELECT role_id from user_role WHERE user_id=#{userId}))")
 	List<Auth> getAuths(Long userId);

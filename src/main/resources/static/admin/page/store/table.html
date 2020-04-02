@@ -197,7 +197,7 @@
                 {field: 'legalUserIdCard',width:'175',align: 'center',title: '身份证'},
                 {field: 'level',width:'85',sort:true,align: 'center',title: '等级'},
                 {
-                    field: 'status', title: '状态', width:120, align: 'center', templet: function (d) {
+                    field: 'status', title: '状态', width:100, align: 'center', templet: function (d) {
                         if (d.status == '1') {
                             return "<input type='checkbox' value='" + d.id + "' name='accountStatus' lay-filter='ckState' lay-skin='switch' lay-text='开启|关闭' checked >";
                         } else if (d.status == '2'){

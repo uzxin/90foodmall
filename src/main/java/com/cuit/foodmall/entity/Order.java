@@ -2,12 +2,14 @@ package com.cuit.foodmall.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * @author: YX
@@ -71,5 +73,11 @@ public class Order extends BasePO{
 	 */
 	@TableField("status")
 	private String status;
+	/*
+	创建时间
+	 */
+	@JsonFormat(pattern="yyyy-MM-dd")
+	@TableField("create_time")
+	private Date createTime;
 
 }
