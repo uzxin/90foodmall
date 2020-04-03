@@ -1,11 +1,9 @@
 package com.cuit.foodmall.admin.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.cuit.foodmall.entity.Order;
-import com.cuit.foodmall.entity.Product;
-import com.cuit.foodmall.entity.Store;
-import com.cuit.foodmall.entity.User;
+import com.cuit.foodmall.entity.*;
 import com.cuit.foodmall.entity.dto.AdminHomeDTO;
+import com.cuit.foodmall.entity.dto.SearchKeyWordDTO;
 import com.cuit.foodmall.service.*;
 import com.cuit.foodmall.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author: YX
@@ -67,8 +69,9 @@ public class AdminHomeController {
 	 * @description: 关键词搜索排行榜
 	 * @return: java.lang.Object
 	 */
+	@GetMapping("getTopSearchHistory")
 	public Object getTopSearchHistory(){
-
-		return Result.ok();
+		List<SearchKeyWordDTO> list = searchHistoryService.listSearchNum();
+		return Result.ok(list);
 	}
 }

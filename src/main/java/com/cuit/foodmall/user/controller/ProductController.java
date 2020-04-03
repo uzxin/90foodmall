@@ -8,6 +8,7 @@ import com.cuit.foodmall.entity.ProductImage;
 import com.cuit.foodmall.entity.ProductProperty;
 import com.cuit.foodmall.entity.SearchHistory;
 import com.cuit.foodmall.entity.User;
+import com.cuit.foodmall.entity.dto.SearchKeyWordDTO;
 import com.cuit.foodmall.entity.vo.ProductVO;
 import com.cuit.foodmall.es.ProductES;
 import com.cuit.foodmall.es.ProductRepository;
@@ -26,6 +27,7 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilde
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * @author: YX
@@ -136,5 +138,52 @@ public class ProductController {
 	public Object getSearchHistory(HttpSession session){
 		User user = (User) session.getAttribute("user");
 		return Result.ok(searchHistoryService.listByUserId(user.getId()));
+	}
+
+	/**
+	 * @description: 通过搜索记录推荐商品
+	 * @param: session
+	 * @return: java.lang.Object
+	 */
+	@GetMapping("listProductBySearchHistory")
+	public Object listProductBySearchHistory(HttpSession session){
+		User user = (User) session.getAttribute("user");
+		List<SearchHistory> searchHistories = searchHistoryService.listByUserId(user.getId());
+		NativeSearchQueryBuilder builder = new NativeSearchQueryBuilder();
+		//如果有搜索记录则根据搜索记录
+		//否则根据搜索关键词排行榜去搜索
+		switch (searchHistories.size()){
+			case 0:List<SearchKeyWordDTO> list= searchHistoryService.listSearchNum();
+				if (list.size() != 0){
+					builder.withQuery(QueryBuilders.boolQuery().should(QueryBuilders.matchQuery("name",list.get(0).getKeyword()))
+							.should(QueryBuilders.matchQuery("category",list.get(0).getKeyword()))
+							.should(QueryBuilders.matchQuery("storeName",list.get(0).getKeyword())));
+				}
+				break;
+			case 1:builder.withQuery(QueryBuilders.boolQuery().should(QueryBuilders.matchQuery("name",searchHistories.get(0).getKeyword()))
+					.should(QueryBuilders.matchQuery("category",searchHistories.get(0).getKeyword()))
+					.should(QueryBuilders.matchQuery("storeName",searchHistories.get(0).getKeyword()))
+			);break;
+			case 2:builder.withQuery(QueryBuilders.boolQuery().should(QueryBuilders.matchQuery("name",searchHistories.get(0).getKeyword()))
+					.should(QueryBuilders.matchQuery("category",searchHistories.get(0).getKeyword()))
+					.should(QueryBuilders.matchQuery("storeName",searchHistories.get(0).getKeyword()))
+					.should(QueryBuilders.matchQuery("name",searchHistories.get(1).getKeyword()))
+					.should(QueryBuilders.matchQuery("category",searchHistories.get(1).getKeyword()))
+					.should(QueryBuilders.matchQuery("storeName",searchHistories.get(1).getKeyword()))
+			);break;
+			case 3:builder.withQuery(QueryBuilders.boolQuery().should(QueryBuilders.matchQuery("name",searchHistories.get(0).getKeyword()))
+					.should(QueryBuilders.matchQuery("category",searchHistories.get(0).getKeyword()))
+					.should(QueryBuilders.matchQuery("storeName",searchHistories.get(0).getKeyword()))
+					.should(QueryBuilders.matchQuery("name",searchHistories.get(1).getKeyword()))
+					.should(QueryBuilders.matchQuery("category",searchHistories.get(1).getKeyword()))
+					.should(QueryBuilders.matchQuery("storeName",searchHistories.get(1).getKeyword()))
+					.should(QueryBuilders.matchQuery("name",searchHistories.get(2).getKeyword()))
+					.should(QueryBuilders.matchQuery("category",searchHistories.get(2).getKeyword()))
+					.should(QueryBuilders.matchQuery("storeName",searchHistories.get(2).getKeyword()))
+			);break;
+		}
+		builder.withPageable(PageRequest.of(0,12));
+		org.springframework.data.domain.Page<ProductES> list = productRepository.search(builder.build());
+		return Result.ok(list);
 	}
 }

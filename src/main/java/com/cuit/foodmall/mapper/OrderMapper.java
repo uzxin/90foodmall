@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cuit.foodmall.entity.Order;
+import com.cuit.foodmall.entity.dto.ProvinceOrdersDTO;
 import com.cuit.foodmall.entity.vo.OrderVO;
 import com.cuit.foodmall.entity.vo.ProfitVO;
 import org.apache.ibatis.annotations.Param;
@@ -55,4 +56,9 @@ public interface OrderMapper extends BaseMapper<Order> {
 			"sum(o.pay_amount) AS pay_amount FROM orders AS o\n" +
 			"INNER JOIN product AS p ON p.id=o.product_id ${ew.customSqlSegment}")
 	List<ProfitVO> listProfit(@Param(Constants.WRAPPER) QueryWrapper<ProfitVO> wrapper);
+
+	@Select("SELECT a.district AS province,o.pay_amount FROM orders AS o,user_address AS ua,address AS a\n" +
+			"WHERE o.user_address_id=ua.id\n" +
+			"AND a.id=(select pid FROM address WHERE id=(select pid FROM address WHERE id=ua.address_id))")
+	List<ProvinceOrdersDTO> listProvinceOrders();
 }

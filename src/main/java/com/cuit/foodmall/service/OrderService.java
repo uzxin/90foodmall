@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.cuit.foodmall.entity.Order;
+import com.cuit.foodmall.entity.dto.ProvinceOrdersDTO;
 import com.cuit.foodmall.entity.vo.OrderVO;
 import com.cuit.foodmall.entity.vo.ProductVO;
 import com.cuit.foodmall.entity.vo.ProfitVO;
@@ -52,4 +53,10 @@ public interface OrderService extends IService<Order> {
 	 * @return: java.util.List<com.cuit.foodmall.entity.vo.ProfitVO>
 	 */
 	List<ProfitVO> listProfit(QueryWrapper<ProfitVO> wrapper);
+
+	/**
+	 * @description: 根据省份查询交易量
+	 * @return: List<ProvinceOrdersDTO>
+	 */
+	List<ProvinceOrdersDTO> listProvinceOrders();
 }

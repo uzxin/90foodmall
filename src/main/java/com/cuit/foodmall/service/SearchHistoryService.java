@@ -3,6 +3,7 @@ package com.cuit.foodmall.service;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.cuit.foodmall.entity.SearchHistory;
+import com.cuit.foodmall.entity.dto.SearchKeyWordDTO;
 
 import java.util.List;
 
@@ -18,4 +19,10 @@ public interface SearchHistoryService extends IService<SearchHistory> {
 	 * @return: java.util.List<com.cuit.foodmall.entity.SearchHistory>
 	 */
 	List<SearchHistory> listByUserId(Long userId);
+
+	/**
+	 * @description: 查询关键词搜索次数
+	 * @return: java.util.List<com.cuit.foodmall.entity.SearchKeyWordDTO>
+	 */
+	List<SearchKeyWordDTO> listSearchNum();
 }

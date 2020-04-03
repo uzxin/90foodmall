@@ -3,6 +3,7 @@ package com.cuit.foodmall.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cuit.foodmall.entity.SearchHistory;
+import com.cuit.foodmall.entity.dto.SearchKeyWordDTO;
 import com.cuit.foodmall.mapper.SearchHistoryMapper;
 import com.cuit.foodmall.service.SearchHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +24,10 @@ public class SearchHistoryServiceImpl extends ServiceImpl<SearchHistoryMapper, S
 	@Override
 	public List<SearchHistory> listByUserId(Long userId) {
 		return searchHistoryMapper.listByUserId(userId);
+	}
+
+	@Override
+	public List<SearchKeyWordDTO> listSearchNum() {
+		return searchHistoryMapper.listSearchNum();
 	}
 }
