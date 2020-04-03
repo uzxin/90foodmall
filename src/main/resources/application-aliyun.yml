@@ -10,11 +10,11 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://114.55.28.2:3306/90foodmall?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT
     username: root
-    password: uzxin666
+    password: youxin199855
   redis:
     host: 114.55.28.2
     port: 6379
-    password: 123456
+    password: youxin199855
     jedis:
       pool:
         max-active: 8 #连接池最大连接数（使用负值表示没有限制）
