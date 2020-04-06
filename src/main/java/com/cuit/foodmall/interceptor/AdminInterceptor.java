@@ -33,6 +33,10 @@ public class AdminInterceptor implements HandlerInterceptor {
 		//获取token
 		Cookie[] cookies = request.getCookies();
 		String token = "";
+		if (null == cookies){
+			response.sendRedirect(request.getContextPath()+"/admin/login.html");
+			return false;
+		}
 		for (Cookie cookie : cookies) {
 			if ("Token_Login_Admin".equals(cookie.getName())){
 				token = cookie.getValue();

@@ -170,7 +170,7 @@
 
         // 检查是否登录
         admin.req('/admin/getUser?' + new Date().getTime(), {}, function (res) {
-            if (res.code == 401) {
+            if (res.code == 1) {
                 return window.top.location.replace('/admin/login.html');
             } else if (res.code == 0) {
                 $('#loginName').html(res.data.username);

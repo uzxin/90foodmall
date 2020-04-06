@@ -9,6 +9,7 @@ import com.cuit.foodmall.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,10 +68,12 @@ public class AdminLoginController {
 	 * @return: java.lang.Object
 	 */
 	@GetMapping("logout")
-	public Object logout(HttpServletRequest request){
+	public Object logout(HttpServletRequest request,HttpServletResponse response){
 		Cookie[] cookies = request.getCookies();
 		for (Cookie cookie : cookies) {
 			if ("Token_Login_Admin".equals(cookie.getName())){
+				/*cookie.setValue("");
+				response.addCookie(cookie);*/
 				redisTemplate.delete("Token_Login_Admin:"+cookie.getValue());
 			}
 		}
@@ -107,7 +110,18 @@ public class AdminLoginController {
 	 * @return: java.lang.Object
 	 */
 	@GetMapping("getUser")
-	public Object getUser(HttpSession session) {
-		return Result.ok((User) session.getAttribute("admin"));
+	public Object getUser(HttpServletRequest request) {
+		Cookie[] cookies = request.getCookies();
+		if (null != cookies){
+			for (Cookie cookie : cookies) {
+				if ("Token_Login_Admin".equals(cookie.getName())){
+					User user = (User) redisTemplate.opsForValue().get("Token_Login_Admin:" + cookie.getValue());
+					if (null != user){
+						return Result.ok(user);
+					}
+				}
+			}
+		}
+		return Result.error();
 	}
 }

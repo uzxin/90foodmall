@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cuit.foodmall.entity.Order;
 import com.cuit.foodmall.entity.dto.ProvinceOrdersDTO;
+import com.cuit.foodmall.entity.dto.StoreOrdersAmountDTO;
 import com.cuit.foodmall.entity.vo.OrderVO;
 import com.cuit.foodmall.entity.vo.ProfitVO;
 import org.apache.ibatis.annotations.Param;
@@ -61,4 +62,16 @@ public interface OrderMapper extends BaseMapper<Order> {
 			"WHERE o.user_address_id=ua.id\n" +
 			"AND a.id=(select pid FROM address WHERE id=(select pid FROM address WHERE id=ua.address_id))")
 	List<ProvinceOrdersDTO> listProvinceOrders();
+
+	@Select("SELECT s.name AS storeName,count(o.id) AS orders,sum(o.pay_amount) AS amount FROM orders AS o\n" +
+			"INNER JOIN product AS p ON p.id=o.product_id\n" +
+			"INNER JOIN store AS s ON s.id=p.store_id\n" +
+			"GROUP BY s.name ORDER BY orders")
+	List<StoreOrdersAmountDTO> getStoreByOrders();
+
+	@Select("SELECT s.name AS storeName,count(o.id) AS orders,sum(o.pay_amount) AS amount FROM orders AS o\n" +
+			"INNER JOIN product AS p ON p.id=o.product_id\n" +
+			"INNER JOIN store AS s ON s.id=p.store_id\n" +
+			"GROUP BY s.name ORDER BY amount;")
+	List<StoreOrdersAmountDTO> getStoreByAmount();
 }

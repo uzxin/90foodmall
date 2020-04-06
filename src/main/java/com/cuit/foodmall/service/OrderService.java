@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.cuit.foodmall.entity.Order;
 import com.cuit.foodmall.entity.dto.ProvinceOrdersDTO;
+import com.cuit.foodmall.entity.dto.StoreOrdersAmountDTO;
 import com.cuit.foodmall.entity.vo.OrderVO;
 import com.cuit.foodmall.entity.vo.ProductVO;
 import com.cuit.foodmall.entity.vo.ProfitVO;
@@ -59,4 +60,16 @@ public interface OrderService extends IService<Order> {
 	 * @return: List<ProvinceOrdersDTO>
 	 */
 	List<ProvinceOrdersDTO> listProvinceOrders();
+
+	/**
+	 * @description: 根据订单量店铺排序
+	 * @return: List<StoreOrdersAmountDTO>
+	 */
+    List<StoreOrdersAmountDTO> getStoreByOrders();
+
+	/**
+	 * @description: 根据交易额店铺排序
+	 * @return: List<StoreOrdersAmountDTO>
+	 */
+	List<StoreOrdersAmountDTO> getStoreByAmount();
 }

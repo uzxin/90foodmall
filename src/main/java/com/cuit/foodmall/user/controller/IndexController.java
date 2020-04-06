@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.cuit.foodmall.entity.Category;
 import com.cuit.foodmall.entity.MallHeadLines;
+import com.cuit.foodmall.service.CarouselService;
 import com.cuit.foodmall.service.CategoryService;
 import com.cuit.foodmall.service.MallHeadLinesService;
 import com.cuit.foodmall.util.Result;
@@ -33,6 +34,8 @@ public class IndexController {
 	private RedisTemplate redisTemplate;
 	@Autowired
 	private MallHeadLinesService mallHeadLinesService;
+	@Autowired
+	private CarouselService carouselService;
 
 	/**
 	 * @description: 查询商品分类
@@ -66,6 +69,15 @@ public class IndexController {
 		//存入redis
 		redisTemplate.opsForValue().set("category", list);
 		return Result.ok(list);
+	}
+
+	/**
+	 * @description: 查询轮播图
+	 * @return: java.lang.Object
+	 */
+	@GetMapping("listCarousel")
+	public Object listCarousel(){
+		return Result.ok(carouselService.list());
 	}
 
 	/**

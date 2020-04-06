@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cuit.foodmall.entity.Order;
 import com.cuit.foodmall.entity.dto.ProvinceOrdersDTO;
+import com.cuit.foodmall.entity.dto.StoreOrdersAmountDTO;
 import com.cuit.foodmall.entity.vo.OrderVO;
 import com.cuit.foodmall.entity.vo.ProfitVO;
 import com.cuit.foodmall.mapper.OrderMapper;
@@ -54,5 +55,15 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 	@Override
 	public List<ProvinceOrdersDTO> listProvinceOrders() {
 		return orderMapper.listProvinceOrders();
+	}
+
+	@Override
+	public List<StoreOrdersAmountDTO> getStoreByOrders() {
+		return orderMapper.getStoreByOrders();
+	}
+
+	@Override
+	public List<StoreOrdersAmountDTO> getStoreByAmount() {
+		return orderMapper.getStoreByAmount();
 	}
 }
