@@ -196,7 +196,7 @@
                         <div class="console-app-name">广告</div>
                     </div>
                 </div>
-                <div class="layui-col-xs6 layui-col-sm3">
+                <div class="layui-col-xs6 layui-col-sm3" id="analysis">
                     <div class="console-app-group">
                         <i class="console-app-icon layui-icon layui-icon-chart" style="color: #95de64;"></i>
                         <div class="console-app-name">分析</div>
@@ -342,6 +342,12 @@
             top.layui.index.openTab({
                 title: '商城头条',
                 url: '/admin/page/advertisement/mallHeadLines.html'
+            });
+        });
+        $("#analysis").on('click', function () {
+            top.layui.index.openTab({
+                title: '销售数据',
+                url: '/admin/page/analysis/dashboard.html'
             });
         });
         $("#role").on('click', function () {
