@@ -38,7 +38,7 @@ public class AdminProductFeaturedController {
 	 * @return: java.lang.Object
 	 */
 	@GetMapping("page")
-	public Object page(String begin, String end,
+	public Object page(String begin, String end, String position,
 	                   @RequestParam(required = false,defaultValue = "1") int page,
 	                   @RequestParam(required = false,defaultValue = "10") int limit){
 		Page<ProductFeatured> ipage = new Page<>(page, limit);
@@ -46,6 +46,9 @@ public class AdminProductFeaturedController {
 		if (StringUtils.isNotEmpty(begin) &&StringUtils.isNotEmpty(end)){
 			wrapper.between(ProductFeatured::getStartDate, begin, end);
 			wrapper.between(ProductFeatured::getEndDate, begin, end);
+		}
+		if (StringUtils.isNotEmpty(position)){
+			wrapper.eq(ProductFeatured::getPosition, position);
 		}
 		wrapper.last("AND pf.del_flag=0 AND pi.type=0");
 		IPage<ProductFeatured> p = productFeaturedService.listAll(ipage, wrapper);

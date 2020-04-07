@@ -78,7 +78,7 @@
                                             </colgroup>
                                             <thead>
                                             <tr style="background: none;color: #333;">
-                                                <th colspan="3">门店订单量排名</th>
+                                                <th colspan="3">店铺排名【按订单量】</th>
                                             </tr>
                                             </thead>
                                             <tbody id="sortByOrders">
@@ -101,7 +101,7 @@
                                             </colgroup>
                                             <thead>
                                             <tr style="background: none;color: #333;">
-                                                <th colspan="3">门店销售额排名</th>
+                                                <th colspan="3">店铺排名【按销售额】</th>
                                             </tr>
                                             </thead>
                                             <tbody id="sortByAmount">
@@ -158,6 +158,10 @@
                 containLabel: true
             },
             xAxis: {
+                axisLabel: { //设置x轴的字
+                    show:true,
+                    interval:0,//使x轴横坐标全部显示
+                },
                 data: date
             },
             yAxis: {},
@@ -187,6 +191,10 @@
                 containLabel: true
             },
             xAxis: {
+                axisLabel: { //设置x轴的字
+                    show:true,
+                    interval:0,//使x轴横坐标全部显示
+                },
                 data: date
             },
             yAxis: {},

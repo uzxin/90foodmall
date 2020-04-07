@@ -179,10 +179,10 @@
                     </div>
                 </div>
                 <div class="layui-col-xs6 layui-col-sm3" id="order">
-                    <div class="console-app-group">
+                    <div class="console-app-group" id="shenhe">
                         <i class="console-app-icon layui-icon layui-icon-form"
                            style="color: #b37feb;font-size: 30px;"></i>
-                        <div class="console-app-name">订单</div>
+                        <div class="console-app-name">审核</div>
                     </div>
                 </div>
             </div>
@@ -336,6 +336,16 @@
             top.layui.index.openTab({
                 title: '所有商品',
                 url: '/admin/page/product/table.html'
+            });
+        });
+        $("#shenhe").on('click', function () {
+            top.layui.index.openTab({
+                title: '店铺审核',
+                url: '/admin/page/store/reviewStore.html'
+            });
+            top.layui.index.openTab({
+                title: '商品审核',
+                url: '/admin/page/product/reviewProduct.html'
             });
         });
         $("#advertisement").on('click', function () {

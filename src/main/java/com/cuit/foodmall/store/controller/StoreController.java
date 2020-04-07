@@ -42,6 +42,7 @@ public class StoreController {
 	@PostMapping("update")
 	public Object update(@RequestBody Store store, HttpSession session){
 		if (storeService.updateById(store)){
+			session.setAttribute("store",storeService.getById(store.getId()));//更新session数据
 			return Result.ok("修改成功");
 		}
 		return Result.error("修改失败");

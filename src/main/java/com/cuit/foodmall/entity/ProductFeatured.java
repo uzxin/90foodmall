@@ -40,6 +40,11 @@ public class ProductFeatured extends BasePO{
 	@TableField("end_date")
 	private String endDate;
 	/*
+	位置
+	 */
+	@TableField("position")
+	private String position;
+	/*
 	状态,1推荐中，2过期
 	 */
 	@TableField("status")

@@ -35,6 +35,18 @@
                             <input type="hidden" id="end" name="end">
                         </div>
                     </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label w-auto">推荐位置</label>
+                        <div class="layui-input-inline mr0">
+                            <select name="position" id="position">
+                                <option value=""></option>
+                                <option value="首页">首页</option>
+                                <option value="搜索页">搜索页</option>
+                                <option value="商品详情页">商品详情页</option>
+                                <option value="个人中心页">个人中心页</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="layui-inline" style="padding-right: 110px;">
                         <button class="layui-btn icon-btn" lay-filter="formSubSearchUser" lay-submit>
                             <i class="layui-icon">&#xe615;</i>搜索
@@ -109,6 +121,18 @@
                 <input type="hidden" id="endDate" name="endDate">
             </div>
         </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">推荐位置</label>
+            <div class="layui-input-block">
+                <select lay-verType="tips" lay-verify="required" id="position" name="position">
+                    <option value=""></option>
+                    <option value="首页">首页</option>
+                    <option value="搜索页">搜索页</option>
+                    <option value="商品详情页">商品详情页</option>
+                    <option value="个人中心页">个人中心页</option>
+                </select>
+            </div>
+        </div>
         <div class="layui-form-item text-right">
             <button class="layui-btn layui-btn-primary" type="button" ew-event="closePageDialog">取消</button>
             <button class="layui-btn" lay-filter="modelSubmitUser" lay-submit>保存</button>
@@ -153,15 +177,19 @@
             cols: [[
                 {type: 'numbers'},
                 {field: 'id', hide: true},
-                {field: 'productName',width:'305',align: 'center', title: '商品'},
+                {field: 'productName',width:'260',align: 'center', title: '商品'},
                 {field: 'startDate',width:'170',align: 'center',sort:true,title: '开始日期'},
                 {field: 'endDate',width:'170',align: 'center',sort:true,title: '结束日期'},
-                {field: 'referrerName',width:'100',align: 'center',title: '推荐人'},
-                {field: 'status',width:'115',align: 'center',title: '状态',templet:function (d) {
+                {field: 'position',width:'100',align: 'center',title: '位置',templet:function (d) {
+                        if (d.position){return "<span class=\"layui-badge layui-bg-cyan\">"+d.position+"</span>";}
+                        else {return "";}
+                    }},
+                {field: 'referrerName',width:'85',align: 'center',title: '推荐人'},
+                {field: 'status',width:'80',align: 'center',title: '状态',templet:function (d) {
                         if(d.status=="1"){return "<span class=\"layui-badge layui-bg-orange\">推荐中</span>";}
                         else if(d.status=="2"){return "<span class=\"layui-badge\">已过期</span>";}
                     }},
-                {align: 'center', width:'160',toolbar: '#tableBarUser', title: '操作'}
+                {align: 'center', width:'140',toolbar: '#tableBarUser', title: '操作'}
             ]]
             ,done:function(res){
                 tdTitle();
@@ -188,6 +216,7 @@
                 area: '460px',
                 content: $('#modelUser2').html(),
                 success: function (layero, dIndex) {
+                    form.render();
                     laydate.render({
                         elem: '#dateadd'
                         ,type: 'datetime'
