@@ -3,6 +3,7 @@ package com.cuit.foodmall.admin.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.cuit.foodmall.entity.Category;
+import com.cuit.foodmall.entity.User;
 import com.cuit.foodmall.service.CategoryService;
 import com.cuit.foodmall.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -59,7 +61,12 @@ public class AdminCategoryController {
 	 * @return: java.lang.Object
 	 */
 	@PostMapping("addOrUpdate")
-	public Object addOrUpdate(Category category){
+	public Object addOrUpdate(Category category, HttpSession session){
+		if (null == category.getId()){
+			User user = (User) session.getAttribute("admin");
+			category.setCreateUserId(user.getId());
+			category.setCreateUserName(user.getUsername());
+		}
 		if (categoryService.saveOrUpdate(category)){
 			//更新redis
 			List<Map<Category,List<Map<Category, List<Category>>>>> list = new ArrayList<>();

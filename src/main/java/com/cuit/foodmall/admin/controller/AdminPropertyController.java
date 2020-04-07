@@ -6,11 +6,14 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cuit.foodmall.entity.Property;
 import com.cuit.foodmall.entity.ShipMethod;
+import com.cuit.foodmall.entity.User;
 import com.cuit.foodmall.service.PropertyService;
 import com.cuit.foodmall.util.Result;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * @author: YX
@@ -49,7 +52,12 @@ public class AdminPropertyController {
 	 * @return: java.lang.Object
 	 */
 	@PostMapping("addOrUpdate")
-	public Object addOrUpdate(Property property){
+	public Object addOrUpdate(Property property, HttpSession session){
+		if (null == property.getId()){
+			User user = (User) session.getAttribute("admin");
+			property.setCreateUserId(user.getId());
+			property.setCreateUserName(user.getUsername());
+		}
 		if (propertyService.saveOrUpdate(property)){
 			return Result.ok();
 		}

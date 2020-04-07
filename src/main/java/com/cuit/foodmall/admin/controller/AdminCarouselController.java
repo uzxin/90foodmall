@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
  */
 @RestController
 @RequestMapping("admin/carousel")
-public class CarouselController {
+public class AdminCarouselController {
 
     @Autowired
     private CarouselService carouselService;

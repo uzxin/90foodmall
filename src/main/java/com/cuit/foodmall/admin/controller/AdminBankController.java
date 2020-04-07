@@ -5,11 +5,14 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cuit.foodmall.entity.Bank;
+import com.cuit.foodmall.entity.User;
 import com.cuit.foodmall.service.BankService;
 import com.cuit.foodmall.util.Result;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * @author: YX
@@ -48,7 +51,12 @@ public class AdminBankController {
 	 * @return: java.lang.Object
 	 */
 	@PostMapping("addOrUpdate")
-	public Object addOrUpdate(Bank bank){
+	public Object addOrUpdate(Bank bank, HttpSession session){
+		if (null == bank.getId()){
+			User user = (User) session.getAttribute("admin");
+			bank.setCreateUserId(user.getId());
+			bank.setCreateUserName(user.getUsername());
+		}
 		if (bankService.saveOrUpdate(bank)){
 			return Result.ok();
 		}

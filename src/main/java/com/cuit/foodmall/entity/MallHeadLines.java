@@ -35,7 +35,7 @@ public class MallHeadLines extends BasePO{
 	创建人ID
 	 */
 	@TableField("create_user_id")
-	private String createUserId;
+	private Long createUserId;
 	/*
 	创建人名字
 	 */

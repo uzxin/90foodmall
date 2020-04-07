@@ -5,11 +5,14 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cuit.foodmall.entity.MallHeadLines;
+import com.cuit.foodmall.entity.User;
 import com.cuit.foodmall.service.MallHeadLinesService;
 import com.cuit.foodmall.util.Result;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * @author: YX
@@ -50,7 +53,12 @@ public class AdminMallHeadLinesController {
 	 * @return: java.lang.Object
 	 */
 	@PostMapping("addOrUpdate")
-	public Object addOrUpdate(MallHeadLines mallHeadLines){
+	public Object addOrUpdate(MallHeadLines mallHeadLines, HttpSession session){
+		if (null == mallHeadLines.getId()){
+			User user = (User) session.getAttribute("admin");
+			mallHeadLines.setCreateUserId(user.getId());
+			mallHeadLines.setCreateUserName(user.getUsername());
+		}
 		if (mallHeadLinesService.saveOrUpdate(mallHeadLines)){
 			return Result.ok();
 		}
