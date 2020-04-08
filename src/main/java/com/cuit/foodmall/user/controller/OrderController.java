@@ -93,7 +93,15 @@ public class OrderController extends BaseController{
 				order.setPayMethodId(payMethodId);//支付方式
 				//支付金额=单价*数量
 				order.setPayAmount(productService.getById(Long.parseLong(next.getKey())).getPriceSale().multiply(new BigDecimal(Integer.parseInt(next.getValue()))));
-				orderService.save(order);
+				Product p = productService.getById(order.getProductId());
+				if (p.getInventory().intValue() < order.getProductQuantity()){
+					//库存不够
+					return Result.error("对不起，商品库存不足");
+				}
+				p.setSales(p.getSales().add(new BigDecimal(order.getProductQuantity())));//增加销量
+				p.setInventory(p.getInventory().subtract(new BigDecimal(order.getProductQuantity())));//减少库存
+				productService.updateById(p);//更新产品信息
+				orderService.save(order);//保存订单
 			}
 		}
 		return Result.ok("提交成功");

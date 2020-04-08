@@ -2,12 +2,14 @@ package com.cuit.foodmall.user.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.cuit.foodmall.entity.User;
 import com.cuit.foodmall.entity.UserInformation;
 import com.cuit.foodmall.service.UserInformationService;
 import com.cuit.foodmall.service.UserService;
 import com.cuit.foodmall.util.Result;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -96,5 +98,30 @@ public class LoginController {
 	@GetMapping("loginout")
 	public void loginout(HttpSession session){
 		session.removeAttribute("user");
+	}
+
+
+	/**
+	 * @description: 修改密码
+	 * @param: acount 手机号或者邮箱
+	 * @param: password 新密码
+	 * @return: java.lang.Object
+	 */
+	@PostMapping("modifyPassword")
+	public Object modifyPassword(String acount, String password){
+		if (StringUtils.isEmpty(acount) || StringUtils.isEmpty(password)){
+			return Result.error("数据不完整");
+		}
+		LambdaQueryWrapper<UserInformation> wrapper = new QueryWrapper<UserInformation>().lambda();
+		wrapper.eq(UserInformation::getPhone,acount).or().eq(UserInformation::getEmail,acount);
+		UserInformation one = userInformationService.getOne(wrapper);
+		if (null == one){
+			return Result.error("未找到您的账号信息");
+		}
+		UpdateWrapper<User> userUpdateWrapper = new UpdateWrapper<>();
+		userUpdateWrapper.eq("id",one.getUserId());
+		userUpdateWrapper.set("user_password", password);
+		userService.update(userUpdateWrapper);
+		return Result.ok("修改成功");
 	}
 }

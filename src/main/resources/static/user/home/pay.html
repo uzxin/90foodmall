@@ -236,6 +236,8 @@
 									localStorage.setItem("accept", JSON.stringify(obj));//收货人信息
 									layer.msg(data.msg,{icon:1,time:1000});
 									window.location.href="./success.html?acount="+total;
+								}else {
+									layer.alert(data.msg,{icon:5,time:2000})
 								}
 							}
 						})
