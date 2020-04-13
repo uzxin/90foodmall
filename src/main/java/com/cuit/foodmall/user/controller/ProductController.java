@@ -4,18 +4,12 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.cuit.foodmall.entity.ProductImage;
-import com.cuit.foodmall.entity.ProductProperty;
-import com.cuit.foodmall.entity.SearchHistory;
-import com.cuit.foodmall.entity.User;
+import com.cuit.foodmall.entity.*;
 import com.cuit.foodmall.entity.dto.SearchKeyWordDTO;
 import com.cuit.foodmall.entity.vo.ProductVO;
 import com.cuit.foodmall.es.ProductES;
 import com.cuit.foodmall.es.ProductRepository;
-import com.cuit.foodmall.service.ProductImageService;
-import com.cuit.foodmall.service.ProductPropertyService;
-import com.cuit.foodmall.service.ProductService;
-import com.cuit.foodmall.service.SearchHistoryService;
+import com.cuit.foodmall.service.*;
 import com.cuit.foodmall.util.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -27,6 +21,8 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilde
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -49,6 +45,8 @@ public class ProductController {
 	private ProductRepository productRepository;
 	@Autowired
 	private SearchHistoryService searchHistoryService;
+	@Autowired
+	private ProductFeaturedService productFeaturedService;
 
 	/**
 	 * @description: 根据关键词搜索
@@ -59,7 +57,7 @@ public class ProductController {
 	public Object search(String keyword, HttpSession session,
 	                     @RequestParam(required = false,defaultValue = "1") int page,
 	                     @RequestParam(required = false,defaultValue = "12") int limit){
-		page -= 1;
+		page -= 1;//搜索服务器分页从0开始
 		PageRequest ipage = PageRequest.of(page, limit);
 		NativeSearchQueryBuilder builder = new NativeSearchQueryBuilder();
 		if (StringUtils.isEmpty(keyword)){
@@ -185,5 +183,25 @@ public class ProductController {
 		builder.withPageable(PageRequest.of(0,12));
 		org.springframework.data.domain.Page<ProductES> list = productRepository.search(builder.build());
 		return Result.ok(list);
+	}
+
+	/**
+	 * @description: 获取推荐商品
+	 * @param: position 推荐位置
+	 * @param: limit 数量
+	 * @return: java.lang.Object
+	 */
+	@GetMapping("getProductFeatured")
+	public Object getProductFeatured(String position,
+	                                 @RequestParam(required = false,defaultValue = "10")int limit){
+		LambdaQueryWrapper<ProductFeatured> wrapper = new QueryWrapper<ProductFeatured>().lambda();
+		if (StringUtils.isNotEmpty(position)){
+			wrapper.eq(ProductFeatured::getPosition, position);
+		}
+		String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+		wrapper.lt(ProductFeatured::getStartDate, now);
+		wrapper.gt(ProductFeatured::getEndDate, now);
+		wrapper.last("AND pf.del_flag=0 AND pi.type=0 ORDER BY pf.start_date");
+		return Result.ok(productFeaturedService.listAll(new Page<ProductFeatured>(1,limit),wrapper));
 	}
 }

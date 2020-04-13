@@ -205,7 +205,7 @@
         }
         //不通过
         function nopass(id,name){
-            layer.prompt({title:name+"的申请驳货理由"},function(value, index, elem){
+            layer.prompt({title:"申请驳货理由"},function(value, index, elem){
                 layer.load(2);
                 $.get('/admin/productReview/nopass', {id:id, reviewOpinion:value}, function (res) {
                     layer.closeAll('loading');

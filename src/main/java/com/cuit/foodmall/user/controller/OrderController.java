@@ -154,6 +154,9 @@ public class OrderController extends BaseController{
 		Store store = storeService.getById(product.getStoreId());
 		refund.setStoreId(store.getId());
 		refundService.save(refund);
+		//订单状态置为待退款
+		order.setStatus("7");
+		orderService.updateById(order);
 		return Result.ok("提交成功");
 	}
 

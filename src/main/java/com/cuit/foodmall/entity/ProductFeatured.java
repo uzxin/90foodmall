@@ -75,6 +75,11 @@ public class ProductFeatured extends BasePO{
 	@TableField("priceSale")
 	private String priceSale;
 	/*
+	销量
+	 */
+	@TableField("sales")
+	private String sales;
+	/*
 	分类名
 	 */
 	@TableField("categoryName")

@@ -575,7 +575,7 @@ top: 11px;text-align: right;}
 
 
 /*第二套楼层颜色*/
-.f1 .text-two.big{background: linear-gradient(#6bdea7,#68937f);
+.f1 .text-two.big{background: linear-gradient(#6bdea7,#eefbf5);
 filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr='#6bdea7',endColorStr='#68937f',gradientType='0');}
 .f1 .shopTitle {border-bottom: 2px solid #68937f;}
 .f2 .text-two.big{background:#d17b28;background: radial-gradient(#ff9229,#d17b28);}

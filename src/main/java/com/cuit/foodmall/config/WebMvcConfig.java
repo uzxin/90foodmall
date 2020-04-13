@@ -36,6 +36,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
         try {
             registry.addResourceHandler("/upload/**","/**")
                     .addResourceLocations("classpath:/static/", "file:"+ ResourceUtils.getFile("classpath:").getParent()+"/upload/");
+            registry.addResourceHandler("/product/**")
+                    .addResourceLocations("file:"+ ResourceUtils.getFile("classpath:").getParent()+"/product/");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

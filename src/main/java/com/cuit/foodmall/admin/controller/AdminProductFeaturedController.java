@@ -82,7 +82,11 @@ public class AdminProductFeaturedController {
 	 */
 	@PostMapping("add")
 	public Object add(ProductFeatured productFeatured, HttpSession session){
-		if (null != productFeaturedService.getOneById(productFeatured.getProductId())){
+		LambdaQueryWrapper<ProductFeatured> wrapper = new QueryWrapper<ProductFeatured>().lambda();
+		wrapper.eq(ProductFeatured::getProductId, productFeatured.getProductId());
+		wrapper.eq(ProductFeatured::getPosition, productFeatured.getPosition());
+		//wrapper.eq(pfget);
+		if (!productFeaturedService.getAll(wrapper).isEmpty()){
 			return Result.error("该商品已被推荐");
 		}
 		User user = (User) session.getAttribute("admin");

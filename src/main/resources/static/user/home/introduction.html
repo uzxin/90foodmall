@@ -72,7 +72,18 @@
 				//渲染评论
 				$.get("/review/listReviewByPid?pid="+productId,{},function (data) {
 					$("#reviewCount").html(data.count);
+					$("#reviews_all").html("("+data.count+")");
+					var review_good = 0;
+					var review_middle = 0;
+					var review_bad = 0;
 					$.each(data.data, function (i,item) {
+						if (item.score==1 || item.score==2){
+							review_bad+=1;
+						}else if (item.score==3 || item.score==4){
+							review_middle+=1;
+						}else if (item.score==5){
+							review_good+=1;
+						}
                         $("#reviews").append("<li class=\"am-comment\">\n" +
                             "\t\t\t\t\t\t\t\t\t\t\t<a href=\"\">\n" +
                             "\t\t\t\t\t\t\t\t\t\t\t\t<img class=\"am-comment-avatar\" src=\"../images/hwbn40x40.jpg\" />\n" +
@@ -95,7 +106,25 @@
                             "\t\t\t\t\t\t\t\t\t\t\t</div>\n" +
                             "\t\t\t\t\t\t\t\t\t\t</li>");
                     })
+					$("#reviews_good").html("("+review_good+")");
+					$("#reviews_middle").html("("+review_middle+")");
+					$("#reviews_bad").html("("+review_bad+")");
 				});
+				//看了又看
+				$.get("/product/getProductFeatured",{position:'商品详情页',limit:4},function (data) {
+					$.each(data.data.records,function (i, item) {
+						$("#product_featured").append("<li>\n" +
+								"\t\t\t\t\t\t\t\t<div class=\"p-img\">\n" +
+								"\t\t\t\t\t\t\t\t\t<a  href='#'> <img src="+item.src+"> </a>\n" +
+								"\t\t\t\t\t\t\t\t</div>\n" +
+								"\t\t\t\t\t\t\t\t<div class=\"p-name\"><a href=\"#\">\n" +
+								"\t\t\t\t\t\t\t\t\t"+item.productName+"\n" +
+								"\t\t\t\t\t\t\t\t</a>\n" +
+								"\t\t\t\t\t\t\t\t</div>\n" +
+								"\t\t\t\t\t\t\t\t<div class=\"p-price\"><strong>￥"+item.priceSale+"</strong></div>\n" +
+								"\t\t\t\t\t\t\t </li>");
+					})
+				})
 				//猜你喜欢
 				$.get("/product/listProductBySearchHistory",{},function (data) {
 					$.each(data.data.content,function (i,item) {
@@ -406,51 +435,10 @@
 				<div class="introduce">
 					<div class="browse">
 					    <div class="mc"> 
-						     <ul>					    
+						     <ul id="product_featured">
 						     	<div class="mt">            
 						            <h2>看了又看</h2>        
 					            </div>
-						     	
-							      <li class="first">
-							      	<div class="p-img">                    
-							      		<a  href="#"> <img class="" src="../images/browse1.jpg"> </a>               
-							      	</div>
-							      	<div class="p-name"><a href="#">
-							      		【三只松鼠_开口松子】零食坚果特产炒货东北红松子原味
-							      	</a>
-							      	</div>
-							      	<div class="p-price"><strong>￥35.90</strong></div>
-							      </li>
-							      <li>
-							      	<div class="p-img">                    
-							      		<a  href="#"> <img class="" src="../images/browse1.jpg"> </a>               
-							      	</div>
-							      	<div class="p-name"><a href="#">
-							      		【三只松鼠_开口松子】零食坚果特产炒货东北红松子原味
-							      	</a>
-							      	</div>
-							      	<div class="p-price"><strong>￥35.90</strong></div>
-							      </li>
-							      <li>
-							      	<div class="p-img">                    
-							      		<a  href="#"> <img class="" src="../images/browse1.jpg"> </a>               
-							      	</div>
-							      	<div class="p-name"><a href="#">
-							      		【三只松鼠_开口松子】零食坚果特产炒货东北红松子原味
-							      	</a>
-							      	</div>
-							      	<div class="p-price"><strong>￥35.90</strong></div>
-							      </li>							      
-							      <li>
-							      	<div class="p-img">                    
-							      		<a  href="#"> <img class="" src="../images/browse1.jpg"> </a>               
-							      	</div>
-							      	<div class="p-name"><a href="#">
-							      		【三只松鼠_开口松子】零食坚果特产炒货东北红松子原味
-							      	</a>
-							      	</div>
-							      	<div class="p-price"><strong>￥35.90</strong></div>
-							      </li>							      
 						     </ul>
 					    </div>
 					</div>
@@ -510,28 +498,28 @@
 											<li class="tb-taglist-li tb-taglist-li-current">
 												<div class="comment-info">
 													<span>全部评价</span>
-													<span class="tb-tbcr-num">0)</span>
+													<span class="tb-tbcr-num" id="reviews_all">(0)</span>
 												</div>
 											</li>
 
 											<li class="tb-taglist-li tb-taglist-li-1">
 												<div class="comment-info">
 													<span>好评</span>
-													<span class="tb-tbcr-num">(0)</span>
+													<span class="tb-tbcr-num" id="reviews_good">(0)</span>
 												</div>
 											</li>
 
 											<li class="tb-taglist-li tb-taglist-li-0">
 												<div class="comment-info">
 													<span>中评</span>
-													<span class="tb-tbcr-num">(0)</span>
+													<span class="tb-tbcr-num" id="reviews_middle">(0)</span>
 												</div>
 											</li>
 
 											<li class="tb-taglist-li tb-taglist-li--1">
 												<div class="comment-info">
 													<span>差评</span>
-													<span class="tb-tbcr-num">(0)</span>
+													<span class="tb-tbcr-num" id="reviews_bad">(0)</span>
 												</div>
 											</li>
 										</ul>

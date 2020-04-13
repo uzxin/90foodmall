@@ -18,7 +18,7 @@ import java.util.List;
  */
 public interface ProductFeaturedMapper extends BaseMapper<ProductFeatured> {
 
-	@Select("SELECT pf.*,p.name AS productName,pi.src AS src,p.price_sale AS priceSale,c.name AS categoryName,s.name AS storeName\n" +
+	@Select("SELECT pf.*,p.name AS productName,p.sales AS sales,pi.src AS src,p.price_sale AS priceSale,c.name AS categoryName,s.name AS storeName\n" +
 			"FROM product_featured AS pf\n" +
 			"INNER JOIN product AS p ON p.id=pf.product_id\n" +
 			"INNER JOIN product_image AS pi ON pi.product_id=pf.product_id\n" +

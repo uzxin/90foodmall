@@ -26,9 +26,9 @@
 					$("#productQuantity").html("×"+data.data.productQuantity);//数量
 					$("#payAmount").html("合计："+data.data.payAmount);//合计
 					$("#statusName").html(data.data.statusName);//交易状态
-					$("#operation").html("<a id='refund'>退款/退货</a>");//操作
+					//$("#operation").html("<a id='refund'>退款/退货</a>");//操作
 					var userAddressId = data.data.userAddressId;
-					$("#refund").attr("href","refund.html?orderId="+data.data.id);
+					//$("#refund").attr("href","refund.html?orderId="+data.data.id);
 					$.get("/order/getAddress?userAddressId="+userAddressId,{},function (data) {
 						$("#contactPeopleName").html(data.data.contactPeopleName);
 						$("#contactPeoplePhone").html(data.data.contactPeoplePhone);
@@ -146,7 +146,7 @@
 									<td class="td-inner">数量</td>
 								</div>
 								<div class="th th-operation">
-									<td class="td-inner">商品操作</td>
+									<td class="td-inner">交易状态</td>
 								</div>
 								<div class="th th-amount">
 									<td class="td-inner">合计</td>
@@ -194,7 +194,7 @@
 													</div>
 												</li>
 												<li class="td td-operation">
-													<div class="item-operation" id="operation">
+													<div class="item-operation" id="statusName">
 													</div>
 												</li>
 											</ul>
@@ -209,7 +209,6 @@
 											<div class="move-right">
 												<li class="td td-status">
 													<div class="item-status">
-														<p class="Mystatus" id="statusName"></p>
 														<p class="order-info"><a href="logistics.html">查看物流</a></p>
 														<p class="order-info"><a id="review" href="javascript:void(0);">评价商品</a></p>
 														<input type="hidden" id="score" value="5">
