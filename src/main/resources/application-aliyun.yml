@@ -9,8 +9,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://114.55.28.2:3306/90foodmall?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT
-    username: root
-    password: youxin199855
+    username: 90foodmall
+    password: 90foodmallcuit2020
   redis:
     host: 114.55.28.2
     port: 6379
@@ -48,6 +48,6 @@ mybatis-plus:
 
 #全局参数
 user:
-  loginPassword: 123456
-  payPassword: 123456
-TOKEN_EXPIRE: 1800
+  loginPassword: 123456 #登陆密码
+  payPassword: 123456 #支付密码
+TOKEN_EXPIRE: 1800 #TOKEN过期时间（ms）
