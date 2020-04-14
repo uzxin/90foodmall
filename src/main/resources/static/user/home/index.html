@@ -10,7 +10,7 @@
 		<link href="/user/css/hmstyle.css" rel="stylesheet" type="text/css" />
 		<script src="/user/AmazeUI-2.4.2/assets/js/jquery.min.js"></script>
 		<script src="/user/AmazeUI-2.4.2/assets/js/amazeui.min.js"></script>
-		<script src="/user/js/jquery-1.7.2.min.js"></script>
+		<!--<script src="/user/js/jquery-1.7.2.min.js"></script>-->
 		<script src="/user/js/init.js"></script>
 		<style type="text/css">a{cursor:pointer;}</style>
 		<script type="text/javascript">
@@ -88,12 +88,6 @@
 						$("#mallHeadLines").append("<li><a href="+item.url+">"+item.name+"</a></li>");
 					})
 				})
-				//渲染轮播图
-				/*$.get("/index/listCarousel",{},function (data) {
-					$.each(data.data,function (i,item) {
-						$("#carousel").append("<li class='banner2'><a href="+item.url+"><img src="+item.imageSrc+" /></a></li>");
-					})
-				})*/
 				//渲染推荐商品
 				$.get("/product/getProductFeatured",{position:'首页',limit:7},function (data) {
 					$.each(data.data.records,function (i,item) {
@@ -187,14 +181,14 @@
 			    <div class="bannerTwo">
                       <!--轮播 -->
 						<div class="am-slider am-slider-default scoll" data-am-flexslider id="demo-slider-0">
-							<ul class="am-slides" id="carousel">
-								<li class="banner1"><a><img src="../images/ad5.jpg" /></a></li>
+							<ul class="am-slides">
+								<!--<li class="banner1"><a><img src="../images/ad5.jpg" /></a></li>
 								<li class="banner2"><a><img src="../images/ad6.jpg" /></a></li>
 								<li class="banner3"><a><img src="../images/ad7.jpg" /></a></li>
-								<li class="banner4"><a><img src="../images/ad8.jpg" /></a></li>
+								<li class="banner4"><a><img src="../images/ad8.jpg" /></a></li>-->
 							</ul>
 						</div>
-						<div class="clear"></div>	
+						<div class="clear"></div>
 			    </div>
 
 						<!--侧边导航 -->
@@ -226,6 +220,20 @@
 								}, function() {
 									$(this).removeClass("hover")
 									$(this).children("div.menu-in").css("display", "none")
+								});
+								//渲染轮播图
+								$.ajax({
+									type: "get",
+									async: false,
+									contentType: "application/json;charset=UTF-8",
+									url: "http://192.168.11.105:8081/index/listCarousel",
+									success: function (result) {
+										// console.log(result)
+										for (let i = 0; i < result.data.length; i++) {
+											$('.am-slides').append("<li class='banner2'><a><img src="+result.data[i].imageSrc+" /></a></li>")
+										}
+										$('.am-slider').flexslider();
+									}
 								});
 							})
 						</script>
