@@ -11,7 +11,7 @@
     <groupId>com.cuit</groupId>
     <artifactId>foodmall</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>foodmall</name>
     <description>2020本科毕业设计</description>
 
@@ -152,7 +152,16 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
+    <!--<resources>
+        <resource>
+            <directory>src</directory>
+            <includes>
+                <include>**/*.xml</include>
+                <include>**/*.properties</include>
+            </includes>
+            <filtering>false</filtering>
+        </resource>
+    </resources>-->
     <build>
         <plugins>
             <plugin>

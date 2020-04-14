@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.cuit.foodmall.entity.SecurityQuestion;
 import com.cuit.foodmall.entity.User;
 import com.cuit.foodmall.entity.UserInformation;
 import com.cuit.foodmall.entity.UserQuestion;
@@ -16,7 +15,6 @@ import com.cuit.foodmall.util.EmailUtil;
 import com.cuit.foodmall.util.Result;
 import com.cuit.foodmall.util.SMSModel;
 import com.cuit.foodmall.util.SMSUtil;
-import com.sun.xml.internal.ws.resources.HttpserverMessages;
 import lombok.extern.slf4j.Slf4j;
 import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +23,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**

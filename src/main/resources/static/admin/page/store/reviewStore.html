@@ -125,12 +125,12 @@
                 {field: 'description',width:'140',align: 'center',title: '描述'},
                 {field: 'legalUserName',width:'90',align: 'center',title: '法人名字'},
                 {field: 'legalUserIdCard',width:'175',align: 'center',title: '身份证'},
-                {field: 'status', title: '状态', width:70, align: 'center', templet: function (d) {
+                {field: 'status', title: '状态', width:80, align: 'center', templet: function (d) {
                     if(d.status=="0"){return "<span class=\"layui-badge layui-bg-orange\">待审核</span>";}
                     else if(d.status=="3"){return "<span class=\"layui-badge\">未通过</span>";}
                     }
                 },{field: 'reviewOpinion',width:'205',align: 'center',title: '审核意见'},
-                {align: 'center', width:'160',toolbar: '#tableBarTbBas', title: '操作'}
+                {align: 'center', width:'165',toolbar: '#tableBarTbBas', title: '操作'}
             ]]
         });
 

@@ -5,7 +5,6 @@ import com.cuit.foodmall.entity.StoreOperationLog;
 import com.cuit.foodmall.entity.User;
 import com.cuit.foodmall.service.StoreOperationLogService;
 import com.cuit.foodmall.util.IpAddress;
-import com.sun.xml.internal.ws.resources.HttpserverMessages;
 import eu.bitwalker.useragentutils.UserAgent;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;

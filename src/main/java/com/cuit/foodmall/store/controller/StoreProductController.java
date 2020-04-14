@@ -2,8 +2,6 @@ package com.cuit.foodmall.store.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cuit.foodmall.aop.StoreLog;
@@ -16,8 +14,6 @@ import com.cuit.foodmall.service.ProductImageService;
 import com.cuit.foodmall.service.ProductService;
 import com.cuit.foodmall.user.controller.BaseController;
 import com.cuit.foodmall.util.Result;
-import com.fasterxml.jackson.core.json.async.NonBlockingJsonParser;
-import com.sun.xml.internal.ws.resources.HttpserverMessages;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
