@@ -88,6 +88,13 @@
 						$("#mallHeadLines").append("<li><a href="+item.url+">"+item.name+"</a></li>");
 					})
 				})
+				//渲染轮播图
+				$.get("/index/listCarousel",{},function (data) {
+					$.each(data.data,function (i,item) {
+						$('.am-slides').append("<li class='banner2'><a href="+item.url+"><img src="+item.imageSrc+" /></a></li>");
+					})
+					$('.am-slider').flexslider();
+				})
 				//渲染推荐商品
 				$.get("/product/getProductFeatured",{position:'首页',limit:7},function (data) {
 					$.each(data.data.records,function (i,item) {
@@ -220,20 +227,6 @@
 								}, function() {
 									$(this).removeClass("hover")
 									$(this).children("div.menu-in").css("display", "none")
-								});
-								//渲染轮播图
-								$.ajax({
-									type: "get",
-									async: false,
-									contentType: "application/json;charset=UTF-8",
-									url: "http://192.168.11.105:8081/index/listCarousel",
-									success: function (result) {
-										// console.log(result)
-										for (let i = 0; i < result.data.length; i++) {
-											$('.am-slides').append("<li class='banner2'><a><img src="+result.data[i].imageSrc+" /></a></li>")
-										}
-										$('.am-slider').flexslider();
-									}
 								});
 							})
 						</script>

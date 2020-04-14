@@ -35,7 +35,7 @@ spring:
             required: true
   data:
     elasticsearch:
-      cluster-nodes: localhost:9300 # es的连接地址及端口号
+      cluster-nodes: 114.55.28.2:9300 # es的连接地址及端口号
       cluster-name: my-application # es集群的名称
 mybatis-plus:
   global-config:
