@@ -152,23 +152,27 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <!--<resources>
-        <resource>
-            <directory>src</directory>
-            <includes>
-                <include>**/*.xml</include>
-                <include>**/*.properties</include>
-            </includes>
-            <filtering>false</filtering>
-        </resource>
-    </resources>-->
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <!--<configuration>
+                    <skip>true</skip>
+                    <mainClass>com.cuit.foodmall.FoodmallApplication</mainClass>
+                </configuration>-->
             </plugin>
         </plugins>
+        <!--<resources>
+            <resource>
+                <directory>target</directory>
+                <includes>
+                    <include>upload</include>
+                    <include>product</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>-->
     </build>
 
 </project>
