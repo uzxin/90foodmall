@@ -11,6 +11,10 @@ spring:
     url: jdbc:mysql://114.55.28.2:3306/90foodmall?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT
     username: 90foodmall
     password: 90foodmallcuit2020
+    hikari:
+      minimum-idle: 3
+      maximum-pool-size: 10
+      max-lifetime: 3000
   redis:
     host: 114.55.28.2
     port: 6379
