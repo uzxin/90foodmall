@@ -22,6 +22,7 @@
 								"\t\t\t\t\t\t\t<a href=\"register.html\" target=\"_top\">免费注册</a>");
 					}else if (data.data.nickName != null && data.data.nickName != ''){
 						$("#div1").html("欢迎您，"+"<a href=\"../person/index.html\" >"+data.data.nickName+"</a>");
+						$("#div1").append("&nbsp;&nbsp;<a href='/user/loginout'>退出</a>");
 					}else {
 						$("#div1").html("欢迎您，"+"<a href=\"../person/index.html\" >"+data.data.username+"</a>");
 					}
@@ -144,10 +145,9 @@
 						<div class="menu-hd MyShangcheng"><a href="../person/index.html" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
 					</div>
 					<div class="topMessage mini-cart">
-						<div class="menu-hd"><a id="mc-menu-hd" href="shopcart.html" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
+						<div class="menu-hd"><a id="mc-menu-hd" href="shopcart.html" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h"></strong></a></div>
 					</div>
 					<div class="topMessage favorite">
-						<div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
 				</ul>
 				</div>
 				<!--悬浮搜索框-->
@@ -259,10 +259,10 @@
 					
 				<!--各类活动-->
 				<div class="row">
-					<li><a><img src="../images/row1.jpg"/></a></li>
-					<li><a><img src="../images/row2.jpg"/></a></li>
-					<li><a><img src="../images/row3.jpg"/></a></li>
-					<li><a><img src="../images/row4.jpg"/></a></li>
+					<li><a><img src="../images/row1.jpg" title="这是一个广告"/></a></li>
+					<li><a><img src="../images/row2.jpg" title="这是一个广告"/></a></li>
+					<li><a><img src="../images/row3.jpg" title="这是一个广告"/></a></li>
+					<li><a><img src="../images/row4.jpg" title="这是一个广告"/></a></li>
 				</div>
 				<div class="clear"></div>	
 					<!--走马灯 -->
@@ -300,15 +300,15 @@
 			<div class="shopMainbg">
 				<div class="shopMain" id="shopmain">
 					<!--热门活动 -->
-					<div class="am-container">
+					<!--<div class="am-container">
                          <div class="sale-mt">
                                <i></i>
                                <em class="sale-title">限时秒杀</em>
-                               <div class="s-time" id="countdown">
+                               &lt;!&ndash;<div class="s-time" id="countdown">
                                     <span class="hh">01</span>
                                     <span class="mm">20</span>
                                     <span class="ss">59</span>
-                               </div>
+                               </div>&ndash;&gt;
                           </div>
                           <div class="am-g am-g-fixed sale">
                             <div class="am-u-sm-3 sale-item">
@@ -356,7 +356,7 @@
                                </div>
                             </div>
                           </div>
-                   </div>
+                   </div>-->
 					<div class="clear "></div>
                     <div class="f1">
 					<!--商品推荐-->
@@ -373,8 +373,8 @@
 								<a class="outer" href="search.html?category=64&page=1"><span class="inner"><b class="text">蒸蛋糕</b></span></a>
 								<a class="outer" href="search.html?category=64&page=1"><span class="inner"><b class="text">蒸蛋糕</b></span></a>
 							</div>
-							<a href="# ">
-								<img src="/upload/TB1Mnndx.T1gK0jSZFrXXcNCXXa-240-296.jpg" />
+							<a href="javascript:void(0);">
+								<img src="/upload/TB1Mnndx.T1gK0jSZFrXXcNCXXa-240-296.jpg" title="这是一个广告"/>
 								<div class="outer-con ">
 								</div>
 							</a>

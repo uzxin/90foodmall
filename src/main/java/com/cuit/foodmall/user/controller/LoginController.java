@@ -10,13 +10,18 @@ import com.cuit.foodmall.service.UserService;
 import com.cuit.foodmall.util.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 /**
  * @author: YX
@@ -96,8 +101,10 @@ public class LoginController {
 	 * @return: void
 	 */
 	@GetMapping("loginout")
-	public void loginout(HttpSession session){
+	public void loginout(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		session.removeAttribute("user");
+		//request.getRequestDispatcher("http://localhost:8081/user/home/login.html").forward(request,response);
+		response.sendRedirect("/user/home/login.html");
 	}
 
 

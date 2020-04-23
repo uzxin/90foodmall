@@ -74,14 +74,14 @@
 								<div class="am-cf">
 									<input type="submit" id="login" name="login" value="登 录" class="am-btn am-btn-primary am-btn-sm">
 								</div>
-						<div class="partner">		
+						<!--<div class="partner">
 								<h3>合作账号</h3>
 							<div class="am-btn-group">
 								<li><a href="#"><i class="am-icon-qq am-icon-sm"></i><span>QQ登录</span></a></li>
 								<li><a href="#"><i class="am-icon-weibo am-icon-sm"></i><span>微博登录</span> </a></li>
 								<li><a href="#"><i class="am-icon-weixin am-icon-sm"></i><span>微信登录</span> </a></li>
 							</div>
-						</div>	
+						</div>	-->
 
 				</div>
 			</div>
@@ -90,22 +90,18 @@
 		<div class="footer ">
 			<div class="footer-hd ">
 				<p>
-					<a href="# ">恒望科技</a>
 					<b>|</b>
-					<a href="# ">商城首页</a>
+					<a href="/">商城首页</a>
 					<b>|</b>
-					<a href="# ">支付宝</a>
+					<a href="/store/login.html">商家</a>
 					<b>|</b>
-					<a href="# ">物流</a>
+					<a href="/admin/index.html">后台</a>
+					<b>|</b>
 				</p>
 			</div>
 			<div class="footer-bd ">
 				<p>
-					<a href="# ">关于恒望</a>
-					<a href="# ">合作伙伴</a>
-					<a href="# ">联系我们</a>
-					<a href="# ">网站地图</a>
-					<em>© 2015-2025 Hengwang.com 版权所有</em>
+					<a href="# ">本系统仅作毕业设计，不作其他任何商用</a>
 				</p>
 			</div>
 		</div>
@@ -154,7 +150,7 @@
 		$("#forgetPassword").click(function () {
 			admin.open({
 				type: 1,
-				title: '忘记密码',
+				title: '重置密码',
 				skin: 'layui-layer-lan',
 				content: $('#modelUser').html(),
 				success: function (layero, dIndex) {
