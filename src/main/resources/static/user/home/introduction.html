@@ -26,8 +26,10 @@
 									"\t\t\t\t\t\t\t<a href=\"register.html\" target=\"_top\">免费注册</a>");
 						}else if (data.data.nickName != null && data.data.nickName != ''){
 							$("#div1").html("欢迎您，"+"<a href=\"../person/index.html\" >"+data.data.nickName+"</a>");
+							$("#div1").append("&nbsp;&nbsp;<a href='/user/loginout'>退出</a>");
 						}else {
 							$("#div1").html("欢迎您，"+"<a href=\"../person/index.html\" >"+data.data.username+"</a>");
+							$("#div1").append("&nbsp;&nbsp;<a href='/user/loginout'>退出</a>");
 						}
 					}
 				);
@@ -197,10 +199,9 @@
 					<div class="menu-hd MyShangcheng"><a href="../person/index.html" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
 				</div>
 				<div class="topMessage mini-cart">
-					<div class="menu-hd"><a id="mc-menu-hd" href="../home/shopcart.html" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
+					<div class="menu-hd"><a id="mc-menu-hd" href="../home/shopcart.html" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h"></strong></a></div>
 				</div>
 				<div class="topMessage favorite">
-					<div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
 			</ul>
 			</div>
 
@@ -242,9 +243,9 @@
 						</div>
 			</div>
 				<ol class="am-breadcrumb am-breadcrumb-slash">
-					<li><a href="#">首页</a></li>
+					<!--<li><a href="#">首页</a></li>
 					<li><a href="#">分类</a></li>
-					<li class="am-active">内容</li>
+					<li class="am-active">内容</li>-->
 				</ol>
 
 				<!--放大镜-->
@@ -294,7 +295,7 @@
 							</div>
 
 							<!--地址-->
-							<dl class="iteminfo_parameter freight">
+							<!--<dl class="iteminfo_parameter freight">
 								<dt>配送至</dt>
 								<div class="iteminfo_freprice">
 									<div class="am-form-content address">
@@ -315,7 +316,7 @@
 										快递<b class="sys_item_freprice">10</b>元
 									</div>
 								</div>
-							</dl>
+							</dl>-->
 							<div class="clear"></div>
 
 							<!--销量-->
@@ -382,7 +383,7 @@
 							</dl>
 							<div class="clear"></div>
 							<!--活动	-->
-							<div class="shopPromotion gold">
+							<!--<div class="shopPromotion gold">
 								<div class="hot">
 									<dt class="tb-metatit">店铺优惠</dt>
 									<div class="gold-list">
@@ -400,22 +401,16 @@
 										</ul>
 									</div>
 								</div>
-							</div>
+							</div>-->
 						</div>
 
 						<div class="pay">
 							<div class="pay-opt">
-							<a href="home.html"><span class="am-icon-home am-icon-fw">首页</span></a>
-							<a><span class="am-icon-heart am-icon-fw">收藏</span></a>
-							
+								<a href="home.html"><span class="am-icon-home am-icon-fw">首页</span></a>
+								<a><span class="am-icon-heart am-icon-fw">收藏</span></a>
 							</div>
 							<li>
-								<div class="clearfix tb-btn tb-btn-buy theme-login">
-									<a id="LikBuy" title="点此按钮到下一步确认购买信息" href="#">立即购买</a>
-								</div>
-							</li>
-							<li>
-								<div class="clearfix tb-btn tb-btn-basket theme-login">
+								<div style="margin-left: 50px" class="clearfix tb-btn tb-btn-basket theme-login">
 									<a id="LikBasket" title="加入购物车"><i></i>加入购物车</a>
 								</div>
 							</li>
@@ -557,22 +552,18 @@
 						<div class="footer">
 							<div class="footer-hd">
 								<p>
-									<a href="#">恒望科技</a>
 									<b>|</b>
-									<a href="#">商城首页</a>
+									<a href="/">商城首页</a>
 									<b>|</b>
-									<a href="#">支付宝</a>
+									<a href="/store/login.html">商家</a>
 									<b>|</b>
-									<a href="#">物流</a>
+									<a href="/admin/index.html">后台</a>
+									<b>|</b>
 								</p>
 							</div>
 							<div class="footer-bd">
 								<p>
-									<a href="#">关于恒望</a>
-									<a href="#">合作伙伴</a>
-									<a href="#">联系我们</a>
-									<a href="#">网站地图</a>
-									<em>© 2015-2025 Hengwang.com 版权所有</em>
+									<a href="# ">本系统仅作毕业设计，不作其他任何商用</a>
 								</p>
 							</div>
 						</div>

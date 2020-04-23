@@ -30,8 +30,10 @@
 									"\t\t\t\t\t\t\t<a href=\"register.html\" target=\"_top\">免费注册</a>");
 						}else if (data.data.nickName != null && data.data.nickName != ''){
 							$("#div1").html("欢迎您，"+"<a href=\"../person/index.html\" >"+data.data.nickName+"</a>");
+							$("#div1").append("&nbsp;&nbsp;<a href='/user/loginout'>退出</a>");
 						}else {
 							$("#div1").html("欢迎您，"+"<a href=\"../person/index.html\" >"+data.data.username+"</a>");
+							$("#div1").append("&nbsp;&nbsp;<a href='/user/loginout'>退出</a>");
 						}
 					}
 				});
@@ -264,10 +266,9 @@
 					<div class="menu-hd MyShangcheng"><a href="../person/index.html" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
 				</div>
 				<div class="topMessage mini-cart">
-					<div class="menu-hd"><a id="mc-menu-hd" href="../home/shopcart.html" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
+					<div class="menu-hd"><a id="mc-menu-hd" href="../home/shopcart.html" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h"></strong></a></div>
 				</div>
 				<div class="topMessage favorite">
-					<div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
 			</ul>
 			</div>
 
@@ -405,22 +406,18 @@
 				<div class="footer">
 					<div class="footer-hd">
 						<p>
-							<a href="#">恒望科技</a>
 							<b>|</b>
 							<a href="#">商城首页</a>
 							<b>|</b>
-							<a href="#">支付宝</a>
+							<a href="/store/login.html">商家</a>
 							<b>|</b>
-							<a href="#">物流</a>
+							<a href="/admin/index.html">后台</a>
+							<b>|</b>
 						</p>
 					</div>
 					<div class="footer-bd">
 						<p>
-							<a href="#">关于恒望</a>
-							<a href="#">合作伙伴</a>
-							<a href="#">联系我们</a>
-							<a href="#">网站地图</a>
-							<em>© 2015-2025 Hengwang.com 版权所有</em>
+							<a href="# ">本系统仅作毕业设计，不作其他任何商用</a>
 						</p>
 					</div>
 				</div>

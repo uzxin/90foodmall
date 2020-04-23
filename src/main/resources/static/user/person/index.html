@@ -18,6 +18,15 @@
 					success:function (data) {
 						$("#nickName").html(data.data.nickName);
 						$("#headImgSrc").attr("src",data.data.headImgSrc);
+						if (data.data.phone!=null && data.data.phone!=''){
+							$("#phone").html(data.data.phone);
+						}
+						if (data.data.realName!=null && data.data.realName!=''){
+							$("#realName").html(data.data.realName);
+						}
+						if (data.data.birthday!=null && data.data.birthday!=''){
+							$("#birthday").html(data.data.birthday);
+						}
 					}
 				})
 			})
@@ -65,24 +74,24 @@
 								<!--个人资产-->
 								<div class="m-userproperty">
 									<div class="s-bar">
-										<i class="s-icon"></i>个人资产
+										<i class="s-icon"></i>个人资料
 									</div>
 									<p class="m-coupon">
-										<a href="coupon.html">
-											<em class="m-num">2</em>
-											<span class="m-title">优惠券</span>
+										<a href="javascript:void(0);">
+											<em id="realName" class="m-num">无</em>
+											<span class="m-title">姓名</span>
 										</a>
 									</p>
 									<p class="m-wallet">
-										<a href="wallet.html">
-											<em class="m-num">0.00</em>
-											<span class="m-title">账户余额</span>
+										<a href="javascript:void(0);">
+											<em id="phone" class="m-num">无</em>
+											<span class="m-title">手机号</span>
 										</a>
 									</p>
 									<p class="m-bill">
-										<a href="pointnew.html">
-											<em class="m-num">10</em>
-											<span class="m-title">总积分</span>
+										<a href="javascript:void(0);">
+											<em id="birthday" class="m-num">无</em>
+											<span class="m-title">生日</span>
 										</a>
 									</p>
 								</div>
@@ -90,7 +99,7 @@
 								<!--我的钱包-->
 								<div class="wallet">
 									<div class="s-bar">
-										<i class="s-icon"></i>商城钱包
+										<i class="s-icon"></i>帐号状态
 									</div>
 									<p class="m-big squareS">
 										<a href="#">
@@ -228,7 +237,7 @@
 							</div>
 
 							<!--优惠券积分-->
-							<div class="twoTab">
+							<!--<div class="twoTab">
 								<div class="twoTabModel Coupon">
 									<h5 class="squareTitle"><a href="#"><span class="splitBorder"></span>优惠券<i class="am-icon-angle-right"></i></a></h5>
 									<div class="Box">
@@ -258,7 +267,7 @@
 										</div>
 									</div>
 								</div>
-							</div>
+							</div>-->
 
 						</div>
 					</div>
@@ -283,15 +292,13 @@
 						<!--新品 -->
 						<div class="new-goods">
 							<div class="s-bar">
-								<i class="s-icon"></i>今日新品
-								<a class="i-load-more-item-shadow">15款新品</a>
+								<i class="s-icon"></i>商品推荐
 							</div>
 							<div class="new-goods-info">
 								<a class="shop-info" href="#">
 									<div class="face-img-panel">
 										<img src="../images/imgsearch1.jpg" alt="">
 									</div>
-									<span class="new-goods-num ">4</span>
 									<span class="shop-title">剥壳松子</span>
 								</a>
 								<a class="follow">收藏</a>
@@ -299,7 +306,7 @@
 						</div>						
 
 						<!--热卖推荐 -->
-						<div class="new-goods">
+						<!--<div class="new-goods">
 							<div class="s-bar">
 								<i class="s-icon"></i>热卖推荐
 							</div>
@@ -311,13 +318,8 @@
                                     <span class="one-hot-goods">￥189.60</span>
 								</a>
 							</div>
-						</div>
+						</div>-->
      				</div>
-     				<div class="clear"></div>
-     				
-     				<!--收藏和足迹-->
-
-
 				</div>
 				<!--底部-->
 				<div class="foot"></div>

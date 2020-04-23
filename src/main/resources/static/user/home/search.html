@@ -22,8 +22,10 @@
 									"\t\t\t\t\t\t\t<a href=\"register.html\" target=\"_top\">免费注册</a>");
 						}else if (data.data.nickName != null && data.data.nickName != ''){
 							$("#div1").html("欢迎您，"+"<a href=\"../person/index.html\" >"+data.data.nickName+"</a>");
+							$("#div1").append("&nbsp;&nbsp;<a href='/user/loginout'>退出</a>");
 						}else {
 							$("#div1").html("欢迎您，"+"<a href=\"../person/index.html\" >"+data.data.username+"</a>");
+							$("#div1").append("&nbsp;&nbsp;<a href='/user/loginout'>退出</a>");
 						}
 					}
 				});
@@ -165,12 +167,12 @@
 							<div class="clear"></div>
                         </div>
 							<div class="search-content">
-								<div class="sort">
+								<!--<div class="sort">
 									<li class="first"><a title="综合" href="#">综合排序</a></li>
 									<li><a title="销量" href="#">销量排序</a></li>
 									<li><a title="价格" href="#">价格优先</a></li>
 									<li class="big"><a title="评价" href="#">评价为主</a></li>
-								</div>
+								</div>-->
 								<div class="clear"></div>
 
 								<ul id="list" class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes">
@@ -178,7 +180,7 @@
 							</div>
 							<div class="search-side" id="product_featured">
 								<div class="side-title">
-									经典搭配
+									商品推荐
 								</div>
 							</div>
 							<div class="clear"></div>
@@ -191,22 +193,18 @@
 					<div class="footer">
 						<div class="footer-hd">
 							<p>
-								<a href="#">恒望科技</a>
 								<b>|</b>
-								<a href="#">商城首页</a>
+								<a href="/">商城首页</a>
 								<b>|</b>
-								<a href="#">支付宝</a>
+								<a href="/store/login.html">商家</a>
 								<b>|</b>
-								<a href="#">物流</a>
+								<a href="/admin/index.html">后台</a>
+								<b>|</b>
 							</p>
 						</div>
 						<div class="footer-bd">
 							<p>
-								<a href="#">关于恒望</a>
-								<a href="#">合作伙伴</a>
-								<a href="#">联系我们</a>
-								<a href="#">网站地图</a>
-								<em>© 2015-2025 Hengwang.com 版权所有</em>
+								<a href="# ">本系统仅作毕业设计，不作其他任何商用</a>
 							</p>
 						</div>
 					</div>
