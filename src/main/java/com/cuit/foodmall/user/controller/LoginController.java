@@ -12,16 +12,21 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author: YX
@@ -37,21 +42,32 @@ public class LoginController {
 	private UserService userService;
 	@Autowired
 	private UserInformationService userInformationService;
+	@Autowired
+	private RedisTemplate redisTemplate;
+	@Value("${TOKEN_EXPIRE}")
+	private Integer TOKEN_EXPIRE;
 
 	/**
 	 * @description: 登录
 	 * @return: java.lang.Object
 	 */
 	@PostMapping("login")
-	public Object login(String loginName, String password, HttpSession session){
+	public Object login(String loginName, String password, HttpServletResponse response){
+		// 生成token
+		String token = UUID.randomUUID().toString();
 		// 匹配用户名和密码
 		LambdaQueryWrapper<User> wrapper1 = new QueryWrapper<User>().lambda();
 		wrapper1.eq(User::getUsername, loginName);
 		wrapper1.eq(User::getPassword, password);
 		User u1 = userService.getOne(wrapper1);
 		if (null != u1) {
+			redisTemplate.opsForValue().set("Token_Login_User:"+ token, u1,TOKEN_EXPIRE, TimeUnit.SECONDS);
+			//将token返回客户端
+			Cookie cookie = new Cookie("Token_Login_User", token);
+			cookie.setMaxAge(60*60*24*30);
+			cookie.setPath("/");
+			response.addCookie(cookie);
 			log.info("登陆成功");
-			session.setAttribute("user", u1);
 			return Result.ok("登陆成功");
 		}
 		//匹配手机号和密码
@@ -61,8 +77,13 @@ public class LoginController {
 		if (null != us1){
 			User u2 = userService.getById(us1.getUserId());
 			if (u2.getPassword().equals(password)){
+				redisTemplate.opsForValue().set("Token_Login_User:"+ token, u2,TOKEN_EXPIRE, TimeUnit.SECONDS);
+				//将token返回客户端
+				Cookie cookie = new Cookie("Token_Login_User", token);
+				cookie.setMaxAge(60*60*24*30);
+				cookie.setPath("/");
+				response.addCookie(cookie);
 				log.info("登陆成功");
-				session.setAttribute("user", u2);
 				return Result.ok("登陆成功");
 			}
 		}
@@ -73,8 +94,13 @@ public class LoginController {
 		if (null != us2){
 			User u3 = userService.getById(us2.getUserId());
 			if (u3.getPassword().equals(password)){
+				redisTemplate.opsForValue().set("Token_Login_User:"+ token, u3,TOKEN_EXPIRE, TimeUnit.SECONDS);
+				//将token返回客户端
+				Cookie cookie = new Cookie("Token_Login_User", token);
+				cookie.setMaxAge(60*60*24*30);
+				cookie.setPath("/");
+				response.addCookie(cookie);
 				log.info("登陆成功");
-				session.setAttribute("user", u3);
 				return Result.ok("登陆成功");
 			}
 		}
@@ -87,13 +113,19 @@ public class LoginController {
 	 * @return: java.lang.Object
 	 */
 	@GetMapping("isLogin")
-	public Object isLogin(HttpSession session){
-		User user = (User) session.getAttribute("user");
-		if (null != user) {
-			return Result.ok(user);
-		}else {
-			return Result.error("未登录");
+	public Object isLogin(HttpServletRequest request){
+		Cookie[] cookies = request.getCookies();
+		if (null != cookies){
+			for (Cookie cookie : cookies) {
+				if ("Token_Login_User".equals(cookie.getName())){
+					User user = (User) redisTemplate.opsForValue().get("Token_Login_User:" + cookie.getValue());
+					if (null != user){
+						return Result.ok(user);
+					}
+				}
+			}
 		}
+		return Result.error();
 	}
 
 	/**
@@ -101,9 +133,14 @@ public class LoginController {
 	 * @return: void
 	 */
 	@GetMapping("loginout")
-	public void loginout(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		session.removeAttribute("user");
-		//request.getRequestDispatcher("http://localhost:8081/user/home/login.html").forward(request,response);
+	public void loginout(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		Cookie[] cookies = request.getCookies();
+		for (Cookie cookie : cookies) {
+			if ("Token_Login_User".equals(cookie.getName())){
+				redisTemplate.delete("Token_Login_User:"+cookie.getValue());
+			}
+		}
+		request.getSession().removeAttribute("user");
 		response.sendRedirect("/user/home/login.html");
 	}
 

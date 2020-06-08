@@ -2,19 +2,15 @@ package com.cuit.foodmall.user.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.cuit.foodmall.entity.User;
 import com.cuit.foodmall.entity.UserInformation;
 import com.cuit.foodmall.service.UserInformationService;
-import com.cuit.foodmall.service.UserService;
 import com.cuit.foodmall.util.Result;
-import com.sun.security.auth.UserPrincipal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author: YX
@@ -35,11 +31,12 @@ public class UserController extends BaseController{
 	 * @return: java.lang.Object
 	 */
 	@GetMapping("getUser")
-	public Object getUserInfo(HttpSession session){
-		if (null == getUser(session)){
+	public Object getUserInfo(HttpServletRequest request){
+        User user = getUser(request);
+		if (null == user){
 			return Result.error();
 		}
-		Long userId = getUser(session).getId();
+		Long userId = user.getId();
 		LambdaQueryWrapper<UserInformation> wrapper = new QueryWrapper<UserInformation>().lambda();
 		wrapper.eq(UserInformation::getUserId, userId);
 		return Result.ok(userInformationService.getOne(wrapper));
@@ -51,12 +48,13 @@ public class UserController extends BaseController{
 	 * @return: java.lang.Object
 	 */
 	@PostMapping("UpdataUserInfo")
-	public Object UpdataUserInfo(UserInformation userInformation, HttpSession session){
+	public Object UpdataUserInfo(UserInformation userInformation, HttpServletRequest request){
+        User user = getUser(request);
 		if (null == userInformation.getUserId() || "".equals(userInformation.getUserId())){
-			userInformation.setUserId(getUser(session).getId());
+			userInformation.setUserId(user.getId());
 		}
 		if (null == userInformation.getUsername() || "".equals(userInformation.getUsername())){
-			userInformation.setUsername(getUser(session).getUsername());
+			userInformation.setUsername(user.getUsername());
 		}
 		userInformationService.saveOrUpdate(userInformation);
 		return Result.ok("修改成功");

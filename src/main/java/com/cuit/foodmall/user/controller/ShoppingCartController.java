@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
@@ -30,8 +31,8 @@ public class ShoppingCartController extends BaseController {
 	 * @return: java.lang.Object
 	 */
 	@GetMapping("list")
-	public Object list(HttpSession session){
-		String username = getUser(session).getUsername();
+	public Object list(HttpServletRequest request){
+		String username = getUser(request).getUsername();
 		Map<ProductVO, Integer> shoppingCarts = (Map<ProductVO, Integer>) redisTemplate.opsForValue().get("shoppingcart:" + username);
 		return Result.ok(shoppingCarts);
 	}
@@ -43,8 +44,8 @@ public class ShoppingCartController extends BaseController {
 	 * @return: java.lang.Object
 	 */
 	@PostMapping("add")
-	public Object add(Long productId, @RequestParam(required = false,defaultValue = "1") int num, HttpSession session){
-		String username = getUser(session).getUsername();
+	public Object add(Long productId, @RequestParam(required = false,defaultValue = "1") int num, HttpServletRequest request){
+		String username = getUser(request).getUsername();
 		ProductVO p = productService.getProductById(productId);
 		if (redisTemplate.hasKey("shoppingcart:" + username)) {
 			// 已经存在购物车数据
@@ -66,8 +67,8 @@ public class ShoppingCartController extends BaseController {
 	 * @return: java.lang.Object
 	 */
 	@PostMapping("del")
-	public Object del(Long productId, HttpSession session){
-		String username = getUser(session).getUsername();
+	public Object del(Long productId, HttpServletRequest request){
+		String username = getUser(request).getUsername();
 		Map<ProductVO, Integer> products = (Map<ProductVO, Integer>) redisTemplate.opsForValue().get("shoppingcart:" + username);
 		Iterator<Map.Entry<ProductVO, Integer>> iterator = products.entrySet().iterator();
 		while (iterator.hasNext()){

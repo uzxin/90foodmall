@@ -15,6 +15,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.util.Iterator;
@@ -59,7 +60,7 @@ public class OrderController extends BaseController{
 	 * @return: java.lang.Object
 	 */
 	@PostMapping("create")
-	public Object create(@RequestBody Map<String,String> map, HttpSession session){
+	public Object create(@RequestBody Map<String,String> map, HttpServletRequest request){
 		Long addressId = null;
 		Long shipMethodId = null;
 		Long payMethodId = null;
@@ -87,7 +88,7 @@ public class OrderController extends BaseController{
 				order.setProductId(Long.parseLong(next.getKey()));//商品id
 				order.setProductPrice(productService.getById(Long.parseLong(next.getKey())).getPriceSale());//单价
 				order.setProductQuantity(Integer.parseInt(next.getValue()));//数量
-				order.setUserId(getUser(session).getId());//用户ID
+				order.setUserId(getUser(request).getId());//用户ID
 				order.setUserAddressId(addressId);//收货地址
 				order.setShipMethodId(shipMethodId);//物流方式
 				order.setPayMethodId(payMethodId);//支付方式

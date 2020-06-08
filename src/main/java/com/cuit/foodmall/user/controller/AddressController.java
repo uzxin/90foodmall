@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,8 +43,8 @@ public class AddressController extends BaseController{
 	 * @return: java.lang.Object
 	 */
 	@GetMapping("listAddress")
-	public Object listAddress(HttpSession session){
-		Long userId = getUser(session).getId();
+	public Object listAddress(HttpServletRequest request){
+		Long userId = getUser(request).getId();
 		LambdaQueryWrapper<UserAddress> wrapper = new QueryWrapper<UserAddress>().lambda();
 		wrapper.eq(UserAddress::getUserId, userId);
 		wrapper.orderByDesc(UserAddress::getDefaultFlag);
@@ -96,8 +97,8 @@ public class AddressController extends BaseController{
 	 * @return: java.lang.Object
 	 */
 	@PostMapping("save")
-	public Object save(UserAddress userAddress, HttpSession session){
-		userAddress.setUserId(getUser(session).getId());
+	public Object save(UserAddress userAddress, HttpServletRequest request){
+		userAddress.setUserId(getUser(request).getId());
 		userAddressService.save(userAddress);
 		return Result.ok("保存成功");
 	}

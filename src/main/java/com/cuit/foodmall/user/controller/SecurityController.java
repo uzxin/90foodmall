@@ -20,6 +20,7 @@ import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -52,16 +53,17 @@ public class SecurityController extends BaseController{
 	 * @return: java.lang.Object
 	 */
 	@PostMapping("changePassword")
-	public Object changePassword(User user, String newPassword, HttpSession session){
-		if (!getUser(session).getPassword().equals(user.getPassword())){
+	public Object changePassword(User user, String newPassword, HttpServletRequest request, HttpSession session){
+		User u = getUser(request);
+		if (!u.getPassword().equals(user.getPassword())){
 			return Result.error("原密码不正确");
 		}
 		UpdateWrapper<User> wrapper = new UpdateWrapper<>();
 		wrapper.set("user_password", newPassword);
-		wrapper.eq("id", getUser(session).getId());
+		wrapper.eq("id", u.getId());
 		userService.update(wrapper);
 		// 更新session中的登录信息
-		session.setAttribute("user",userService.getById(getUser(session).getId()));
+		session.setAttribute("user",userService.getById(u.getId()));
 		return Result.ok("修改成功");
 	}
 
@@ -71,10 +73,10 @@ public class SecurityController extends BaseController{
 	 * @return: java.lang.Object
 	 */
 	@PostMapping("changePayPassword")
-	public Object changePayPassword(User user, HttpSession session){
+	public Object changePayPassword(User user, HttpServletRequest request){
 		UpdateWrapper<User> wrapper = new UpdateWrapper<>();
 		wrapper.set("user_pay_password", user.getPayPassword());
-		wrapper.eq("id", getUser(session).getId());
+		wrapper.eq("id", getUser(request).getId());
 		userService.update(wrapper);
 		return Result.ok("修改成功");
 	}
@@ -85,10 +87,10 @@ public class SecurityController extends BaseController{
 	 * @return: java.lang.Object
 	 */
 	@PostMapping("bindPhone")
-	public Object bindPhone(HttpSession session, UserInformation userInformation){
+	public Object bindPhone(HttpServletRequest request, UserInformation userInformation){
 		UpdateWrapper<UserInformation> wrapper = new UpdateWrapper<>();
 		wrapper.set("user_phone", userInformation.getPhone());
-		wrapper.eq("id", getUser(session).getId());
+		wrapper.eq("id", getUser(request).getId());
 		userInformationService.update(wrapper);
 		return Result.ok("保存成功");
 	}
@@ -99,10 +101,10 @@ public class SecurityController extends BaseController{
 	 * @return: java.lang.Object
 	 */
 	@PostMapping("bindEmail")
-	public Object bindEmail(HttpSession session, UserInformation userInformation){
+	public Object bindEmail(HttpServletRequest request, UserInformation userInformation){
 		UpdateWrapper<UserInformation> wrapper = new UpdateWrapper<>();
 		wrapper.set("user_email", userInformation.getEmail());
-		wrapper.eq("id", getUser(session).getId());
+		wrapper.eq("id", getUser(request).getId());
 		userInformationService.update(wrapper);
 		return Result.ok("保存成功");
 	}
@@ -126,8 +128,8 @@ public class SecurityController extends BaseController{
 	 * @return: java.lang.Object
 	 */
 	@PostMapping("setSafetyQuestion")
-	public Object setSafetyQuestion(@RequestBody Map<Long,String> map, HttpSession session){
-		Long userId = getUser(session).getId();
+	public Object setSafetyQuestion(@RequestBody Map<Long,String> map, HttpServletRequest request){
+		Long userId = getUser(request).getId();
 		ArrayList<UserQuestion> userQuestions = new ArrayList<>();
 		for (Map.Entry<Long,String> entry: map.entrySet()){
 			UserQuestion userQuestion = new UserQuestion(userId, entry.getKey(), entry.getValue());

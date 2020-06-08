@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
@@ -39,9 +40,9 @@ public class BankCardController extends BaseController{
 	 * @return: java.lang.Object
 	 */
 	@GetMapping("listBankCard")
-	public Object listBankCard(HttpSession session){
+	public Object listBankCard(HttpServletRequest request){
 		LambdaQueryWrapper<UserBankCard> wrapper = new QueryWrapper<UserBankCard>().lambda();
-		wrapper.eq(UserBankCard::getUserId, getUser(session).getId());
+		wrapper.eq(UserBankCard::getUserId, getUser(request).getId());
 		return Result.ok(userBankCardService.list(wrapper));
 	}
 
@@ -51,8 +52,8 @@ public class BankCardController extends BaseController{
 	 * @return: java.lang.Object
 	 */
 	@PostMapping("save")
-	public Object save(UserBankCard userBankCard, HttpSession session){
-		userBankCard.setUserId(getUser(session).getId());
+	public Object save(UserBankCard userBankCard, HttpServletRequest request){
+		userBankCard.setUserId(getUser(request).getId());
 		userBankCardService.save(userBankCard);
 		return Result.ok("绑定成功");
 	}
@@ -85,13 +86,13 @@ public class BankCardController extends BaseController{
 	 */
 	@GetMapping("getMobleCode")
 	public Object getMobleCode(String mobile) throws IOException, DocumentException {
-		/*if (null == mobile || "".equals(mobile)){
+		if (null == mobile || "".equals(mobile)){
 			return Result.error("手机号不正确");
 		}
 		String mobileCode = SMSUtil.send(mobile, SMSModel.bindBankCard());//短信验证码
 		if (null == mobileCode){
 			return Result.error("短信发送失败");
-		}*/
-		return Result.ok("发送成功","123456");
+		}
+		return Result.ok("发送成功", mobileCode);
 	}
 }
