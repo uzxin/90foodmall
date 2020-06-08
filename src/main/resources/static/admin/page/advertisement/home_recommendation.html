@@ -177,14 +177,14 @@
             cols: [[
                 {type: 'numbers'},
                 {field: 'id', hide: true},
-                {field: 'productName',width:'275',align: 'center', title: '商品'},
+                {field: 'productName',width:'425',align: 'center', title: '商品'},
                 {field: 'startDate',width:'170',align: 'center',sort:true,title: '开始日期'},
                 {field: 'endDate',width:'170',align: 'center',sort:true,title: '结束日期'},
-                {field: 'position',width:'100',align: 'center',title: '位置',templet:function (d) {
+                {field: 'position',width:'120',align: 'center',title: '位置',templet:function (d) {
                         if (d.position){return "<span class=\"layui-badge layui-bg-cyan\">"+d.position+"</span>";}
                         else {return "";}
                     }},
-                {field: 'referrerName',width:'85',align: 'center',title: '推荐人'},
+                {field: 'referrerName',width:'100',align: 'center',title: '推荐人'},
                 {field: 'status',width:'80',align: 'center',title: '状态',templet:function (d) {
                         if(d.status=="1"){return "<span class=\"layui-badge layui-bg-orange\">推荐中</span>";}
                         else if(d.status=="2"){return "<span class=\"layui-badge\">已过期</span>";}

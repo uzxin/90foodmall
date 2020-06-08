@@ -116,11 +116,11 @@
                 {type: 'numbers',}
                 ,{field: 'id', hide: true}
                 ,{field:'orderNumber', width:286, title: '订单编号',align: 'center'}
-                ,{field:'productName', width:200, title: '商品名称',align: 'center'}
+                ,{field:'productName', width:360, title: '商品名称',align: 'center'}
                 ,{field:'productQuantity',width:90, title: '数量', sort: true,align: 'center'}
                 ,{field:'payAmount',width:90, title: '总价', sort: true,align: 'center'}
                 ,{field:'createTime', width:170, title: '创建时间', sort: true,align: 'center'}
-                ,{field:'statusName', width:70, title: '状态',align: 'center',templet:function (d) {
+                ,{field:'statusName', width:80, title: '状态',align: 'center',templet:function (d) {
                     if (d.statusName=='待发货'){return "<span class=\"layui-badge\">"+d.statusName+"</span>";}
                     if (d.statusName=='待收货'){return "<span class=\"layui-badge layui-bg-cyan\">"+d.statusName+"</span>";}
                     if (d.statusName=='待评价'){return "<span class=\"layui-badge layui-bg-blue\">"+d.statusName+"</span>";}
