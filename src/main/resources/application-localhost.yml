@@ -27,8 +27,8 @@ spring:
     timeout: 30000 #连接超时时间（毫秒）
   mail:
     host: smtp.qq.com
-    username: 862273665@qq.com
-    password: oxevnmxtarqkbfba
+    username: 
+    password: 
     properties:
       mail:
         smtp:
